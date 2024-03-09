@@ -1,0 +1,7 @@
+.card-custom {
+  width: 30rem;
+  height: 300px;
+  margin-top: 20px;
+  margin-left: 20px;
+  overflow: hidden; /* Add this line to prevent content overflow */
+}

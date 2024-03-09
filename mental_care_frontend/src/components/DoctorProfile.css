@@ -1,0 +1,38 @@
+/* DoctorProfile.css */
+
+.doctor-profile-container {
+  background-color: #87ceeb; /* Sky Blue */
+  padding: 20px;
+  margin: 20px;
+  border-radius: 10px;
+}
+
+.doctor-img {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.doctor-name {
+  color: #007bff; /* Sky Blue */
+  font-size: 1.5rem;
+  margin-top: 10px;
+}
+
+.doctor-info {
+  color: #333;
+  font-size: 1rem;
+  margin-top: 10px;
+}
+
+.designation,
+.speciality,
+.experience,
+.gender,
+.rating,
+.education-training,
+.work-experience {
+  margin-bottom: 5px;
+  display: block;
+}
