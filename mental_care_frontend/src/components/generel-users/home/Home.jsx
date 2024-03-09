@@ -1,6 +1,6 @@
-import PsychologistCard from "./PsycholgistCard";
-import DoctorAvailabilityHeading from "./DoctorAvailabilityHeading";
-import DoctorSearchBox from "./DoctorSearchBox";
+import PsychologistCard from "../psycologist-card/PsycholgistCard";
+import DoctorAvailabilityHeading from "../doctors-availability-heading/DoctorAvailabilityHeading";
+import DoctorSearchBox from "../doctor-search-box/DoctorSearchBox";
 
 const Home = () => {
   return (

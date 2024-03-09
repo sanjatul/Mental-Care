@@ -1,33 +1,25 @@
-.sky-bg-color {
+.skyBgColor {
   background-color: #3498db; /* Replace with your preferred sky color */
-}
-.tl{
-  color: #fff
 }
 /* Add this CSS in your Header.css file */
 .logo{
   font-style: italic;
   color: #fff; /* Replace with your preferred color */
-
+  padding-right: 20px
 
 }
-/* Header.css */
-.logo {
-  color: #fff; /* Example logo color */
-}
-
-.nav-link {
+.navLink {
   color: white; /* Default link color */
   text-decoration: none; /* Removes underline from links */
   padding: 0.5rem 1rem; /* Adds padding around the links for better spacing */
 }
 
-.nav-link.active {
+.navLink.active {
   color: #fff; /* Active link color */
   background-color: transparent; /* Removes background color */
   border-bottom: 2px solid #fff; /* Adds a bottom border */
 }
 
-.nav-link.pending {
+.navLink.pending {
   color: #ffc107; /* Pending link color */
 }

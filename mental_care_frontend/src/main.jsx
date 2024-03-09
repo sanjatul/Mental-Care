@@ -7,12 +7,12 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
-import LandingPage from "./components/LandingPage.jsx";
-import Home from "./components/Home.jsx";
-import Login from "./components/Login.jsx";
-import Signup from "./components/Signup.jsx";
-import Blogs from "./components/Blogs.jsx";
-import DoctorProfile from "./components/DoctorProfile.jsx";
+import LandingPage from "./components/shared-components/landing-page/LandingPage.jsx";
+import Home from "./components/generel-users/home/Home.jsx";
+import Login from "./components/shared-components/login/Login.jsx";
+import Signup from "./components/shared-components/signup/Signup.jsx";
+import Blogs from "./components/generel-users/blogs/Blogs.jsx";
+import DoctorProfile from "./components/generel-users/doctor-profile/DoctorProfile.jsx";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>

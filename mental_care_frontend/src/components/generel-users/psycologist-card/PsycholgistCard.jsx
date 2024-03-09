@@ -1,11 +1,11 @@
 import React from "react";
-import "./PsychologistCard.css";
+import styles from "./PsychologistCard.module.css";
 import { VscStarFull } from "react-icons/vsc";
 import { Link } from "react-router-dom";
 
 const PsychologistCard = () => {
   return (
-    <div className="card card-custom">
+    <div className={`${styles.cardCustom} card`}>
       <div className="card-body">
         <div className="row">
           <div className="col-6">

@@ -1,5 +1,5 @@
 import React from "react";
-
+import styles from "./Signup.module.css";
 import { Link } from "react-router-dom";
 
 const Signup = () => {
@@ -9,12 +9,7 @@ const Signup = () => {
       style={{ backgroundColor: "#f0f0f0" }}
     >
       <div
-        className=" form_container p-5 rounded bg-white"
-        style={{
-          backgroundColor: "#e0e0e0", // A monochrome (gray) background color
-          width: "600px", // Make the form wider
-          maxWidth: "90%", // Ensure responsiveness
-        }}
+        className={`${styles.signupForm} form_container p-5 rounded bg-white`}
       >
         <form>
           <h3 className="text-center">Sign Up </h3>

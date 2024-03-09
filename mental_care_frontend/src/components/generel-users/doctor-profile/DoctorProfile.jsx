@@ -1,6 +1,6 @@
 import React from "react";
 import { FcRating } from "react-icons/fc";
-import "./DoctorProfile.css"; // Import custom CSS for DoctorProfile
+import styles from "./DoctorProfile.module.css";
 import { MdOutlineWork } from "react-icons/md";
 import { MdOutlineCastForEducation } from "react-icons/md";
 import { useParams } from "react-router-dom";
@@ -9,23 +9,23 @@ const DoctorProfile = () => {
   const { userid } = useParams();
   return (
     <div className="container">
-      <div className="doctor-profile-container">
+      <div className={`${styles.doctorProfileContainer}`}>
         <div className="row">
           <div className="col-6">
             <img src="/images/2.png" className="card-img-top" alt="..." />
           </div>
           <div className="col-6">
-            <h5 className="doctor-name">Dr. Nishan Khanna</h5>
-            <p className="doctor-info">
-              <span className="designation">Senior Consultant</span>
+            <h5 className={`${styles.doctorName}`}>Dr. Nishan Khanna</h5>
+            <p className={styles.doctorInfo}>
+              <span className={styles.designation}>Senior Consultant</span>
               <br />
-              <span className="speciality">Speciality: Psychiatry</span>
+              <span className={styles.speciality}>Speciality: Psychiatry</span>
               <br />
-              <span className="experience">Experience: 12 years</span>
+              <span className={styles.experience}>Experience: 12 years</span>
               <br />
-              <span className="gender">Gender: Male</span>
+              <span className={styles.gender}>Gender: Male</span>
               <br />
-              <span className="rating">
+              <span className={styles.rating}>
                 Rating: <FcRating />
                 <FcRating />
                 <FcRating />
@@ -39,7 +39,6 @@ const DoctorProfile = () => {
         <h2 class="d-flex border-0 bg-transparent px-0 f-20 pb-2 pt-3 font-weight-lg-bold font-weight-semi-bold text-gray-600">
           <p style={{ display: "flex", alignItems: "center" }}>
             <MdOutlineWork style={{ fontSize: "32px", marginRight: "8px" }} />
-            {/* Your other content goes here */}
           </p>
           Work Experience
         </h2>
@@ -73,11 +72,7 @@ const DoctorProfile = () => {
           />{" "}
           Education &amp; Training
         </h2>
-        <div
-          id="s2"
-          data-parent="#doctor-detail-accordion"
-          class="collapsed collapse show"
-        >
+        <div class="collapsed collapse show">
           <div className="site-content f-lg-17 color-gray-600 f-base lh-normal lh-lg-12 pb-3">
             <ul>
               <li>

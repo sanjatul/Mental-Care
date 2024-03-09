@@ -1,15 +1,13 @@
-import "./Header.css";
+import styles from "./Header.module.css";
 import { NavLink } from "react-router-dom";
 const Header = () => {
   return (
     <>
-      <header className="p-4 sky-bg-color">
+      <header className={`${styles.skyBgColor} p-4`}>
         <div className="container">
           <div className="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
             <NavLink to="" style={{ textDecoration: "none" }}>
-              <h2 className="logo" style={{ paddingRight: "20px" }}>
-                Mental Care
-              </h2>
+              <h2 className={`${styles.logo}`}>Mental Care</h2>
             </NavLink>
 
             <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
@@ -17,7 +15,7 @@ const Header = () => {
                 <NavLink
                   to="home"
                   className={({ isActive, isPending }) =>
-                    "nav-link " +
+                    `${styles.navLink} ` +
                     (isPending ? "pending" : isActive ? "active" : "")
                   }
                 >
@@ -29,7 +27,7 @@ const Header = () => {
                 <NavLink
                   to="blogs"
                   className={({ isActive, isPending }) =>
-                    "nav-link " +
+                    `${styles.navLink} ` +
                     (isPending ? "pending" : isActive ? "active" : "")
                   }
                 >
@@ -42,7 +40,7 @@ const Header = () => {
                   className={(
                     { isActive, isPending } // Corrected the path to "about" from duplicate "blogs"
                   ) =>
-                    "nav-link " +
+                    `${styles.navLink} ` +
                     (isPending ? "pending" : isActive ? "active" : "")
                   }
                 >
@@ -56,7 +54,7 @@ const Header = () => {
                   <NavLink
                     to="login"
                     className={({ isActive, isPending }) =>
-                      "nav-link " +
+                      `${styles.navLink} ` +
                       (isPending ? "pending" : isActive ? "active" : "")
                     }
                   >
@@ -67,7 +65,7 @@ const Header = () => {
                   <NavLink
                     to="signup"
                     className={({ isActive, isPending }) =>
-                      "nav-link " +
+                      `${styles.navLink} ` +
                       (isPending ? "pending" : isActive ? "active" : "")
                     }
                   >

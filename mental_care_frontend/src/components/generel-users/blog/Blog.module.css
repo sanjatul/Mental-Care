@@ -1,0 +1,67 @@
+.psychologist-section {
+  display: flex;
+  align-items: center; /* Center vertically */
+}
+
+.psychologist-section .col-2 {
+  margin-right: 10px; /* Adjust the margin between the image and the name */
+}
+
+.psychologist-name {
+  margin-bottom: 0; /* Remove default margin-bottom for the name */
+}
+
+.psychologist-image {
+  width: 60px;
+  height: 60px;
+}
+
+.card {
+  padding: 20px;
+  border-radius: 15px;
+  margin: 20px;
+}
+
+.smaller-card {
+  height: 250px;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.dsmGradientText {
+  background: linear-gradient(45deg, #6b83fe, #538fff);
+  background-clip: text;
+  color: transparent;
+}
+
+.et_pb_slide_description {
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.et_pb_slide_title {
+  color: #333;
+}
+
+.et_pb_button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 5px;
+}
+
+.et_pb_button:hover {
+  background-color: #45a049;
+}
+
+.psychologist-section {
+  display: flex;
+  align-items: center;
+}
+
+.psychologist-section .col-2 {
+  margin-right: 10px;
+}
