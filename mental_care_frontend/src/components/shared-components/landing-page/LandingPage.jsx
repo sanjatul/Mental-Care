@@ -1,8 +1,10 @@
+import styles from "./LandingPage.module.css";
+
 const LandingPage = () => {
   return (
     <div className="container">
       <div className="row">
-        <div className="col-6 card mt-4">
+        <div className="col-6 mt-4">
           <div className="image-container">
             <img src="/images/1.png" alt="Your Image" className="img-fluid" />
           </div>

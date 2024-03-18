@@ -1,0 +1,21 @@
+/* DoctorAppointmentForm.css */
+
+.card {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.formHeading {
+  text-align: center;
+  color: #333;
+}
+
+.formLabel {
+  color: #333;
+}
+
+/* Add any additional styling you need for the form */

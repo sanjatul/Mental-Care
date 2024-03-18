@@ -1,0 +1,32 @@
+/* Blogs2.css */
+
+.card {
+  max-width: 400px; /* Adjust the maximum width as per your requirement */
+  margin: 0 auto; /* Center the card */
+  border: 1px solid #ddd; /* Add border to the card */
+  border-radius: 8px; /* Optional: Add border-radius for rounded corners */
+  padding: 15px; /* Add padding for better spacing */
+}
+
+.doctorProfileContainer {
+  background-color: #fff; /* White background color */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%; /* Ensure the container takes the full height */
+}
+
+.centerContent {
+  text-align: center;
+}
+
+.bookNowButton {
+  background-color: #87ceeb; /* Sky blue color */
+  color: #fff; /* White text color */
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Add any additional styling you need for the rest of your components */
