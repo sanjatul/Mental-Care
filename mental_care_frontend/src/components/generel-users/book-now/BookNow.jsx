@@ -10,9 +10,10 @@ const BookNow = () => {
       <div className={`${styles.container} ${styles.doctorProfileContainer}`}>
         <div className={`${styles.centerContent}`}>
           <p style={{ fontWeight: "bold", fontSize: "18px", color: "#333" }}>
-            Date : 23/03/24 Friday <hr/>10:00 AM - 11:00 AM
+            Date : 23/03/24 Friday <hr />
+            10:00 AM - 11:00 AM
           </p>
-          <Link to="/doctor-appointment-form">
+          <Link to="/psycologist-appointment-form">
             <button
               className={`${styles.bookNowButton}`}
               style={{ fontSize: "18px", color: "#333" }}

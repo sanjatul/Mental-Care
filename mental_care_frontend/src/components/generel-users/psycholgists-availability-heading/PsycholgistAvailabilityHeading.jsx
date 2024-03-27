@@ -1,6 +1,6 @@
 import React from "react";
 
-const DoctorAvailabilityHeading = () => {
+const PsycholgistAvailabilityHeading = () => {
   return (
     <h1
       style={{
@@ -16,4 +16,4 @@ const DoctorAvailabilityHeading = () => {
   );
 };
 
-export default DoctorAvailabilityHeading;
+export default PsycholgistAvailabilityHeading;

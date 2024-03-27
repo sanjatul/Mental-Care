@@ -1,5 +1,5 @@
 import React from "react";
-import BookNow from "../appointment-booking/BookNow";
+import BookNow from "../book-now/BookNow";
 
 function AppointmentSchedule() {
   return (

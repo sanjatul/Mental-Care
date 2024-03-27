@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const DoctorSearchBox = () => {
+const PsycholgistSearchBox = () => {
   return (
     <div className="container mt-3">
       <div className="input-group">
@@ -15,4 +15,4 @@ const DoctorSearchBox = () => {
   );
 };
 
-export default DoctorSearchBox;
+export default PsycholgistSearchBox;

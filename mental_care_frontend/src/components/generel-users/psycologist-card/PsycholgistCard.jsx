@@ -56,9 +56,6 @@ const PsychologistCard = () => {
             <Link to="/book-appointment" className="btn btn-primary">
               Offline Consultation
             </Link>
-            {/* <a href="#" className="btn btn-primary">
-              Offline Consultation
-            </a> */}
           </div>
         </div>
       </div>

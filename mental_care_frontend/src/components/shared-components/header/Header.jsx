@@ -21,7 +21,17 @@ const Header = () => {
                 >
                   Home
                 </NavLink>
-                {/* <a href="#" className="nav-link px-2 tl">Home</a> */}
+              </li>
+              <li>
+                <NavLink
+                  to={`/dashboard`}
+                  className={({ isActive, isPending }) =>
+                    `${styles.navLink} ` +
+                    (isPending ? "pending" : isActive ? "active" : "")
+                  }
+                >
+                  Dashboard
+                </NavLink>
               </li>
               <li>
                 <NavLink

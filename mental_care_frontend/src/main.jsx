@@ -8,14 +8,14 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 import LandingPage from "./components/shared-components/landing-page/LandingPage.jsx";
-import Home from "./components/generel-users/home/Home.jsx";
+import Home from "./components/shared-components/home/Home.jsx";
 import Login from "./components/shared-components/login/Login.jsx";
 import Signup from "./components/shared-components/signup/Signup.jsx";
 import Blogs from "./components/generel-users/blogs/Blogs.jsx";
-import DoctorProfile from "./components/generel-users/doctor-profile/DoctorProfile.jsx";
-import BookNow from "./components/generel-users/appointment-booking/BookNow.jsx";
-import DoctorAppointmentForm from "./components/generel-users/doctor-appointment-form/DoctorAppointmentForm.jsx";
+import PsycholgistProfile from "./components/generel-users/psycholgistr-profile/PsycholgistProfile.jsx";
+import DoctorAppointmentForm from "./components/generel-users/psycholgist-appointment-form/PsycholgistAppointmentForm.jsx";
 import AppointmentSchedule from "./components/generel-users/appointment-schedule/AppointmentSchedule.jsx";
+import Dashboard from "./components/shared-components/dashboard/Dashboard.jsx";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
@@ -24,9 +24,13 @@ const router = createBrowserRouter(
       <Route path="login" element={<Login />} />
       <Route path="signup" element={<Signup />} />
       <Route path="blogs" element={<Blogs />} />
-      <Route path="/doctor-appointment-form" element={<DoctorAppointmentForm/>} />
+      <Route
+        path="/doctor-appointment-form"
+        element={<DoctorAppointmentForm />}
+      />
       <Route path="/book-appointment" element={<AppointmentSchedule />} />
-      <Route path="psycologist/:userid" element={<DoctorProfile />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/psycologist/:userid" element={<PsycholgistProfile />} />
     </Route>
   )
 );

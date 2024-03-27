@@ -1,7 +1,7 @@
 import React from "react";
-import styles from "./DoctorAppointmentForm.module.css";
+import styles from "./PsycholgistAppointmentForm.module.css";
 
-const DoctorAppointmentForm = () => {
+const PsycholgistAppointmentForm = () => {
   return (
     <div className={`${styles.card} container mt-3`}>
       <h2 className={`${styles.formHeading}`}>Doctor Appointment Form</h2>
@@ -60,4 +60,4 @@ const DoctorAppointmentForm = () => {
   );
 };
 
-export default DoctorAppointmentForm;
+export default PsycholgistAppointmentForm;

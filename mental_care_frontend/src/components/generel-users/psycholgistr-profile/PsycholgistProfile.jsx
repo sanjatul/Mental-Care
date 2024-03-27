@@ -1,11 +1,11 @@
 import React from "react";
 import { FcRating } from "react-icons/fc";
-import styles from "./DoctorProfile.module.css";
+import styles from "./PsycholgistProfile.module.css";
 import { MdOutlineWork } from "react-icons/md";
 import { MdOutlineCastForEducation } from "react-icons/md";
 import { useParams } from "react-router-dom";
 
-const DoctorProfile = () => {
+const PsycholgistProfile = () => {
   const { userid } = useParams();
   return (
     <div className="container">
@@ -107,4 +107,4 @@ const DoctorProfile = () => {
   );
 };
 
-export default DoctorProfile;
+export default PsycholgistProfile;
