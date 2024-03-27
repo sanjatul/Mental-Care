@@ -5,7 +5,7 @@ const Sidebar = () => {
     <div className="col-md-3 d-flex flex-column" style={{ height: "100vh" }}>
       <div
         className=""
-        style={{ width: "280px", flex: "1", background: "#3498db" }}
+        style={{ width: "280px", flex: "1", background: "black" }}
       >
         {" "}
         <hr />

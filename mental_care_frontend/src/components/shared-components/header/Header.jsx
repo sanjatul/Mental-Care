@@ -1,5 +1,7 @@
+import React from "react";
 import styles from "./Header.module.css";
 import { NavLink } from "react-router-dom";
+
 const Header = () => {
   return (
     <>
@@ -14,10 +16,8 @@ const Header = () => {
               <li>
                 <NavLink
                   to="home"
-                  className={({ isActive, isPending }) =>
-                    `${styles.navLink} ` +
-                    (isPending ? "pending" : isActive ? "active" : "")
-                  }
+                  className={styles.navLink}
+                  activeStyle={{ color: "black", backgroundColor: "white" }}
                 >
                   Home
                 </NavLink>
@@ -25,10 +25,8 @@ const Header = () => {
               <li>
                 <NavLink
                   to={`/dashboard`}
-                  className={({ isActive, isPending }) =>
-                    `${styles.navLink} ` +
-                    (isPending ? "pending" : isActive ? "active" : "")
-                  }
+                  className={styles.navLink}
+                  activeStyle={{ color: "black", backgroundColor: "white" }}
                 >
                   Dashboard
                 </NavLink>
@@ -36,10 +34,8 @@ const Header = () => {
               <li>
                 <NavLink
                   to="blogs"
-                  className={({ isActive, isPending }) =>
-                    `${styles.navLink} ` +
-                    (isPending ? "pending" : isActive ? "active" : "")
-                  }
+                  className={styles.navLink}
+                  activeStyle={{ color: "black", backgroundColor: "white" }}
                 >
                   Blogs
                 </NavLink>
@@ -47,12 +43,8 @@ const Header = () => {
               <li>
                 <NavLink
                   to="about"
-                  className={(
-                    { isActive, isPending } // Corrected the path to "about" from duplicate "blogs"
-                  ) =>
-                    `${styles.navLink} ` +
-                    (isPending ? "pending" : isActive ? "active" : "")
-                  }
+                  className={styles.navLink}
+                  activeStyle={{ color: "black", backgroundColor: "white" }}
                 >
                   About Us
                 </NavLink>
@@ -63,10 +55,8 @@ const Header = () => {
                 <li>
                   <NavLink
                     to="login"
-                    className={({ isActive, isPending }) =>
-                      `${styles.navLink} ` +
-                      (isPending ? "pending" : isActive ? "active" : "")
-                    }
+                    className={styles.navLink}
+                    activeStyle={{ color: "black", backgroundColor: "white" }}
                   >
                     Login
                   </NavLink>
@@ -74,10 +64,8 @@ const Header = () => {
                 <li>
                   <NavLink
                     to="signup"
-                    className={({ isActive, isPending }) =>
-                      `${styles.navLink} ` +
-                      (isPending ? "pending" : isActive ? "active" : "")
-                    }
+                    className={styles.navLink}
+                    activeStyle={{ color: "black", backgroundColor: "white" }}
                   >
                     Sign Up
                   </NavLink>
@@ -90,4 +78,5 @@ const Header = () => {
     </>
   );
 };
+
 export default Header;

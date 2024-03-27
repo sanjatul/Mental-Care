@@ -1,5 +1,5 @@
 .skyBgColor {
-  background-color: #3498db; /* Replace with your preferred sky color */
+  background-color: black; /* Replace with your preferred sky color */
 }
 /* Add this CSS in your Header.css file */
 .logo{
@@ -14,9 +14,15 @@
   padding: 0.5rem 1rem; /* Adds padding around the links for better spacing */
 }
 
+/* .navLink.active {
+  color: black; 
+  background-color: transparent; 
+  border-bottom: 2px solid #fff;
+  background: white;
+} */
 .navLink.active {
-  color: #fff; /* Active link color */
-  background-color: transparent; /* Removes background color */
+  color: black; /* Active link text color */
+  background-color: white; /* Background color for active state */
   border-bottom: 2px solid #fff; /* Adds a bottom border */
 }
 
