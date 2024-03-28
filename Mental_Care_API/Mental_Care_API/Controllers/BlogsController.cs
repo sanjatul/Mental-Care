@@ -40,9 +40,9 @@ namespace Mental_Care_API.Controllers
                 Title = blog.Title,
                 UserId = blog.UserId,
                 UserName = blog.ApplicationUser?.Name,
-                ProfilePicture = blog.ApplicationUser?.ProfilePicture, 
+                ProfilePicture = $"{_baseUrl}/images/{blog?.ApplicationUser?.ProfilePicture}", 
                 CreatedDate = blog.CreatedDate,
-                Image = blog?.Image,
+                Image = blog.Image != null ? $"{_baseUrl}/blogs/{blog.Image}" : null,
                 Description = blog?.Description
             }).ToList();
 
@@ -80,12 +80,9 @@ namespace Mental_Care_API.Controllers
                 Title = blog.Title,
                 UserId = blog.UserId,
                 CreatedDate = blog.CreatedDate,
+                Image= blog.Image != null ? $"{_baseUrl}/blogs/{blog.Image}" : null,
                 Description = blog.Description
             };
-            if(blog.Image != null)
-            {
-                blogResponseDTO.Image = $"{_baseUrl}/blogs/{blog.Image}";
-            }
             _response.Result = blogResponseDTO;
             _response.StatusCode = HttpStatusCode.OK;
             return Ok(_response);
@@ -130,12 +127,9 @@ namespace Mental_Care_API.Controllers
                         UserName = blogFromDb.ApplicationUser.Name,
                         ProfilePicture = $"{_baseUrl}/images/{blogFromDb.ApplicationUser.ProfilePicture}", 
                         CreatedDate = blogFromDb.CreatedDate,
+                        Image= blogFromDb.Image != null ? $"{_baseUrl}/blogs/{blogFromDb.Image}" : null,
                         Description = blogFromDb.Description
                     };
-                    if (blogFromDb.Image != null)
-                    {
-                        blogResponseDTO.Image = $"{_baseUrl}/blogs/{blog.Image}";
-                    }
 
                     _response.StatusCode = HttpStatusCode.Created;
                     _response.Result = blogResponseDTO;
@@ -212,6 +206,7 @@ namespace Mental_Care_API.Controllers
                         UserName = blogFromDb.ApplicationUser.Name,
                         ProfilePicture = $"{_baseUrl}/images/{blogFromDb.ApplicationUser.ProfilePicture}",
                         CreatedDate = blogFromDb.CreatedDate,
+                        Image = blogFromDb.Image != null ? $"{_baseUrl}/blogs/{blogFromDb.Image}" : null,
                         Description = blogFromDb.Description
                     };
                     if (blogFromDb.Image != null)
