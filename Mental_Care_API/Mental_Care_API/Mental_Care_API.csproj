@@ -20,8 +20,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="images\" />
-    <Folder Include="blogs\" />
+    <Folder Include="wwwroot\images\" />
+    <Folder Include="wwwroot\blogs\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\blogs\1b1847ad-e032-4bf5-96b9-70769707ee24.jpg" />
+    <None Include="wwwroot\blogs\2b6bc215-0f0a-4a29-b383-dfa1d18d616f.jpg" />
+    <None Include="wwwroot\blogs\6bf4e5f3-d61a-4ac6-a200-65784c3912cd.jpg" />
+    <None Include="wwwroot\certificates\100c54ba-4369-4d8d-a171-2aecf8793e04.PNG" />
+    <None Include="wwwroot\certificates\a329a2d2-ca2a-453e-85cc-9a7e248cfb7b.jpg" />
+    <None Include="wwwroot\images\7b0e2455-f584-4c3e-abaf-b1d3f10520ba.jpg" />
+    <None Include="wwwroot\images\7f024922-e344-4e65-890c-81e3f5132885.PNG" />
+    <None Include="wwwroot\images\da6d5e6a-c850-44e7-87bc-f93012e2c6a7.PNG" />
   </ItemGroup>
 
 </Project>

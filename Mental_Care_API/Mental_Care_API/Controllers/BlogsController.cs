@@ -2,9 +2,9 @@
 using Mental_Care_API.Models;
 using Mental_Care_API.Models.Dtos;
 using Mental_Care_API.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.Net;
 using System.Reflection.Metadata;
 
@@ -17,11 +17,14 @@ namespace Mental_Care_API.Controllers
         private readonly ApplicationDbContext _db;
         private ApiResponse _response;
         private IImageService _imageService;
-        public BlogsController(ApplicationDbContext db, IImageService imageService)
+        private readonly string _baseUrl;
+        public BlogsController(ApplicationDbContext db, IImageService imageService, IHttpContextAccessor httpContextAccessor)
         {
             _db = db;
             _imageService = imageService;
             _response = new ApiResponse();
+            var httpContext = httpContextAccessor.HttpContext;
+            _baseUrl = $"{httpContext.Request.Scheme}://{httpContext.Request.Host}";
         }
 
         [HttpGet]
@@ -66,7 +69,6 @@ namespace Mental_Care_API.Controllers
                 _response.StatusCode = HttpStatusCode.NotFound;
                 _response.IsSuccess = false;
                 _response.ErrorMessages.Add("No entry found");
-
                 return NotFound(_response);
             }
 
@@ -74,13 +76,16 @@ namespace Mental_Care_API.Controllers
             {
                 Id = blog.Id,
                 UserName=blog.ApplicationUser.Name,
-                ProfilePicture=blog.ApplicationUser.ProfilePicture,
+                ProfilePicture=$"{_baseUrl}/images/{blog.ApplicationUser.ProfilePicture}",
                 Title = blog.Title,
                 UserId = blog.UserId,
                 CreatedDate = blog.CreatedDate,
-                Image = blog.Image,
                 Description = blog.Description
             };
+            if(blog.Image != null)
+            {
+                blogResponseDTO.Image = $"{_baseUrl}/blogs/{blog.Image}";
+            }
             _response.Result = blogResponseDTO;
             _response.StatusCode = HttpStatusCode.OK;
             return Ok(_response);
@@ -112,22 +117,25 @@ namespace Mental_Care_API.Controllers
                     await _db.Blogs.AddAsync(blog);
                     await _db.SaveChangesAsync();
 
-                    
-                   Blog? blogFromDb = await _db.Blogs
-                        .Include(b => b.ApplicationUser)
-                        .FirstOrDefaultAsync(b => b.Id == blog.Id);
+
+                    Blog? blogFromDb = await _db.Blogs
+                         .Include(b => b.ApplicationUser)
+                         .FirstOrDefaultAsync(b => b.Id == blog.Id);
 
                     BlogResponseDTO blogResponseDTO = new()
                     {
-                        Id = blog.Id,
-                        Title = blog.Title,
-                        UserId = blog.UserId,
-                        UserName = blog.ApplicationUser.Name,
-                        ProfilePicture = blog.ApplicationUser.ProfilePicture, 
-                        CreatedDate = blog.CreatedDate,
-                        Image = blog.Image,
-                        Description = blog.Description
+                        Id = blogFromDb.Id,
+                        Title = blogFromDb.Title,
+                        UserId = blogFromDb.UserId,
+                        UserName = blogFromDb.ApplicationUser.Name,
+                        ProfilePicture = $"{_baseUrl}/images/{blogFromDb.ApplicationUser.ProfilePicture}", 
+                        CreatedDate = blogFromDb.CreatedDate,
+                        Description = blogFromDb.Description
                     };
+                    if (blogFromDb.Image != null)
+                    {
+                        blogResponseDTO.Image = $"{_baseUrl}/blogs/{blog.Image}";
+                    }
 
                     _response.StatusCode = HttpStatusCode.Created;
                     _response.Result = blogResponseDTO;
@@ -181,8 +189,6 @@ namespace Mental_Care_API.Controllers
                     //blogFromDb.CreatedDate=blogFromDb.CreatedDate;
                     //blogFromDb.Image=blogFromDb.Image;
 
-
-
                     if (model.Image != null && model.Image.Length > 0)
                     {
                         if(blogFromDb.Image != null)
@@ -204,11 +210,14 @@ namespace Mental_Care_API.Controllers
                         Title = blogFromDb.Title,
                         UserId = blogFromDb.UserId,
                         UserName = blogFromDb.ApplicationUser.Name,
-                        ProfilePicture = blogFromDb.ApplicationUser.ProfilePicture,
+                        ProfilePicture = $"{_baseUrl}/images/{blogFromDb.ApplicationUser.ProfilePicture}",
                         CreatedDate = blogFromDb.CreatedDate,
-                        Image = blogFromDb.Image,
                         Description = blogFromDb.Description
                     };
+                    if (blogFromDb.Image != null)
+                    {
+                        blogResponseDTO.Image = $"{_baseUrl}/blogs/{blogFromDb.Image}";
+                    }
 
                     _response.StatusCode = HttpStatusCode.NoContent;
                     _response.Result = blogResponseDTO;

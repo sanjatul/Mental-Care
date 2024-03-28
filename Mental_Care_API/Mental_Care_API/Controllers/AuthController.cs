@@ -23,7 +23,7 @@ namespace Mental_Care_API.Controllers
         private ApiResponse _response;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        private string secretKey;
+        private string? secretKey;
         private readonly IImageService _imageService;
         public AuthController(ApplicationDbContext db, IConfiguration configuration,
             UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager,IImageService imageService)
