@@ -5,22 +5,18 @@ namespace Mental_Care_API.Services
 {
     public class ImageService : IImageService
     {
-        private readonly string _imagesFolderPath;
-        private readonly string _certificateFolderPath;
+      
         private readonly ApplicationDbContext _context;
 
         public ImageService(ApplicationDbContext context)
         {
             _context = context;
-            // Get the path to the "images" folder within the project
-            _imagesFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "images");
-            _certificateFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "certificates");
         }
-        public async Task<bool> DeleteImage(string imageName)
+        public async Task<bool> DeleteFile(string name, string path)
         {
             try
             {
-                string imagePath = Path.Combine(_imagesFolderPath, imageName);
+                string imagePath = Path.Combine(Directory.GetCurrentDirectory(),path, name);
 
                 if (File.Exists(imagePath))
                 {
@@ -32,90 +28,56 @@ namespace Mental_Care_API.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error deleting image: {ex.Message}");
+                Console.WriteLine($"Error deleting File: {ex.Message}");
 
                 // Return false indicating that the deletion failed
                 return false;
             }
         }
 
-        public async Task<string> GetImage(string imageName)
+        public async Task<string> GetProfilePicture(string name)
         {
             // Assuming MentuItems is an entity in your ApplicationDbContext
-            var imageData = await _context.ApplicationUsers.FirstOrDefaultAsync(item => item.ProfilePicture == imageName);
-            string imagePath = Path.Combine(_imagesFolderPath, imageName);
+            var imageData = await _context.ApplicationUsers.FirstOrDefaultAsync(item => item.ProfilePicture == name);
+            string imagePath = Path.Combine(Directory.GetCurrentDirectory(), "images", name);
+            // Image exists in the "images" folder, return the image path
+            return imagePath;
+
+        }
+        public async Task<string> GetBlogsImage(string name)
+        {
+            // Assuming MentuItems is an entity in your ApplicationDbContext
+            var imageData = await _context.Blogs.FirstOrDefaultAsync(item => item.Image == name);
+            string imagePath = Path.Combine(Directory.GetCurrentDirectory(), "blogs", name);
+            // Image exists in the "images" folder, return the image path
+            return imagePath;
+
+        }
+        public async Task<string> GetCertificate(string name)
+        {
+            // Assuming MentuItems is an entity in your ApplicationDbContext
+            var imageData = await _context.DoctorDetails.FirstOrDefaultAsync(item => item.Certificate == name);
+            string imagePath = Path.Combine(Directory.GetCurrentDirectory(), "blogs", name);
             // Image exists in the "images" folder, return the image path
             return imagePath;
 
         }
 
-        public async Task<string> UploadImage(string imageName, IFormFile file)
+        public async Task<string> UploadFile(string name, string path, IFormFile file)
         {
             try
             {
-                string imagePath = Path.Combine(_imagesFolderPath, imageName);
+                string imagePath = Path.Combine(Directory.GetCurrentDirectory(), path, name);
 
                 using (var stream = new FileStream(imagePath, FileMode.Create))
                 {
                     await file.CopyToAsync(stream);
                 }
-                return imageName;
+                return name;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error uploading the image: {ex.Message}");
-                return "";
-            }
-        }
-
-        public async Task<bool> DeleteCertificate(string fileName)
-        {
-            try
-            {
-                string imagePath = Path.Combine(_certificateFolderPath, fileName);
-
-                if (File.Exists(imagePath))
-                {
-                    File.Delete(imagePath);
-                    return true;
-                }
-
-                return false;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error deleting image: {ex.Message}");
-
-                // Return false indicating that the deletion failed
-                return false;
-            }
-        }
-
-        public async Task<string> GetCertificate(string fileName)
-        {
-            // Assuming MentuItems is an entity in your ApplicationDbContext
-            var imageData = await _context.DoctorDetails.FirstOrDefaultAsync(item => item.Certificate == fileName);
-            string imagePath = Path.Combine(_certificateFolderPath, fileName);
-            // Image exists in the "images" folder, return the image path
-            return imagePath;
-
-        }
-
-        public async Task<string> UploadCertificate(string fileName, IFormFile file)
-        {
-            try
-            {
-                string imagePath = Path.Combine(_certificateFolderPath, fileName);
-
-                using (var stream = new FileStream(imagePath, FileMode.Create))
-                {
-                    await file.CopyToAsync(stream);
-                }
-                return fileName;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error uploading the image: {ex.Message}");
+                Console.WriteLine($"Error uploading the File: {ex.Message}");
                 return "";
             }
         }

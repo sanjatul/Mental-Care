@@ -21,7 +21,7 @@
 
   <ItemGroup>
     <Folder Include="images\" />
-    <Folder Include="certificates\" />
+    <Folder Include="blogs\" />
   </ItemGroup>
 
 </Project>

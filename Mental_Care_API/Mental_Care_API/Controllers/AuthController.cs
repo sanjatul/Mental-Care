@@ -57,7 +57,7 @@ namespace Mental_Care_API.Controllers
                 NormalizedEmail = model.UserName.ToUpper(),
                 Name = model.Name,
                 PhoneNumber=model.PhoneNumber,
-                ProfilePicture= await _imageService.UploadImage(filename, model.File)
+                ProfilePicture= await _imageService.UploadFile(filename,"images", model.File)
             };
 
             try
@@ -129,7 +129,7 @@ namespace Mental_Care_API.Controllers
                 NormalizedEmail = model.UserName.ToUpper(),
                 Name = model.Name,
                 PhoneNumber = model.PhoneNumber,
-                ProfilePicture = await _imageService.UploadImage(filename, model.File)
+                ProfilePicture = await _imageService.UploadFile(filename,"images", model.File)
             };
 
             try
@@ -163,7 +163,7 @@ namespace Mental_Care_API.Controllers
                         UserId = newUser.Id,
                         Location = model.Location,
                         IsApproved=false,
-                        Certificate = await _imageService.UploadImage(certificatename, model.Certificate)
+                        Certificate = await _imageService.UploadFile(certificatename, "certificates", model.Certificate)
                     };
                     await _db.DoctorDetails.AddAsync(details);
                     await _db.SaveChangesAsync();

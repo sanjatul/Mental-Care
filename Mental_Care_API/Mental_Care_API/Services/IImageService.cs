@@ -2,11 +2,10 @@
 {
     public interface IImageService
     {
-        Task<string> GetImage(string imageName);
-        Task<bool> DeleteImage(string imageName);
-        Task<string> UploadImage(string imageName, IFormFile file);
-        Task<string> GetCertificate(string fileName);
-        Task<bool> DeleteCertificate(string fileName);
-        Task<string> UploadCertificate(string fileName, IFormFile file);
+        Task<string> GetProfilePicture(string name);
+        Task<string> GetBlogsImage(string name);
+        Task<string> GetCertificate(string name);
+        Task<bool> DeleteFile(string name,string path);
+        Task<string> UploadFile(string name, string path, IFormFile file);
     }
 }
