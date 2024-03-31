@@ -2,23 +2,21 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Mental_Care_API.Models
+namespace Mental_Care_API.Models.Dtos
 {
-    public class Experience
+    public class ExperienceUpdateDTO
     {
-        [Key]
+        [Required]
         public int ExperienceId { get; set; }
         [Required]
         public string Designation { get; set; }
+        [Required]
+        public string UserId { get; set; }
         public string Speciality { get; set; }
+        public bool? IsDisplay { get; set; }
         public string WorkPlace { get; set; }
         public DateTime StatingTime { get; set; }
         public DateTime? EndingTime { get; set; }
-        [Required]
-        public string UserId { get; set; }
-        [ForeignKey("UserId")]
-        [ValidateNever]
-        public ApplicationUser ApplicationUsers { get; set; }
-        public bool? IsDisplay { get; set; }
+       
     }
 }

@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Mental_Care_API.Models
 {
-    public class DoctorDetails
+    public class PsychologistDetails
     {
         [Key]
         public int DoctorId { get; set; }

@@ -4,6 +4,7 @@ using Mental_Care_API.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Mental_Care_API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240328073841_DoctorsDetailsTabledRenamedToPscologistDetails")]
+    partial class DoctorsDetailsTabledRenamedToPscologistDetails
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,9 +33,6 @@ namespace Mental_Care_API.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<int>("Age")
-                        .HasColumnType("int");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -43,10 +43,6 @@ namespace Mental_Care_API.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<string>("Gender")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -142,27 +138,22 @@ namespace Mental_Care_API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EducationId"));
 
-                    b.Property<string>("Degree")
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("EndingTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Institute")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("PsycologistDetailsId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("StatingTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("EducationId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("PsycologistDetailsId");
 
                     b.ToTable("Educations");
                 });
@@ -175,39 +166,27 @@ namespace Mental_Care_API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ExperienceId"));
 
-                    b.Property<string>("Designation")
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("EndingTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool?>("IsDisplay")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Speciality")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("PsycologistDetailsId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("StatingTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("WorkPlace")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("ExperienceId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("PsycologistDetailsId");
 
                     b.ToTable("Experiences");
                 });
 
-            modelBuilder.Entity("Mental_Care_API.Models.PsychologistDetails", b =>
+            modelBuilder.Entity("Mental_Care_API.Models.PsycologistDetails", b =>
                 {
                     b.Property<int>("DoctorId")
                         .ValueGeneratedOnAdd()
@@ -235,7 +214,7 @@ namespace Mental_Care_API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("PsychologistDetails");
+                    b.ToTable("PsycologistDetails");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -384,27 +363,27 @@ namespace Mental_Care_API.Migrations
 
             modelBuilder.Entity("Mental_Care_API.Models.Education", b =>
                 {
-                    b.HasOne("Mental_Care_API.Models.ApplicationUser", "ApplicationUsers")
+                    b.HasOne("Mental_Care_API.Models.PsycologistDetails", "PsycologistDetails")
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("PsycologistDetailsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ApplicationUsers");
+                    b.Navigation("PsycologistDetails");
                 });
 
             modelBuilder.Entity("Mental_Care_API.Models.Experience", b =>
                 {
-                    b.HasOne("Mental_Care_API.Models.ApplicationUser", "ApplicationUsers")
+                    b.HasOne("Mental_Care_API.Models.PsycologistDetails", "PsycologistDetails")
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("PsycologistDetailsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ApplicationUsers");
+                    b.Navigation("PsycologistDetails");
                 });
 
-            modelBuilder.Entity("Mental_Care_API.Models.PsychologistDetails", b =>
+            modelBuilder.Entity("Mental_Care_API.Models.PsycologistDetails", b =>
                 {
                     b.HasOne("Mental_Care_API.Models.ApplicationUser", "ApplicationUser")
                         .WithMany()

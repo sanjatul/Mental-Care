@@ -52,7 +52,7 @@ namespace Mental_Care_API.Services
         }
         public async Task<string> GetCertificate(string name)
         {
-            var imageData = await _context.DoctorDetails.FirstOrDefaultAsync(item => item.Certificate == name);
+            var imageData = await _context.PsychologistDetails.FirstOrDefaultAsync(item => item.Certificate == name);
             string imagePath = Path.Combine(_hostingEnvironment.WebRootPath, "certificates", name);
             return imagePath;
 

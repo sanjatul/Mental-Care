@@ -4,6 +4,7 @@ using Mental_Care_API.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Mental_Care_API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240328185311_Educationa and Experince Table updated")]
+    partial class EducationaandExperinceTableupdated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -182,13 +185,6 @@ namespace Mental_Care_API.Migrations
                     b.Property<DateTime?>("EndingTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool?>("IsDisplay")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Speciality")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("StatingTime")
                         .HasColumnType("datetime2");
 
@@ -207,7 +203,7 @@ namespace Mental_Care_API.Migrations
                     b.ToTable("Experiences");
                 });
 
-            modelBuilder.Entity("Mental_Care_API.Models.PsychologistDetails", b =>
+            modelBuilder.Entity("Mental_Care_API.Models.PsycologistDetails", b =>
                 {
                     b.Property<int>("DoctorId")
                         .ValueGeneratedOnAdd()
@@ -235,7 +231,7 @@ namespace Mental_Care_API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("PsychologistDetails");
+                    b.ToTable("PsycologistDetails");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -404,7 +400,7 @@ namespace Mental_Care_API.Migrations
                     b.Navigation("ApplicationUsers");
                 });
 
-            modelBuilder.Entity("Mental_Care_API.Models.PsychologistDetails", b =>
+            modelBuilder.Entity("Mental_Care_API.Models.PsycologistDetails", b =>
                 {
                     b.HasOne("Mental_Care_API.Models.ApplicationUser", "ApplicationUser")
                         .WithMany()

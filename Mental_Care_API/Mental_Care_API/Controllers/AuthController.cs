@@ -50,6 +50,21 @@ namespace Mental_Care_API.Controllers
             }
             string filename = $"{Guid.NewGuid()}{Path.GetExtension(model.File.FileName)}";
 
+            string normalizedGender = model.Gender.ToLower();
+            string gender;
+            switch (normalizedGender)
+            {
+                case "male":
+                    gender = "Male";
+                    break;
+                case "female":
+                    gender = "Female";
+                    break;
+                default:
+                    gender = "Others";
+                    break;
+            }
+
             ApplicationUser newUser = new()
             {
                 UserName = model.UserName,
@@ -57,6 +72,8 @@ namespace Mental_Care_API.Controllers
                 NormalizedEmail = model.UserName.ToUpper(),
                 Name = model.Name,
                 PhoneNumber=model.PhoneNumber,
+                Age=model.Age,
+                Gender= gender,
                 ProfilePicture= await _imageService.UploadFile(filename,"images", model.File)
             };
 
@@ -108,7 +125,7 @@ namespace Mental_Care_API.Controllers
 
 
         [HttpPost("psycologist-register")]
-        public async Task<IActionResult> PsycologistRegister([FromForm] PsycologistRegisterRequestDTO model)
+        public async Task<IActionResult> PsycologistRegister([FromForm] PsychologistRegisterRequestDTO model)
         {
             ApplicationUser? userFromDb = await _db.ApplicationUsers
                 .FirstOrDefaultAsync(u => u.UserName.ToLower() == model.UserName.ToLower());
@@ -121,6 +138,20 @@ namespace Mental_Care_API.Controllers
                 return BadRequest(_response);
             }
             string filename = $"{Guid.NewGuid()}{Path.GetExtension(model.File.FileName)}";
+            string normalizedGender = model.Gender.ToLower();
+            string gender;
+            switch (normalizedGender)
+            {
+                case "male":
+                    gender = "Male";
+                    break;
+                case "female":
+                    gender = "Female";
+                    break;
+                default:
+                    gender = "Others";
+                    break;
+            }
 
             ApplicationUser newUser = new()
             {
@@ -129,6 +160,8 @@ namespace Mental_Care_API.Controllers
                 NormalizedEmail = model.UserName.ToUpper(),
                 Name = model.Name,
                 PhoneNumber = model.PhoneNumber,
+                Age = model.Age,
+                Gender = gender,
                 ProfilePicture = await _imageService.UploadFile(filename,"images", model.File)
             };
 
@@ -158,14 +191,14 @@ namespace Mental_Care_API.Controllers
                         return BadRequest(_response);
                     }
                     string certificatename = $"{Guid.NewGuid()}{Path.GetExtension(model.File.FileName)}";
-                    DoctorDetails details = new()
+                    PsychologistDetails details = new()
                     {
                         UserId = newUser.Id,
                         Location = model.Location,
                         IsApproved=false,
                         Certificate = await _imageService.UploadFile(certificatename, "certificates", model.Certificate)
                     };
-                    await _db.DoctorDetails.AddAsync(details);
+                    await _db.PsychologistDetails.AddAsync(details);
                     await _db.SaveChangesAsync();
 
                     _response.StatusCode = HttpStatusCode.OK;

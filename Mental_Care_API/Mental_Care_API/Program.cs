@@ -53,8 +53,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultDbConnection"));
 });
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
-builder.Services.AddScoped<IImageService, ImageService>();
 
+builder.Services.AddScoped<IImageService, ImageService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.Configure<IdentityOptions>(options =>
 {

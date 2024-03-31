@@ -233,7 +233,7 @@ namespace Mental_Care_API.Controllers
         }
 
         [HttpDelete("{id:int}")]
-        public async Task<ActionResult<ApiResponse>> DeleteMenuItem(int? id)
+        public async Task<ActionResult<ApiResponse>> DeleteBlog(int? id)
         {
             try
             {
@@ -252,6 +252,7 @@ namespace Mental_Care_API.Controllers
                 if (blogFromDb == null)
                 {
                     _response.StatusCode = HttpStatusCode.BadRequest;
+                    _response.IsSuccess = false;
                     _response.ErrorMessages.Add("No enrty found");
                     return BadRequest(_response);
                 }
@@ -268,8 +269,8 @@ namespace Mental_Care_API.Controllers
             {
                 _response.IsSuccess = false;
                 _response.ErrorMessages = new List<string>() { ex.ToString() };
+                return BadRequest(_response);
             }
-            return Ok(_response);
         }
     }
 }

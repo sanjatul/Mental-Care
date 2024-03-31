@@ -4,6 +4,7 @@ using Mental_Care_API.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Mental_Care_API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240328173717_Application User Educationa nd Experince Table updated")]
+    partial class ApplicationUserEducationandExperinceTableupdated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -142,16 +145,12 @@ namespace Mental_Care_API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EducationId"));
 
-                    b.Property<string>("Degree")
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("EndingTime")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("Institute")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("StatingTime")
                         .HasColumnType("datetime2");
@@ -175,19 +174,12 @@ namespace Mental_Care_API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ExperienceId"));
 
-                    b.Property<string>("Designation")
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("EndingTime")
                         .HasColumnType("datetime2");
-
-                    b.Property<bool?>("IsDisplay")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Speciality")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("StatingTime")
                         .HasColumnType("datetime2");
@@ -196,10 +188,6 @@ namespace Mental_Care_API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("WorkPlace")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("ExperienceId");
 
                     b.HasIndex("UserId");
@@ -207,7 +195,7 @@ namespace Mental_Care_API.Migrations
                     b.ToTable("Experiences");
                 });
 
-            modelBuilder.Entity("Mental_Care_API.Models.PsychologistDetails", b =>
+            modelBuilder.Entity("Mental_Care_API.Models.PsycologistDetails", b =>
                 {
                     b.Property<int>("DoctorId")
                         .ValueGeneratedOnAdd()
@@ -235,7 +223,7 @@ namespace Mental_Care_API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("PsychologistDetails");
+                    b.ToTable("PsycologistDetails");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -404,7 +392,7 @@ namespace Mental_Care_API.Migrations
                     b.Navigation("ApplicationUsers");
                 });
 
-            modelBuilder.Entity("Mental_Care_API.Models.PsychologistDetails", b =>
+            modelBuilder.Entity("Mental_Care_API.Models.PsycologistDetails", b =>
                 {
                     b.HasOne("Mental_Care_API.Models.ApplicationUser", "ApplicationUser")
                         .WithMany()
