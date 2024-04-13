@@ -1,13 +1,23 @@
-import "./App.css";
-import "bootstrap/dist/css/bootstrap.min.css";
+import styles from "./App.module.css";
 import Header from "./components/shared-components/header/Header";
 import { Outlet } from "react-router-dom";
+import Sidebar from "./components/shared-components/sidebar/Sidebar";
 
 function App() {
   return (
     <>
       <Header />
-      <Outlet />
+      <div className={styles.content}>
+        {" "}
+        <div className="row">
+          <div className="col-2">
+            <Sidebar />
+          </div>
+          <div className="col-9">
+            <Outlet />
+          </div>
+        </div>
+      </div>
     </>
   );
 }

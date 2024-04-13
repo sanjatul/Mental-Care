@@ -27,11 +27,12 @@ namespace Mental_Care_API.Controllers
             _baseUrl = $"{httpContext.Request.Scheme}://{httpContext.Request.Host}";
         }
 
-        [HttpGet]
+        [HttpGet("GetAllBlogs")]
         public async Task<IActionResult> GetBlogs()
         {
             var blogs = await _db.Blogs
-                .Include(b => b.ApplicationUser) 
+                .Include(b => b.ApplicationUser)
+                .OrderByDescending(b => b.CreatedDate)
                 .ToListAsync();
 
             var blogResponseDTOs = blogs.Select(blog => new BlogResponseDTO

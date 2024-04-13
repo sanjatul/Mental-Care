@@ -1,6 +1,6 @@
 import React from "react";
 
-const PsycholgistAvailabilityHeading = () => {
+const PsycholgistAvailabilityHeading = ({ psychologistNumber }) => {
   return (
     <h1
       style={{
@@ -11,7 +11,7 @@ const PsycholgistAvailabilityHeading = () => {
         marginLeft: "10px",
       }}
     >
-      100 Doctors are available
+      {psychologistNumber} Psychologists are available...
     </h1>
   );
 };

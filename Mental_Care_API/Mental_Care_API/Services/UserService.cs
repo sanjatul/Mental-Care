@@ -75,9 +75,11 @@ namespace Mental_Care_API.Services
         public async Task<List<GeneralUserDetailsDTO>> GetUsers()
         {
             var generalUsers = await _db.ApplicationUsers
-                .Where(u => _db.UserRoles.Any(ur => ur.UserId == u.Id && _db.Roles.Any(r => r.Id == ur.RoleId && r.Name == "User")))
-                .Where(u=>u.EmailConfirmed==true)
-                .ToListAsync();
+    .Where(u => u.EmailConfirmed &&
+                _db.UserRoles.Any(ur => ur.UserId == u.Id &&
+                                         _db.Roles.Any(r => r.Id == ur.RoleId && r.Name == "User")))
+    .ToListAsync();
+
             var generalUserDetails = generalUsers.Select(user => new GeneralUserDetailsDTO
             {
                 Id = user.Id,

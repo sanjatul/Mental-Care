@@ -32,12 +32,15 @@ namespace Mental_Care_API.Controllers
         public async Task<IActionResult> GetPsycologists()
         {
             var psychologistsWithDetails = _db.PsychologistDetails
-         .Where(p => p.IsApproved == true)
          .Select(p => new PsychologistsDTO
          {
              UserId = p.UserId,
              Name = p.ApplicationUser.Name,
+             Email = p.ApplicationUser.Email,
+             IsApproved= p.IsApproved,
+             Gender=p.ApplicationUser.Gender,
              ProfilePicture = $"{_baseUrl}/images/{p.ApplicationUser.ProfilePicture}",
+             Certificate= $"{_baseUrl}/certificates/{p.Certificate}",
              Location = p.Location,
              Designation = _db.Experiences
                  .Where(e => e.UserId == p.UserId && e.IsDisplay == true)
@@ -58,7 +61,6 @@ namespace Mental_Care_API.Controllers
             return Ok(_response);
         }
 
-
         [HttpGet("get-psychologist/{Id}")]
         public async Task<IActionResult> GetPsycologist(string Id)
         {
@@ -75,14 +77,14 @@ namespace Mental_Care_API.Controllers
              DoctorId = p.DoctorId,
              UserId = p.UserId,
              Name = p.ApplicationUser.Name,
-             ProfilePicture = p.ApplicationUser.ProfilePicture,
+             ProfilePicture = $"{_baseUrl}/images/{p.ApplicationUser.ProfilePicture}",
              Age = p.ApplicationUser.Age,
              Gender = p.ApplicationUser.Gender,
              Email = p.ApplicationUser.Email, 
              IsApproved = p.IsApproved,
              Location = p.Location,
              YearsOfExperience = p.YearsOfExperience,
-             Certificate = p.Certificate,
+             Certificate = $"{_baseUrl}/certificates/{p.Certificate}",
              Experiences = _db.Experiences
                  .Where(e => e.UserId == p.UserId)
                  .Select(e => new ExperienceResopnseDTO

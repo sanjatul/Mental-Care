@@ -7,6 +7,7 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
+
 import LandingPage from "./components/shared-components/landing-page/LandingPage.jsx";
 import Home from "./components/shared-components/home/Home.jsx";
 import Login from "./components/shared-components/login/Login.jsx";
@@ -16,11 +17,13 @@ import PsycholgistProfile from "./components/generel-users/psycholgistr-profile/
 import DoctorAppointmentForm from "./components/generel-users/psycholgist-appointment-form/PsycholgistAppointmentForm.jsx";
 import AppointmentSchedule from "./components/generel-users/appointment-schedule/AppointmentSchedule.jsx";
 import Dashboard from "./components/shared-components/dashboard/Dashboard.jsx";
+import { Provider } from "react-redux";
+import mentalCareStore from "./store/index.js";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
-      <Route path="" element={<LandingPage />} />
-      <Route path="home" element={<Home />} />
+      <Route path="" element={<Home />} />
+      {/* <Route path="home" element={<Home />} /> */}
       <Route path="login" element={<Login />} />
       <Route path="signup" element={<Signup />} />
       <Route path="blogs" element={<Blogs />} />
@@ -35,7 +38,7 @@ const router = createBrowserRouter(
   )
 );
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+  <Provider store={mentalCareStore}>
     <RouterProvider router={router} />
-  </React.StrictMode>
+  </Provider>
 );

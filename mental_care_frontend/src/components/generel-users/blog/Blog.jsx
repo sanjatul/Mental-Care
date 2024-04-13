@@ -1,33 +1,58 @@
 import React from "react";
-
-function Blog() {
+import styles from "./Blog.module.css";
+import { Link } from "react-router-dom";
+function Blog({ blog }) {
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const options = {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    };
+    return date.toLocaleDateString(undefined, options);
+  };
   return (
-    <div className="card smaller-card">
-      <div className="et_pb_container clearfix">
-        <div className="et_pb_text_overlay_wrapper">
-          <div className="psychologist-section">
-            <div className="row">
-              <div className="col-2">
-                <img
-                  src="/images/2.png"
-                  alt="Psychologist"
-                  className="psychologist-image rounded-circle"
-                />
-              </div>
-              <div className="col-10">
-                <h3 className="psychologist-name">Dr. John Doe</h3>
-              </div>
+    <div className={`${styles.card}`}>
+      <div className="row">
+        <div className="col-1">
+          <img
+            src={blog.profilePicture}
+            className="rounded-circle w-75 h-75"
+            alt="Profile"
+          />
+        </div>
+        <div className="col-11">
+          <div className="row">
+            <div className="col-8">
+              <h3>{blog.title}</h3>
+              <span>
+                <Link to={`/psycologist/${blog.userId}`}>
+                  {" "}
+                  <b>{blog.userName}</b>{" "}
+                </Link>
+                <br />
+                <br />
+              </span>
+            </div>
+            <div className="col-4 d-flex justify-content-end">
+              {formatDate(blog.createdDate)}
             </div>
           </div>
-          <h4 className="et_pb_slide_title">
-            <a href="#" className="custom-link-color">
-              Understanding Depression and Effective ways to Heal
-            </a>
-          </h4>
         </div>
-        <div className="et_pb_button_wrapper custom-button-color">
-          <a className="et_pb_button et_pb_more_button">Read More</a>
-        </div>
+        <hr />
+      </div>
+      <div className="row">
+        {blog.description != null && (
+          <div className="p-3">{blog.description}</div>
+        )}
+        {blog.image != null && (
+          <div className="col d-flex justify-content-center ">
+            <img className="w-75 h-75" src={blog.image} />{" "}
+          </div>
+        )}
       </div>
     </div>
   );

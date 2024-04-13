@@ -1,107 +1,150 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FcRating } from "react-icons/fc";
 import styles from "./PsycholgistProfile.module.css";
 import { MdOutlineWork } from "react-icons/md";
 import { MdOutlineCastForEducation } from "react-icons/md";
 import { useParams } from "react-router-dom";
+import Loader from "../../shared-components/Loader/Loader";
 
 const PsycholgistProfile = () => {
   const { userid } = useParams();
+  const [psychologist, setPsyChologist] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    fetch(`https://localhost:7254/api/users/get-psychologist/${userid}`)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        const psychologistData = data.result;
+        console.log(psychologistData[0]);
+        setPsyChologist(psychologistData[0]);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <div className="container">
       <div className={`${styles.doctorProfileContainer}`}>
         <div className="row">
           <div className="col-6">
-            <img src="/images/2.png" className="card-img-top" alt="..." />
+            <img
+              src={psychologist.profilePicture}
+              className="card-img-top"
+              alt="..."
+            />
           </div>
           <div className="col-6">
-            <h5 className={`${styles.doctorName}`}>Dr. Nishan Khanna</h5>
+            <h1 className={`${styles.doctorName}`}>{psychologist.name}</h1>
             <p className={styles.doctorInfo}>
-              <span className={styles.designation}>Senior Consultant</span>
+              {psychologist.experiences.length != 0 &&
+                psychologist.experiences.map(
+                  (experience) =>
+                    experience.isDisplay == true && (
+                      <>
+                        <h3 className={styles.designation}>
+                          {experience.designation}
+                        </h3>
+                        <br />
+                        <span className={styles.speciality}>
+                          Speciality: {experience.speciality}
+                        </span>
+                        <br />
+                      </>
+                    )
+                )}
+
+              <span className={styles.experience}>
+                Experience: {psychologist.yearsOfExperience} years
+              </span>
               <br />
-              <span className={styles.speciality}>Speciality: Psychiatry</span>
+              <span className={styles.gender}>
+                Gender: {psychologist.gender}
+              </span>
               <br />
-              <span className={styles.experience}>Experience: 12 years</span>
+              <span className={styles.gender}>
+                Age: {psychologist.age} years
+              </span>
               <br />
-              <span className={styles.gender}>Gender: Male</span>
-              <br />
-              <span className={styles.rating}>
+              {/* <span className={styles.rating}>
                 Rating: <FcRating />
                 <FcRating />
                 <FcRating />
               </span>
-              <br />
+              <br /> */}
             </p>
           </div>
         </div>
       </div>
       <div className="m-4 ">
-        <h2 class="d-flex border-0 bg-transparent px-0 f-20 pb-2 pt-3 font-weight-lg-bold font-weight-semi-bold text-gray-600">
+        <h2 className="d-flex border-0 bg-transparent px-0 f-20 pb-2 pt-3 font-weight-lg-bold font-weight-semi-bold text-gray-600">
           <p style={{ display: "flex", alignItems: "center" }}>
             <MdOutlineWork style={{ fontSize: "32px", marginRight: "8px" }} />
           </p>
           Work Experience
         </h2>
-        <ul>
-          <li>
-            Lead Psychologist - Serene Wellness Center (Jan 2018 - Present)
-          </li>
-          <li>
-            Clinical Psychologist - Mindful Living Clinic (Mar 2015 - Dec 2017)
-          </li>
-          <li>
-            Counseling Psychologist - Harmony Mental Health Institute (Jun 2012
-            - Feb 2015)
-          </li>
-          <li>
-            Psychiatric Consultant - Serenity Counseling Services (2008 - 2012)
-          </li>
-          <li>
-            Mental Health Specialist - Tranquil Minds Clinic (2005 - 2008)
-          </li>
-          <li>
-            Intern Psychologist - Healing Hands Psychological Services (2003 -
-            2005)
-          </li>
-        </ul>
+        {psychologist.experiences.length > 0 ? (
+          <ul>
+            {psychologist.experiences.map((experience) => (
+              <li key={experience.id}>
+                {experience.designation} - {experience.workPlace} (
+                {new Date(experience.statingTime).toLocaleDateString("en-US", {
+                  month: "short",
+                  year: "numeric",
+                })}{" "}
+                -{" "}
+                {experience.endingTime
+                  ? new Date(experience.endingTime).toLocaleDateString(
+                      "en-US",
+                      { month: "short", year: "numeric" }
+                    )
+                  : "Present"}
+                )
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <h4>No work experience details available</h4>
+        )}
       </div>
       <div className="m-4">
-        <h2 class="d-flex  border-0 bg-transparent px-0 f-20 pb-2 pt-3 font-weight-lg-bold font-weight-semi-bold color-gray-600">
+        <h2 className="d-flex  border-0 bg-transparent px-0 f-20 pb-2 pt-3 font-weight-lg-bold font-weight-semi-bold color-gray-600">
           <MdOutlineCastForEducation
             style={{ fontSize: "32px", marginRight: "8px" }}
           />{" "}
           Education &amp; Training
         </h2>
-        <div class="collapsed collapse show">
-          <div className="site-content f-lg-17 color-gray-600 f-base lh-normal lh-lg-12 pb-3">
-            <ul>
-              <li>
-                Doctor of Psychology (Psy.D.) - University of Psychology,
-                Cityville (2000 - 2006)
+        {psychologist.educations.length > 0 ? (
+          <ul>
+            {psychologist.educations.map((education) => (
+              <li key={education.id}>
+                {education.degree} - {education.institute} (
+                {new Date(education.statingTime).toLocaleDateString("en-US", {
+                  month: "short",
+                  year: "numeric",
+                })}{" "}
+                -{" "}
+                {education.endingTime
+                  ? new Date(education.endingTime).toLocaleDateString(
+                      "en-US",
+                      { month: "short", year: "numeric" }
+                    )
+                  : "Present"}
+                )
               </li>
-              <li>
-                Master of Science in Clinical Psychology (M.Sc.) - City
-                University, Townsville (1998 - 2000)
-              </li>
-              <li>
-                Bachelor of Arts in Psychology (B.A.) - State College of
-                Psychology, Riverside (1994 - 1998)
-              </li>
-              <li>
-                Clinical Internship - Mental Health Institute, Cityville (2006 -
-                2007)
-              </li>
-              <li>
-                Certification in Cognitive Behavioral Therapy (CBT) - Institute
-                of Behavioral Sciences (2008)
-              </li>
-              <li>
-                Advanced Training in Mindfulness-Based Stress Reduction (MBSR) -
-                Mindful Living Institute (2010)
-              </li>
-            </ul>
-          </div>
-        </div>
+            ))}
+          </ul>
+        ) : (
+          <h4>No education details available</h4>
+        )}
       </div>
     </div>
   );

@@ -1,63 +1,71 @@
 import React from "react";
-
+import { Link, NavLink } from "react-router-dom";
 const Sidebar = () => {
   return (
-    <div className="col-md-3 d-flex flex-column" style={{ height: "100vh" }}>
+    <>
       <div
-        className=""
-        style={{ width: "280px", flex: "1", background: "black" }}
+        className="d-flex flex-column flex-shrink-0 p-3 bg-light"
+        style={{ width: "280px", height: "100vh" }}
       >
-        {" "}
         <hr />
-        <div className="d-flex flex-column flex-grow-1">
-          <br />
-
-          <ul className="nav nav-pills flex-column mb-auto">
-            <li className="nav-item">
-              <a href="#" className="nav-link active" aria-current="page">
-                <svg className="bi pe-none me-2" width="16" height="16">
-                  <use xlink:href="#home"></use>
-                </svg>
-                Dashboard
-              </a>
-            </li>
-            <li>
-              <a href="#" className="nav-link text-white">
-                <svg className="bi pe-none me-2" width="16" height="16">
-                  <use xlink:href="#speedometer2"></use>
-                </svg>
-                Online Appointment
-              </a>
-            </li>
-            <li>
-              <a href="#" className="nav-link text-white">
-                <svg className="bi pe-none me-2" width="16" height="16">
-                  <use xlink:href="#table"></use>
-                </svg>
-                Offline Appointment
-              </a>
-            </li>
-            <li>
-              <a href="#" className="nav-link text-white">
-                <svg className="bi pe-none me-2" width="16" height="16">
-                  <use xlink:href="#grid"></use>
-                </svg>
-                Profile
-              </a>
-            </li>
-            <li>
-              <a href="#" className="nav-link text-white">
-                <svg className="bi pe-none me-2" width="16" height="16">
-                  <use xlink:href="#people-circle"></use>
-                </svg>
-                My Blogs
-              </a>
-            </li>
-          </ul>
-          <hr />
-        </div>
+        <ul className="nav nav-pills flex-column mb-auto">
+          <li>
+            <NavLink to="dashboard" className="nav-link link-dark">
+              <svg className="bi pe-none me-2" width="16" height="16">
+                <use xlinkHref="#speedometer2"></use>
+              </svg>
+              Dashboard
+            </NavLink>
+            <hr />
+          </li>
+          <li>
+            <NavLink to="setting" className="nav-link link-dark">
+              <svg className="bi pe-none me-2" width="16" height="16">
+                <use xlinkHref="#speedometer2"></use>
+              </svg>
+              My Blogs
+            </NavLink>
+            <hr />
+          </li>
+          <li>
+            <NavLink to="create-appointments" className="nav-link link-dark">
+              <svg className="bi pe-none me-2" width="16" height="16">
+                <use xlinkHref="#speedometer2"></use>
+              </svg>
+              Create Appointments
+            </NavLink>
+            <hr />
+          </li>
+          <li>
+            <NavLink to="offline-appointments" className="nav-link link-dark">
+              <svg className="bi pe-none me-2" width="16" height="16">
+                <use xlinkHref="#speedometer2"></use>
+              </svg>
+              Messages
+            </NavLink>
+            <hr />
+          </li>
+          <li>
+            <NavLink to="appointments" className="nav-link link-dark">
+              <svg className="bi pe-none me-2" width="16" height="16">
+                <use xlinkHref="#speedometer2"></use>
+              </svg>
+              Appointments
+            </NavLink>
+            <hr />
+          </li>
+          <li>
+            <NavLink to="setting" className="nav-link link-dark">
+              <svg className="bi pe-none me-2" width="16" height="16">
+                <use xlinkHref="#speedometer2"></use>
+              </svg>
+              Profile Setting
+            </NavLink>
+            <hr />
+          </li>
+        </ul>
       </div>
-    </div>
+    </>
   );
 };
 

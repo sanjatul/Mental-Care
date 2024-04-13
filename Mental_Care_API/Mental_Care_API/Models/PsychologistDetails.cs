@@ -14,7 +14,7 @@ namespace Mental_Care_API.Models
         [ValidateNever]
         public ApplicationUser ApplicationUser { get; set; }
 
-        public bool? IsApproved { get; set; }
+        public bool IsApproved { get; set; }=false;
         public string? Location { get; set; }
         public int? YearsOfExperience { get; set; }
         public string? Certificate { get; set; }    

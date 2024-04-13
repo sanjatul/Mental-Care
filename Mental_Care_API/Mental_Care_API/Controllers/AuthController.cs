@@ -195,7 +195,6 @@ namespace Mental_Care_API.Controllers
                     {
                         UserId = newUser.Id,
                         Location = model.Location,
-                        IsApproved=false,
                         Certificate = await _imageService.UploadFile(certificatename, "certificates", model.Certificate)
                     };
                     await _db.PsychologistDetails.AddAsync(details);

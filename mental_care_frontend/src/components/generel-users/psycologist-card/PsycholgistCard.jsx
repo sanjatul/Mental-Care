@@ -1,41 +1,59 @@
 import React from "react";
 import styles from "./PsychologistCard.module.css";
-import { VscStarFull } from "react-icons/vsc";
 import { Link } from "react-router-dom";
 
-const PsychologistCard = () => {
+const PsychologistCard = ({ psychologist }) => {
   return (
     <div className={`${styles.cardCustom} card`}>
       <div className="card-body">
         <div className="row">
-          <div className="col-6">
-            <img src="/images/2.png" className="card-img-top" alt="..." />
+          <div className="col-5">
+            <img
+              src={psychologist.profilePicture}
+              className="card-img-top"
+              alt="..."
+            />
           </div>
-          <div className="col-6">
-            <h5 className="card-title">Dr. Nishan Khanna</h5>
+          <div className="col-7 ps-2">
+            <h4 className="card-title">
+              <b>{psychologist.name}</b>
+            </h4>
             <p className="card-text">
-              <div style={{ whiteSpace: "nowrap" }}>
-                <h6>Senior Consultant</h6>
-                <b>Experience:</b>12 years
-                <br />
-                <b>Gender:</b>Male
-                <br />
-                <b>Rating:</b>
-                <VscStarFull />
-                <VscStarFull />
-                <VscStarFull />
-                <VscStarFull />
-                <br />
-                <b>Location:</b>Dhaka
+              <div style={{ whiteSpace: "wrap" }}>
+                <h5>{psychologist.designation}</h5>
+                <hr />
+                {psychologist.speciality != null && (
+                  <>
+                    <b>Speciality:</b> {psychologist.speciality} <br />
+                  </>
+                )}
+                {psychologist.yearsOfExperience != null && (
+                  <>
+                    <b>Experience:</b> {psychologist.yearsOfExperience} years{" "}
+                    <br />
+                  </>
+                )}
+                {psychologist.gender != null && (
+                  <>
+                    <b>Gender:</b> {psychologist.gender} <br />
+                  </>
+                )}
+
+                {psychologist.location != null && (
+                  <>
+                    <b>Location: </b>
+                    {psychologist.location}
+                  </>
+                )}
               </div>
             </p>
           </div>
         </div>
       </div>
       <div className="col-6">
-        <div className="ms-2 me-2 mt-1 mb-2">
+        <div className="ms-2 me-2 mb-1">
           <Link
-            to={`/psycologist/${123}`}
+            to={`/psycologist/${psychologist.userId}`}
             className="text-primary text-decoration-underline"
           >
             View Profile

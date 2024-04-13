@@ -15,5 +15,6 @@ namespace Mental_Care_API.DataAccess
         public DbSet<Experience>Experiences { get; set; }
         public DbSet<Education> Educations { get; set; }
         public DbSet<Blog> Blogs { get; set; }
+        public DbSet<Appointment> Appointments { get; set; }
     }
 }
