@@ -26,9 +26,41 @@ namespace Mental_Care_API.Services
             _imageService = imageService;
         }
 
-        public Task<ApiResponse> DeletePsycologist(string Id)
+        public async Task<bool> DeletePsycologist(string Id)
         {
-            throw new NotImplementedException();
+            // Find psychologist details by UserId
+            var psychologistDetails = await _db.PsychologistDetails.FirstOrDefaultAsync(x => x.UserId == Id);
+            if (psychologistDetails == null)
+            {
+                // If psychologist details not found, return false indicating deletion was not successful
+                return false;
+            }
+
+            // Find experiences associated with the user
+            var experiences = await _db.Experiences.Where(x => x.UserId == Id).ToListAsync();
+            // Remove experiences
+            _db.Experiences.RemoveRange(experiences);
+
+            // Find educations associated with the user
+            var educations = await _db.Educations.Where(x => x.UserId == Id).ToListAsync();
+            // Remove educations
+            _db.Educations.RemoveRange(educations);
+
+            // Remove psychologist details
+            _db.PsychologistDetails.Remove(psychologistDetails);
+
+            // Find and remove the ApplicationUser
+            var user = await _db.ApplicationUsers.FirstOrDefaultAsync(x => x.Id == Id);
+            if (user != null)
+            {
+                _db.ApplicationUsers.Remove(user);
+            }
+
+            // Save changes to the database
+            await _db.SaveChangesAsync();
+
+            // Return true indicating deletion was successful
+            return true;
         }
 
         public async Task<bool> DeleteUser(string Id)
@@ -99,5 +131,9 @@ namespace Mental_Care_API.Services
             throw new NotImplementedException();
         }
 
+        //public Task<bool> DeletePsycologist(string Id)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

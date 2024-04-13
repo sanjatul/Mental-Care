@@ -11,6 +11,7 @@ const PsychologistCard = ({ psychologist }) => {
             <img
               src={psychologist.profilePicture}
               className="card-img-top"
+              style={{ height: "200px", width: "200px" }}
               alt="..."
             />
           </div>
@@ -60,20 +61,21 @@ const PsychologistCard = ({ psychologist }) => {
           </Link>
         </div>
       </div>
-
-      <div className="row mt-1">
-        <div className="col-6">
-          <div className="ms-2 me-2 mt-2 mb-2">
-            <a href="#" className="btn btn-primary">
-              Online Consultation
-            </a>
+      <div className="card-footer">
+        <div className="row mt-1">
+          <div className="col-6">
+            <div className="ms-2 me-2 mt-2 mb-2">
+              <a href="#" className="btn btn-primary">
+                Online Consultation
+              </a>
+            </div>
           </div>
-        </div>
-        <div className="col-6">
-          <div className="ms-2 me-2 mt-2 mb-2">
-            <Link to="/book-appointment" className="btn btn-primary">
-              Offline Consultation
-            </Link>
+          <div className="col-6">
+            <div className="ms-2 me-2 mt-2 mb-2">
+              <Link to="/book-appointment" className="btn btn-primary">
+                Offline Consultation
+              </Link>
+            </div>
           </div>
         </div>
       </div>

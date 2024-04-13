@@ -5,6 +5,7 @@ using Mental_Care_API.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using System.Net;
 
 namespace Mental_Care_API.Controllers
@@ -117,6 +118,52 @@ namespace Mental_Care_API.Controllers
             }
             _response.Result= psychologistsWithDetails;
             _response.StatusCode = HttpStatusCode.OK;
+            return Ok(_response);
+        }
+
+        [HttpDelete("delete-psychologist/{id}")]
+        public async Task<ActionResult<ApiResponse>> DeletePsychologist(string? id)
+        {
+            if (id == null || id == "")
+            {
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.IsSuccess = false;
+                _response.ErrorMessages.Add("Invalid Id");
+                return BadRequest(_response);
+            }
+            var isDeleted = await _userService.DeletePsycologist(id);
+            if (isDeleted == false)
+            {
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.IsSuccess = false;
+                _response.ErrorMessages.Add("Something went wrong");
+                return BadRequest(_response);
+            }
+            _response.StatusCode = HttpStatusCode.NoContent;
+            return Ok(_response);
+        }
+        [HttpPut("approve-psychologist/{id}")]
+        public async Task<ActionResult<ApiResponse>> ApprovePsychologist(string? id)
+        {
+            if (id == null || id == "")
+            {
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.IsSuccess = false;
+                _response.ErrorMessages.Add("Invalid Id");
+                return BadRequest(_response);
+            }
+            var psychologist = await _db.PsychologistDetails.FirstOrDefaultAsync(x => x.UserId == id);
+            if (psychologist == null)
+            {
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.IsSuccess = false;
+                _response.ErrorMessages.Add("No user found");
+                return BadRequest(_response);
+            }
+            psychologist.IsApproved = true;
+             _db.PsychologistDetails.Update(psychologist);
+            await _db.SaveChangesAsync();
+            _response.StatusCode = HttpStatusCode.NoContent;
             return Ok(_response);
         }
 

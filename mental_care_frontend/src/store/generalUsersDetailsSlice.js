@@ -8,7 +8,6 @@ const generalUsersDetailsSlice = createSlice({
     },
     removeGeneralUser: (state, action) => {
       const updatedState = state.filter(user => user.id !== action.payload.id);
-      console.log(updatedState);
       return updatedState;
     },
   }

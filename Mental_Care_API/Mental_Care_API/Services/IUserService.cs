@@ -7,7 +7,7 @@ namespace Mental_Care_API.Services
         Task<ApiResponse> GetPsycologists();
         Task<ApiResponse> GetPsycologist(string Id);
         Task<ApiResponse> UpdatePsycologist(string Id);
-        Task<ApiResponse> DeletePsycologist(string Id);
+        Task<bool> DeletePsycologist(string Id);
         Task<List<GeneralUserDetailsDTO>> GetUsers();
         Task<GeneralUserDetailsDTO> GetUser(string Id);
         Task<bool> DeleteUser(string Id);

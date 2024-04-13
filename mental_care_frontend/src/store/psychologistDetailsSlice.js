@@ -4,14 +4,23 @@ const psychologistDetailsSlice = createSlice({
   initialState: [],
   reducers: {
     addPsychologists: (state, action) => {
-      // return [...state, ...action.payload]; 
       return action.payload;
     },
     approvePsychologist: (state, action) => {
-      state.push(action.payload);
+      const updatedState = state.map(psychologist => {
+        if (psychologist.userId === action.payload.userId) {
+            return {
+                ...psychologist,
+                isApproved: true
+            };
+        }
+        return psychologist;
+    });
+    return updatedState;
     },
     removePsychologist: (state, action) => {
-      return state.filter(itemId => itemId !== action.payload);
+      const updatedState = state.filter(psychologist => psychologist.userId !== action.payload.userId);
+      return updatedState;
     },
   }
 });

@@ -85,20 +85,20 @@ function UsersList() {
         })
           .then((res) => {
             if (!res.ok) {
-              throw new Error("Failed to delete user");
+              throw new Error("Failed to remove user");
             }
             return res.json();
           })
           .then((data) => {
             disPatch(generalUsersDetailsActions.removeGeneralUser({ id: id }));
             Swal.fire({
-              title: "Deleted!",
-              text: "Your file has been deleted.",
+              title: "Removed!",
+              text: "User has been removed.",
               icon: "success",
             });
           })
           .catch((error) => {
-            Swal.fire("Error", "Failed to delete user");
+            Swal.fire("Error", "Failed to remove user");
           });
       }
     });
@@ -141,12 +141,16 @@ function UsersList() {
                   <img
                     src={user[0].profilePicture}
                     className="card-img-top"
+                    style={{ height: "370px" }}
                     alt="..."
                   />
                 ) : (
                   <div>No profile picture available</div>
                 )}
                 <div className="card-body">
+                  <diV className="row">
+                    <></>
+                  </diV>
                   <h4 className="card-title">
                     Name:{" "}
                     {user.length > 0 && user[0].name ? user[0].name : "Name"}
@@ -167,9 +171,6 @@ function UsersList() {
                       ? user[0].gender
                       : "Gender"}
                   </h5>
-                  {/* <h5>
-                    {user.length > 0 && user[0].email ? user[0].email : "Email"}
-                  </h5> */}
                   <h5>
                     Age: {user.length > 0 && user[0].age ? user[0].age : "Age"}
                   </h5>
