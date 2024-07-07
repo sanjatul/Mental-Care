@@ -5,6 +5,7 @@ import { MdOutlineWork } from "react-icons/md";
 import { MdOutlineCastForEducation } from "react-icons/md";
 import { useParams } from "react-router-dom";
 import Loader from "../../shared-components/Loader/Loader";
+import AppointmentSchedule from "../appointment-schedule/AppointmentSchedule";
 
 const PsycholgistProfile = () => {
   const { userid } = useParams();
@@ -40,6 +41,7 @@ const PsycholgistProfile = () => {
               src={psychologist.profilePicture}
               className="card-img-top"
               alt="..."
+              style={{ height: "500px", width: "550px" }}
             />
           </div>
           <div className="col-6">
@@ -133,10 +135,10 @@ const PsycholgistProfile = () => {
                 })}{" "}
                 -{" "}
                 {education.endingTime
-                  ? new Date(education.endingTime).toLocaleDateString(
-                      "en-US",
-                      { month: "short", year: "numeric" }
-                    )
+                  ? new Date(education.endingTime).toLocaleDateString("en-US", {
+                      month: "short",
+                      year: "numeric",
+                    })
                   : "Present"}
                 )
               </li>

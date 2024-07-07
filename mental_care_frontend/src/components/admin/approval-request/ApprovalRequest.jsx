@@ -165,7 +165,11 @@ function ApprovalRequest() {
   return (
     <div>
       <DataTable
-        title="Psychologist Approval Requests"
+        title={
+          <span style={{ fontWeight: "bold" }}>
+            PSYCHOLOGIST APPROVAL REQUEST LIST
+          </span>
+        }
         fixedHeader
         fixedHeaderScrollHeight="400px"
         columns={column}
@@ -184,7 +188,7 @@ function ApprovalRequest() {
           <div className="modal-content">
             <div className="modal-header">
               <h3 className="modal-title" id="approvalModalLabel">
-                Psychologist's Details
+                PSYCHOLOGIST'S DETAILS
               </h3>
               <button
                 type="button"

@@ -1,0 +1,11 @@
+.card {
+  padding: 20px;
+  border-radius: 15px;
+  margin: 20px;
+  border: 1px solid #ccc;
+}
+.dsmGradientText {
+  background: linear-gradient(45deg, #6b83fe, #538fff);
+  background-clip: text;
+  color: transparent;
+}

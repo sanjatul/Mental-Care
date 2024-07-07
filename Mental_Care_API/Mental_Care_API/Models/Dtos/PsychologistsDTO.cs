@@ -14,5 +14,6 @@
         public string? Speciality { get; set; }
         public string? WorkPlace { get; set; }
         public int? YearsOfExperience { get; set; }
+        public double Fees { get; set; }
     }
 }

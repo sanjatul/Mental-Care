@@ -43,6 +43,7 @@ namespace Mental_Care_API.Controllers
              ProfilePicture = $"{_baseUrl}/images/{p.ApplicationUser.ProfilePicture}",
              Certificate= $"{_baseUrl}/certificates/{p.Certificate}",
              Location = p.Location,
+             Fees=p.Fees,
              Designation = _db.Experiences
                  .Where(e => e.UserId == p.UserId && e.IsDisplay == true)
                  .Select(e => e.Designation)
@@ -84,6 +85,7 @@ namespace Mental_Care_API.Controllers
              Email = p.ApplicationUser.Email, 
              IsApproved = p.IsApproved,
              Location = p.Location,
+             Fees=p.Fees,
              YearsOfExperience = p.YearsOfExperience,
              Certificate = $"{_baseUrl}/certificates/{p.Certificate}",
              Experiences = _db.Experiences

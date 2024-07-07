@@ -75,8 +75,8 @@ function UsersList() {
       text: "You won't be able to revert this!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
@@ -107,7 +107,7 @@ function UsersList() {
   return (
     <div>
       <DataTable
-        title="User List"
+        title={<span style={{ fontWeight: "bold" }}>USERS LIST</span>}
         fixedHeader
         fixedHeaderScrollHeight="400px"
         columns={column}
@@ -125,9 +125,9 @@ function UsersList() {
         <div className="modal-dialog modal-lg">
           <div className="modal-content">
             <div className="modal-header">
-              <h3 className="modal-title" id="exampleModalLabel">
-                User's Details
-              </h3>
+              <h2 className="modal-title" id="exampleModalLabel">
+                USER'S DETAILS
+              </h2>
               <button
                 type="button"
                 className="btn-close"
@@ -186,9 +186,6 @@ function UsersList() {
               >
                 Close
               </button>
-              {/* <button type="button" className="btn btn-primary">
-                Save changes
-              </button> */}
             </div>
           </div>
         </div>

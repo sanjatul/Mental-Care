@@ -19,6 +19,7 @@ import AppointmentSchedule from "./components/generel-users/appointment-schedule
 import Dashboard from "./components/shared-components/dashboard/Dashboard.jsx";
 import { Provider } from "react-redux";
 import mentalCareStore from "./store/index.js";
+import PersonalBlogs from "./components/psycologists/personal-blogs/PersonalBlogs.jsx";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
@@ -33,6 +34,7 @@ const router = createBrowserRouter(
       />
       <Route path="/book-appointment" element={<AppointmentSchedule />} />
       <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/myblogs/:userid" element={<PersonalBlogs />} />
       <Route path="/psycologist/:userid" element={<PsycholgistProfile />} />
     </Route>
   )

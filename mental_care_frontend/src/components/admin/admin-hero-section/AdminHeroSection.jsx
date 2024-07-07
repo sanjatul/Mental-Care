@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 
-function AdminHeroSection({ psychologistList, generalUsers }) {
+function AdminHeroSection({
+  psychologistList,
+  generalUsers,
+  clickedButton,
+  handleClickedButton,
+}) {
   const [numberOfApprovalRequest, setNumberOfApprovalRequest] = useState(0);
   const [numberOfPsychologist, setNumberOfPsychologist] = useState(0);
   const [numberOfUsers, setNumberOfUsers] = useState(0);
@@ -17,52 +22,74 @@ function AdminHeroSection({ psychologistList, generalUsers }) {
       setNumberOfUsers(generalUsers.length);
     }
   }, [psychologistList, generalUsers]);
+  const getButtonClasses = (value) => {
+    if (clickedButton === value) {
+      return "btn btn-primary bg-dark text-white";
+    } else {
+      return "btn btn-primary";
+    }
+  };
   return (
-    <div className="border pt-4 pb-4">
+    <div className="border pt-4 pb-4 pe-4">
       <div className="row justify-content-center">
         <div className="col-sm-4 mb-3">
           <div className="card text-center">
             <div className="card-header">
-              <h5>Approval Request</h5>
+              <h5>APPROVAL REQUESTS</h5>
             </div>
             <div className="card-body">
               <p className="card-text">
                 <b>{numberOfApprovalRequest}</b> psychologist's request for
                 approval is pending
               </p>
-              <a href="#" className="btn btn-primary">
+              <button
+                className={getButtonClasses(2)}
+                onClick={() => {
+                  handleClickedButton(2);
+                }}
+              >
                 View
-              </a>
+              </button>
             </div>
           </div>
         </div>
         <div className="col-sm-4 mb-3">
           <div className="card text-center">
             <div className="card-header">
-              <h5>Psychologist List</h5>
+              <h5>PSYCHOLOGISTS LIST</h5>
             </div>
             <div className="card-body">
               <p className="card-text">
                 <b>{numberOfPsychologist}</b> psychologists found
               </p>
-              <a href="#" className="btn btn-primary">
+              <button
+                className={getButtonClasses(1)}
+                onClick={() => {
+                  handleClickedButton(1);
+                }}
+              >
                 View
-              </a>
+              </button>
             </div>
           </div>
         </div>
         <div className="col-sm-4 mb-3">
           <div className="card text-center">
             <div className="card-header">
-              <h5>User List</h5>
+              <h5>USERS LIST</h5>
             </div>
             <div className="card-body">
               <p className="card-text">
                 <b>{numberOfUsers}</b> users found
               </p>
-              <a href="#" className="btn btn-primary">
+              <button
+                className={getButtonClasses(3)}
+                onClick={() => {
+                  handleClickedButton(3);
+                }}
+              >
                 View
-              </a>
+              </button>
             </div>
           </div>
         </div>

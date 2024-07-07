@@ -41,7 +41,7 @@ const Header = () => {
                     About Us
                   </NavLink>
                 </li>
-                <li className="nav-item dropdown">
+                {/* <li className="nav-item dropdown">
                   <a
                     className="nav-link dropdown-toggle fs-5"
                     href="#"
@@ -71,7 +71,7 @@ const Header = () => {
                       </a>
                     </li>
                   </ul>
-                </li>
+                </li> */}
               </ul>
 
               <ul className="navbar-nav mb-2 mb-lg-0 pe-5">

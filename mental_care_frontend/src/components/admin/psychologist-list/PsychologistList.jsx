@@ -115,7 +115,7 @@ function PsychologistList() {
   return (
     <div>
       <DataTable
-        title="Psychologist List"
+        title={<span style={{ fontWeight: "bold" }}>PSYCHOLOGISTS LIST</span>}
         fixedHeader
         fixedHeaderScrollHeight="400px"
         columns={column}
@@ -135,7 +135,7 @@ function PsychologistList() {
           <div className="modal-content">
             <div className="modal-header">
               <h3 className="modal-title" id="psychologistModalLabel">
-                Psychologist's Details
+              PSYCHOLOGIST'S DETAILS
               </h3>
               <button
                 type="button"

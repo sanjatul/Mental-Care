@@ -138,6 +138,29 @@ namespace Mental_Care_API.Migrations
                     b.ToTable("Appointments");
                 });
 
+            modelBuilder.Entity("Mental_Care_API.Models.AppointmentHistory", b =>
+                {
+                    b.Property<int>("AppointmentHistoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AppointmentHistoryId"));
+
+                    b.Property<int>("AppointmentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MessageId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AppointmentHistoryId");
+
+                    b.HasIndex("AppointmentId");
+
+                    b.HasIndex("MessageId");
+
+                    b.ToTable("AppointmentsHistory");
+                });
+
             modelBuilder.Entity("Mental_Care_API.Models.Blog", b =>
                 {
                     b.Property<int>("Id")
@@ -243,6 +266,40 @@ namespace Mental_Care_API.Migrations
                     b.ToTable("Experiences");
                 });
 
+            modelBuilder.Entity("Mental_Care_API.Models.Messages", b =>
+                {
+                    b.Property<int>("MessageId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MessageId"));
+
+                    b.Property<string>("DocumentLink")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MessageReceiverId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("MessageSenderId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("SentAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("MessageId");
+
+                    b.HasIndex("MessageReceiverId");
+
+                    b.HasIndex("MessageSenderId");
+
+                    b.ToTable("Messages");
+                });
+
             modelBuilder.Entity("Mental_Care_API.Models.PsychologistDetails", b =>
                 {
                     b.Property<int>("DoctorId")
@@ -253,6 +310,9 @@ namespace Mental_Care_API.Migrations
 
                     b.Property<string>("Certificate")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Fees")
+                        .HasColumnType("float");
 
                     b.Property<bool>("IsApproved")
                         .HasColumnType("bit");
@@ -424,6 +484,25 @@ namespace Mental_Care_API.Migrations
                     b.Navigation("Psychologist");
                 });
 
+            modelBuilder.Entity("Mental_Care_API.Models.AppointmentHistory", b =>
+                {
+                    b.HasOne("Mental_Care_API.Models.Appointment", "Appointment")
+                        .WithMany()
+                        .HasForeignKey("AppointmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Mental_Care_API.Models.Messages", "Message")
+                        .WithMany()
+                        .HasForeignKey("MessageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Appointment");
+
+                    b.Navigation("Message");
+                });
+
             modelBuilder.Entity("Mental_Care_API.Models.Blog", b =>
                 {
                     b.HasOne("Mental_Care_API.Models.ApplicationUser", "ApplicationUser")
@@ -455,6 +534,25 @@ namespace Mental_Care_API.Migrations
                         .IsRequired();
 
                     b.Navigation("ApplicationUsers");
+                });
+
+            modelBuilder.Entity("Mental_Care_API.Models.Messages", b =>
+                {
+                    b.HasOne("Mental_Care_API.Models.ApplicationUser", "Receiver")
+                        .WithMany()
+                        .HasForeignKey("MessageReceiverId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Mental_Care_API.Models.ApplicationUser", "Sender")
+                        .WithMany()
+                        .HasForeignKey("MessageSenderId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Receiver");
+
+                    b.Navigation("Sender");
                 });
 
             modelBuilder.Entity("Mental_Care_API.Models.PsychologistDetails", b =>

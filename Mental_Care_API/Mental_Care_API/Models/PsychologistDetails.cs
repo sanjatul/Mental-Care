@@ -17,7 +17,8 @@ namespace Mental_Care_API.Models
         public bool IsApproved { get; set; }=false;
         public string? Location { get; set; }
         public int? YearsOfExperience { get; set; }
-        public string? Certificate { get; set; }    
+        public string? Certificate { get; set; }
+        public double Fees { get; set; } = 0;
         // Collection of experiences
         [NotMapped]
         public ICollection<Experience>? Experiences { get; set; }

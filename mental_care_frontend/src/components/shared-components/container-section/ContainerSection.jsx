@@ -1,5 +1,4 @@
 import React from "react";
-import styles from "./ContainerSection.module.css";
 
 const ContainerSection = () => {
   return (

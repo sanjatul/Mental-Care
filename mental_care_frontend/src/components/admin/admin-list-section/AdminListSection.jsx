@@ -2,13 +2,13 @@ import React from "react";
 import ApprovalRequest from "../approval-request/ApprovalRequest";
 import PsychologistList from "../psychologist-list/PsychologistList";
 import UsersList from "../user-list/UsersList";
-function AdminListSection() {
+function AdminListSection({ clickedButton }) {
   return (
-    <>
-      <ApprovalRequest />
-      <PsychologistList />
-      <UsersList />
-    </>
+    <div className="pe-5">
+      {clickedButton == 1 && <PsychologistList />}
+      {clickedButton == 2 && <ApprovalRequest />}
+      {clickedButton == 3 && <UsersList />}
+    </div>
   );
 }
 

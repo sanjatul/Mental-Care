@@ -9,9 +9,13 @@ import { generalUsersDetailsActions } from "../../../store/generalUsersDetailsSl
 
 function AdminDashboard() {
   const [isLoading, setIsLoading] = useState(true);
+  const [clickedButton, setclickedButton] = useState(1);
   const dispatch = useDispatch();
   const psychologists = useSelector((store) => store.psychologistDetails);
   const generalUsers = useSelector((store) => store.generalUsersDetails);
+  const handleClickedButton = (number) => {
+    setclickedButton(number);
+  };
   useEffect(() => {
     if (psychologists.length == 0) {
       fetch("https://localhost:7254/api/users/get-psychologists")
@@ -49,12 +53,14 @@ function AdminDashboard() {
     <div>
       <div className="row pt-3 pb-5">
         <AdminHeroSection
+          handleClickedButton={handleClickedButton}
+          clickedButton={clickedButton}
           psychologistList={psychologists}
           generalUsers={generalUsers}
         />
       </div>
       <div className="row">
-        <AdminListSection />
+        <AdminListSection clickedButton={clickedButton} />
       </div>
     </div>
   );
