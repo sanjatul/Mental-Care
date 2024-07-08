@@ -54,23 +54,6 @@ function SidebarMenu() {
                     <hr />
                   </li>
                 )}
-              {authUser &&
-                Object.keys(authUser).length > 0 &&
-                authUser.role == "psychologist" && (
-                  <li className="nav-item text-white fs-6">
-                    <NavLink
-                      to="/create-appointments"
-                      className="nav-link text-white fs-5"
-                      aria-current="page"
-                    >
-                      <i className="bi bi-file-earmark-plus"></i>
-                      <span className="ms-1 fs-6 d-none d-sm-inline">
-                        Create Blogs
-                      </span>
-                    </NavLink>
-                    <hr />
-                  </li>
-                )}
               {/* Psychologists Sidebar Menu*/}
               {/* Psychologist and General User Sidebar Menu*/}
 

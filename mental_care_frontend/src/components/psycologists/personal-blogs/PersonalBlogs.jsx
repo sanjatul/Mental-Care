@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./PersonalBlogs.module.css";
 import PersonalBlog from "../personal-blog/PersonalBlog";
+import CreateBlog from "../create-blog/CreateBlog";
 function PersonalBlogs() {
   const blogs = [
     {
@@ -66,14 +67,30 @@ function PersonalBlogs() {
   ];
 
   return (
-    <div className="mt-5 pe-5">
-      {blogs.length == 0 && <h1>Sorry. No blogs yet...</h1>}
-      {blogs.length > 0 &&
-        blogs.map((blog) => (
-          <div>
-            <PersonalBlog key={blog.id} blog={blog} />
-          </div>
-        ))}
+    <div
+      className="d-flex flex-column justify-content-center align-items-center mt-3 pe-5"
+      style={{ height: "100vh" }}
+    >
+      <CreateBlog />
+
+      <div
+        className="overflow-auto w-100 d-flex flex-column align-items-center pt-3"
+        style={{
+          maxHeight: "100%",
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
+        }}
+      >
+        {blogs.length === 0 && (
+          <h1 className="text-center">Sorry. No blogs yet...</h1>
+        )}
+        {blogs.length > 0 &&
+          blogs.map((blog) => (
+            <div key={blog.id} className="mb-4" style={{ width: "70%" }}>
+              <PersonalBlog blog={blog} />
+            </div>
+          ))}
+      </div>
     </div>
   );
 }
