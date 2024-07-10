@@ -44,16 +44,26 @@ const Home = () => {
               <h1>No Psychologists found...</h1>
             </div>
           )}
-          <div className="row justify-content-center">
-            {psychologists.length > 0 &&
-              psychologists.map(
-                (psychologist) =>
-                  psychologist.isApproved === true && (
-                    <div className="col-md-6 mb-3" key={psychologist.userId}>
-                      <PsychologistCard psychologist={psychologist} />
-                    </div>
-                  )
-              )}
+          <div
+            className="container"
+            style={{
+              maxHeight: "100vh",
+              overflowY: "auto",
+              scrollbarWidth: "none",
+              msOverflowStyle: "none",
+            }}
+          >
+            <div className="row justify-content-center">
+              {psychologists.length > 0 &&
+                psychologists.map(
+                  (psychologist) =>
+                    psychologist.isApproved === true && (
+                      <div className="col-md-6 mb-3" key={psychologist.userId}>
+                        <PsychologistCard psychologist={psychologist} />
+                      </div>
+                    )
+                )}
+            </div>
           </div>
         </div>
       </div>

@@ -28,18 +28,28 @@ const Blogs = () => {
   }
 
   return (
-    <div className="mt-5 pe-5">
+    <div
+      className="mt-4 pe-5"
+      style={{
+        maxHeight: "100vh",
+        overflowY: "auto",
+        scrollbarWidth: "none",
+        msOverflowStyle: "none",
+      }}
+    >
       <h1 className={`${styles.card} ${styles.dsmGradientText}`}>
         Mental Health Blogs - Get the latest Insights and Advice from the Best
         Psychologists and Counselors
       </h1>
-      {blogs.length == 0 && <h1>Sorry. No blogs yet...</h1>}
-      {blogs.length > 0 &&
-        blogs.map((blog) => (
-          <div>
-            <Blog key={blog.id} blog={blog} />
-          </div>
-        ))}
+      <div>
+        {blogs.length == 0 && <h1>Sorry. No blogs yet...</h1>}
+        {blogs.length > 0 &&
+          blogs.map((blog) => (
+            <div>
+              <Blog key={blog.id} blog={blog} />
+            </div>
+          ))}
+      </div>
     </div>
   );
 };

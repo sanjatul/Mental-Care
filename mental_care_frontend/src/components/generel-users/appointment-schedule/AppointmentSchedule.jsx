@@ -1,66 +1,32 @@
 import React from "react";
 import BookNow from "../book-now/BookNow";
 
-function AppointmentSchedule() {
+function AppointmentSchedule({ userid }) {
+  let schedules = [{}, {}, {}, {}, {}, {}, {}, {}];
   return (
-    <div className="container">
-      <div className="row">
-        <div className="col-4">
-          <BookNow />
-        </div>
-        <div className="col-4">
-          <BookNow />
-        </div>
-        <div className="col-4">
-          <BookNow />
-        </div>
+    <div>
+      <div className="d-flex justify-content-center">
+        <h3 className="pt-2">AVAILABLE SCHEDULES</h3>
       </div>
-      <div className="row">
-        <div className="col-4">
-          <BookNow />
-        </div>
-        <div className="col-4">
-          <BookNow />
-        </div>
-        <div className="col-4">
-          <BookNow />
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-4">
-          <BookNow />
-        </div>
-        <div className="col-4">
-          <BookNow />
-        </div>
-        <div className="col-4">
-          <BookNow />
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-4">
-          <BookNow />
-        </div>
-        <div className="col-4">
-          <BookNow />
-        </div>
-        <div className="col-4">
-          <BookNow />
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-4">
-          <BookNow />
-        </div>
-        <div className="col-4">
-          <BookNow />
-        </div>
-        <div className="col-4">
-          <BookNow />
+
+      <div
+        className="container"
+        style={{
+          maxHeight: "430px",
+          overflowY: "auto",
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
+        }}
+      >
+        <div className="row row-cols-1 row-cols-md-3 g-4">
+          {schedules.map((schedule, index) => (
+            <div key={index} className="col">
+              <BookNow />
+            </div>
+          ))}
         </div>
       </div>
     </div>
   );
 }
-
 export default AppointmentSchedule;

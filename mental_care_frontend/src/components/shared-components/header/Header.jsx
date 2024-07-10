@@ -1,8 +1,22 @@
-import React from "react";
 import styles from "./Header.module.css";
-import { NavLink } from "react-router-dom";
-
+import { NavLink, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { authUserActions } from "../../../store/authUserSlice";
 const Header = () => {
+  const storeAuthUser = useSelector((store) => store.authUser);
+  const [authUser, setAuthUser] = useState({});
+
+  const disPatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setAuthUser(storeAuthUser);
+  }, [storeAuthUser]);
+  const handleLogout = (userId) => {
+    disPatch(authUserActions.removeauthUser(userId));
+    navigate("/home");
+  };
   return (
     <>
       <header className={styles.headerFixed}>
@@ -75,16 +89,45 @@ const Header = () => {
               </ul>
 
               <ul className="navbar-nav mb-2 mb-lg-0 pe-5">
-                <li className="nav-item pe-2">
-                  <NavLink to="login" className="nav-link fs-5">
-                    Login
-                  </NavLink>
-                </li>
-                <li className="nav-item pe-2">
-                  <NavLink to="signup" className="nav-link fs-5">
-                    Sign Up
-                  </NavLink>
-                </li>
+                {authUser && Object.keys(authUser).length == 0 && (
+                  <>
+                    <li className="nav-item pe-2">
+                      <NavLink to="login" className="nav-link fs-5">
+                        Login
+                      </NavLink>
+                    </li>
+                  </>
+                )}
+
+                {authUser && Object.keys(authUser).length == 0 && (
+                  <>
+                    <li className="nav-item pe-2">
+                      <NavLink to="signup" className="nav-link fs-5">
+                        Sign Up
+                      </NavLink>
+                    </li>
+                  </>
+                )}
+
+                {authUser && Object.keys(authUser).length > 0 && (
+                  <>
+                    <li className="nav-item pe-2">
+                      <p className="nav-link fs-5">Hello, {authUser.email}</p>
+                    </li>
+                  </>
+                )}
+                {authUser && Object.keys(authUser).length > 0 && (
+                  <>
+                    <li className="nav-item pe-2">
+                      <button
+                        onClick={() => handleLogout(authUser.userId)}
+                        className="nav-link fs-5"
+                      >
+                        Logout
+                      </button>
+                    </li>
+                  </>
+                )}
               </ul>
             </div>
           </div>

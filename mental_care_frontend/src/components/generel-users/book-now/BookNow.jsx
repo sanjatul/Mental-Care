@@ -6,11 +6,12 @@ import { Link } from "react-router-dom";
 
 const BookNow = () => {
   return (
-    <div className={`${styles.card} mt-5`}>
+    <div className={`${styles.card} mt-3`}>
       <div className={`${styles.container} ${styles.doctorProfileContainer}`}>
         <div className={`${styles.centerContent}`}>
           <p style={{ fontWeight: "bold", fontSize: "18px", color: "#333" }}>
-            Date : 23/03/24 Friday <hr />
+            Date : 23/03/24 Friday (Offline)
+            <hr />
             10:00 AM - 11:00 AM
           </p>
           <Link to="/psycologist-appointment-form">

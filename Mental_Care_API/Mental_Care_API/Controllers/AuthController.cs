@@ -39,7 +39,7 @@ namespace Mental_Care_API.Controllers
         public async Task<IActionResult> GeneralRegister([FromForm] GeneralRegisterRequestDTO model)
         {
             ApplicationUser? userFromDb = await _db.ApplicationUsers
-                .FirstOrDefaultAsync(u => u.UserName.ToLower() == model.UserName.ToLower());
+                .FirstOrDefaultAsync(u => u.UserName.ToLower() == model.Email.ToLower());
 
             if (userFromDb != null)
             {
@@ -67,9 +67,9 @@ namespace Mental_Care_API.Controllers
 
             ApplicationUser newUser = new()
             {
-                UserName = model.UserName,
-                Email = model.UserName,
-                NormalizedEmail = model.UserName.ToUpper(),
+                UserName = model.Email,
+                Email = model.Email,
+                NormalizedEmail = model.Email.ToUpper(),
                 Name = model.Name,
                 PhoneNumber=model.PhoneNumber,
                 Age=model.Age,
@@ -227,13 +227,13 @@ namespace Mental_Care_API.Controllers
 
             bool isValid = await _userManager.CheckPasswordAsync(userFromDb, model.Password);
 
-            if (isValid == false)
+            if (userFromDb is null || isValid == false)
             {
                 _response.Result = new LoginResponseDTO();
-                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.StatusCode = HttpStatusCode.OK;
                 _response.IsSuccess = false;
                 _response.ErrorMessages.Add("Username or password is incorrect");
-                return BadRequest(_response);
+                return Ok(_response);
             }
 
             //we have to generate JWT Token
@@ -258,7 +258,8 @@ namespace Mental_Care_API.Controllers
             LoginResponseDTO loginResponse = new()
             {
                 Email = userFromDb.Email,
-                UserId=userFromDb.Id,
+                Role = roles[0],
+                UserId =userFromDb.Id,
                 Token = tokenHandler.WriteToken(token)
             };
 
