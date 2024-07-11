@@ -43,10 +43,10 @@ namespace Mental_Care_API.Controllers
 
             if (userFromDb != null)
             {
-                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.StatusCode = HttpStatusCode.OK;
                 _response.IsSuccess = false;
                 _response.ErrorMessages.Add("Email already exists");
-                return BadRequest(_response);
+                return Ok(_response);
             }
             string filename = $"{Guid.NewGuid()}{Path.GetExtension(model.File.FileName)}";
 
@@ -128,14 +128,14 @@ namespace Mental_Care_API.Controllers
         public async Task<IActionResult> PsycologistRegister([FromForm] PsychologistRegisterRequestDTO model)
         {
             ApplicationUser? userFromDb = await _db.ApplicationUsers
-                .FirstOrDefaultAsync(u => u.UserName.ToLower() == model.UserName.ToLower());
+                .FirstOrDefaultAsync(u => u.UserName.ToLower() == model.Email.ToLower());
 
             if (userFromDb != null)
             {
-                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.StatusCode = HttpStatusCode.OK;
                 _response.IsSuccess = false;
                 _response.ErrorMessages.Add("Email already exists");
-                return BadRequest(_response);
+                return Ok(_response);
             }
             string filename = $"{Guid.NewGuid()}{Path.GetExtension(model.File.FileName)}";
             string normalizedGender = model.Gender.ToLower();
@@ -155,9 +155,9 @@ namespace Mental_Care_API.Controllers
 
             ApplicationUser newUser = new()
             {
-                UserName = model.UserName,
-                Email = model.UserName,
-                NormalizedEmail = model.UserName.ToUpper(),
+                UserName = model.Email,
+                Email = model.Email,
+                NormalizedEmail = model.Email.ToUpper(),
                 Name = model.Name,
                 PhoneNumber = model.PhoneNumber,
                 Age = model.Age,
@@ -227,7 +227,7 @@ namespace Mental_Care_API.Controllers
 
             bool isValid = await _userManager.CheckPasswordAsync(userFromDb, model.Password);
 
-            if (userFromDb is null || isValid == false)
+            if (userFromDb is null || isValid == false || userFromDb.EmailConfirmed==false)
             {
                 _response.Result = new LoginResponseDTO();
                 _response.StatusCode = HttpStatusCode.OK;

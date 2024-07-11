@@ -7,6 +7,7 @@ import { psychologistDetailsActions } from "../../../store/psychologistDetailsSl
 import Loader from "../Loader/Loader";
 const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [approvedPsychologist, setApprovedPsychologist] = useState(0);
   const dispatch = useDispatch();
   const psychologists = useSelector((store) => store.psychologistDetails);
   useEffect(() => {
@@ -22,7 +23,12 @@ const Home = () => {
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  }, []);
+    const approvedPsychologists = psychologists.filter(
+      (psychologist) => psychologist.isApproved
+    );
+
+    setApprovedPsychologist(approvedPsychologists.length);
+  }, [psychologists]);
   if (isLoading) {
     return <Loader />;
   }
@@ -32,7 +38,7 @@ const Home = () => {
         {psychologists.length > 0 && (
           <div className="p-3">
             <PsycholgistAvailabilityHeading
-              psychologistNumber={psychologists.length}
+              psychologistNumber={approvedPsychologist}
             />
             <PsycholgistSearchBox />
           </div>

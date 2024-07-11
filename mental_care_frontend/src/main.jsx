@@ -18,7 +18,7 @@ import DoctorAppointmentForm from "./components/generel-users/psycholgist-appoin
 import AppointmentSchedule from "./components/generel-users/appointment-schedule/AppointmentSchedule.jsx";
 import Dashboard from "./components/shared-components/dashboard/Dashboard.jsx";
 import ViewDetails from "./components/generel-users/view-details/ViewDetails.jsx";
-
+import PsycholpgistSignUp from "./components/shared-components/psychologist-signup/PsycholpgistSignUp.jsx";
 import mentalCareStore from "./store/index.js";
 import PersonalBlogs from "./components/psycologists/personal-blogs/PersonalBlogs.jsx";
 
@@ -28,7 +28,8 @@ const router = createBrowserRouter(
       <Route path="" element={<Home />} />
       <Route path="home" element={<Home />} />
       <Route path="login" element={<Login />} />
-      <Route path="signup" element={<Signup />} />
+      <Route path="signup-user" element={<Signup />} />
+      <Route path="signup-psychologist" element={<PsycholpgistSignUp />} />
       <Route path="blogs" element={<Blogs />} />
       <Route
         path="/doctor-appointment-form"

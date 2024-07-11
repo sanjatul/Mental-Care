@@ -41,7 +41,7 @@ const Login = () => {
         });
       } else if (data.result != null) {
         disPatch(authUserActions.addauthUser(data.result));
-        navigate("/home")
+        navigate("/home");
       }
     } catch (error) {
       Swal.fire({
@@ -61,7 +61,9 @@ const Login = () => {
         className={`${styles.loginForm} form_container p-5 rounded bg-white`}
       >
         <form onSubmit={handleSubmit}>
-          <h3 className="text-center">Log In</h3>
+          <h3 className="text-center">
+            <b>LOG IN</b>
+          </h3>
 
           <div className="mb-2">
             <label htmlFor="email">Email</label>
@@ -75,7 +77,7 @@ const Login = () => {
             />
           </div>
 
-          <div className="mb-2">
+          <div className="mb-3">
             <label htmlFor="password">Password</label>
             <input
               type="password"
@@ -85,9 +87,12 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
+            <div className="d-flex justify-content-end">
+              <a href="">Forgot Password?</a>
+            </div>
           </div>
 
-          <div className="mb-2">
+          {/* <div className="mb-2">
             <input
               type="checkbox"
               className="custom-control custom-checkbox"
@@ -96,7 +101,7 @@ const Login = () => {
             <label htmlFor="check" className="custom-input-label ms-2">
               Remember me
             </label>
-          </div>
+          </div> */}
           <div className="d-grid">
             <button
               type="submit"
@@ -107,9 +112,13 @@ const Login = () => {
             </button>
           </div>
           <p className="text-end mt-2">
-            Forgot <a href="">Password?</a>
-            <Link to="/" className="ms-2">
-              Sign Up
+            Don't have any account yet? Sign up{" "}
+            <Link to="/signup-user" className="ms-2">
+              General User
+            </Link>{" "}
+            or{" "}
+            <Link to="/signup-psychologist" className="ms-2">
+              Psychologist
             </Link>
           </p>
         </form>

@@ -101,11 +101,36 @@ const Header = () => {
 
                 {authUser && Object.keys(authUser).length == 0 && (
                   <>
-                    <li className="nav-item pe-2">
+                    <li className="nav-item dropdown">
+                      <a
+                        className="nav-link dropdown-toggle fs-5"
+                        href="#"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        Sign Up
+                      </a>
+                      <ul className="dropdown-menu">
+                        <li>
+                          <NavLink to="signup-user" className="dropdown-item">
+                            General User
+                            <hr />
+                          </NavLink>
+                        </li>
+                        <li>
+                          <NavLink to="signup-psychologist" className="dropdown-item">
+                            Psychologist
+                            <hr />
+                          </NavLink>
+                        </li>
+                      </ul>
+                    </li>
+                    {/* <li className="nav-item pe-2">
                       <NavLink to="signup" className="nav-link fs-5">
                         Sign Up
                       </NavLink>
-                    </li>
+                    </li> */}
                   </>
                 )}
 
