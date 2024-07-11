@@ -11,7 +11,6 @@ function SidebarMenu() {
   useEffect(() => {
     setAuthUser(storeAuthUser);
   }, [storeAuthUser]);
-  const userId = 1234;
   return (
     <div className="container-fluid">
       <div className="row">
@@ -42,7 +41,7 @@ function SidebarMenu() {
                 authUser.role == "psychologist" && (
                   <li className="nav-item text-white fs-6">
                     <NavLink
-                      to={`/myblogs/${userId}`}
+                      to={`/myblogs`}
                       className="nav-link text-white fs-5"
                       aria-current="page"
                     >

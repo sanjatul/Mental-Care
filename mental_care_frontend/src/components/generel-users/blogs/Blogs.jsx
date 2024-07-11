@@ -10,7 +10,7 @@ const Blogs = () => {
   const dispatch = useDispatch();
   const blogs = useSelector((store) => store.blogs);
   useEffect(() => {
-    fetch("https://localhost:7254/api/blogs/GetAllBlogs")
+    fetch("https://localhost:7254/api/blogs/get-all-blogs")
       .then((res) => {
         return res.json();
       })

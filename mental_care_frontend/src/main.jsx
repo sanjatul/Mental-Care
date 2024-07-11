@@ -37,7 +37,7 @@ const router = createBrowserRouter(
       />
       <Route path="/book-appointment" element={<AppointmentSchedule />} />
       <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/myblogs/:userid" element={<PersonalBlogs />} />
+      <Route path="/myblogs" element={<PersonalBlogs />} />
       <Route path="/psycologist/:userid" element={<ViewDetails />} />
     </Route>
   )

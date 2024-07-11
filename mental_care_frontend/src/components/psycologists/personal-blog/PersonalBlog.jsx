@@ -1,7 +1,7 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-
-function PersonalBlog({ blog }) {
+import Swal from "sweetalert2";
+function PersonalBlog({ blog, handleIsPosted }) {
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const options = {
@@ -15,10 +15,71 @@ function PersonalBlog({ blog }) {
     return date.toLocaleDateString(undefined, options);
   };
 
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const response = await fetch(
+            `https://localhost:7254/api/blogs/delete-blog/${id}`,
+            {
+              method: "DELETE",
+            }
+          );
+          if (response.ok) {
+            // Handle success,
+            const data = await response.json();
+            if (data.isSuccess) {
+              Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Your blog has been deleted.",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              handleIsPosted();
+            } else {
+              Swal.fire({
+                position: "top-end",
+                icon: "error",
+                title: "Failed to delete the blog. Please try again!",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+            }
+          } else {
+            Swal.fire({
+              position: "top-end",
+              icon: "error",
+              title: "Failed to delete the blog. Please try again!",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          }
+        } catch (error) {
+          Swal.fire({
+            position: "top-end",
+            icon: "error",
+            title: "Failed to delete the blog. Please try again!",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      }
+    });
+  };
+
   return (
     <div
       className="card p-3 mb-4 border rounded"
-      style={{ height: "100%", width: "100%" }} // Set width to 100% to match the parent
+      style={{ height: "100%", width: "100%" }}
     >
       <div className="row">
         <div className="col-2 col-md-1">
@@ -34,7 +95,12 @@ function PersonalBlog({ blog }) {
               <h3>{blog.title}</h3>
               <span>
                 <button className="btn btn-primary me-2">Edit</button>
-                <button className="btn btn-danger">Delete</button>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => handleDelete(blog.id)}
+                >
+                  Delete
+                </button>
               </span>
             </div>
             <div className="col-12 col-md-4 d-flex justify-content-end align-items-start">
@@ -54,7 +120,7 @@ function PersonalBlog({ blog }) {
               className="img-fluid"
               src={blog.image}
               alt="Blog"
-              style={{ maxHeight: "200px" }} // Adjust maxHeight as needed
+              style={{ maxHeight: "200px" }}
             />
           </div>
         )}

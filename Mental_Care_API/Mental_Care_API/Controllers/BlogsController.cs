@@ -27,7 +27,7 @@ namespace Mental_Care_API.Controllers
             _baseUrl = $"{httpContext.Request.Scheme}://{httpContext.Request.Host}";
         }
 
-        [HttpGet("GetAllBlogs")]
+        [HttpGet("get-all-blogs")]
         public async Task<IActionResult> GetBlogs()
         {
             var blogs = await _db.Blogs
@@ -54,7 +54,7 @@ namespace Mental_Care_API.Controllers
         }
 
 
-        [HttpGet("{id:int}", Name = "GetBlog")]
+        [HttpGet("get-blog/{id:int}")]
         public async Task<IActionResult> GetBlog(int? id)
         {
             if (id == 0 || id== null)
@@ -67,10 +67,10 @@ namespace Mental_Care_API.Controllers
             Blog? blog = await _db.Blogs.Include(b => b.ApplicationUser).FirstOrDefaultAsync(u => u.Id == id);
             if (blog == null)
             {
-                _response.StatusCode = HttpStatusCode.NotFound;
+                _response.StatusCode = HttpStatusCode.OK;
                 _response.IsSuccess = false;
                 _response.ErrorMessages.Add("No entry found");
-                return NotFound(_response);
+                return Ok(_response);
             }
 
             BlogResponseDTO blogResponseDTO = new()
@@ -88,8 +88,43 @@ namespace Mental_Care_API.Controllers
             _response.StatusCode = HttpStatusCode.OK;
             return Ok(_response);
         }
+        [HttpGet("get-individuals-blog/{userId}")]
+        public async Task<IActionResult> GetBlogByPsychologist(string? userId)
+        {
+            if (userId == null)
+            {
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.IsSuccess = false;
+                _response.ErrorMessages.Add("Not a valid Id");
+                return BadRequest(_response);
+            }
+            var blogs = await _db.Blogs
+                .Include(b => b.ApplicationUser)
+                .Where(u => u.UserId == userId)
+                .ToListAsync();
+            if (!blogs.Any())
+            {
+                _response.StatusCode = HttpStatusCode.OK;
+                _response.IsSuccess = false;
+                return Ok(_response);
+            }
+            List<BlogResponseDTO> blogResponseDTOs = blogs.Select(blog => new BlogResponseDTO
+            {
+                Id = blog.Id,
+                UserName = blog.ApplicationUser.Name,
+                ProfilePicture = $"{_baseUrl}/images/{blog.ApplicationUser.ProfilePicture}",
+                Title = blog.Title,
+                UserId = blog.UserId,
+                CreatedDate = blog.CreatedDate,
+                Image = blog.Image != null ? $"{_baseUrl}/blogs/{blog.Image}" : null,
+                Description = blog.Description
+            }).ToList();
+            _response.Result = blogResponseDTOs;
+            _response.StatusCode = HttpStatusCode.OK;
+            return Ok(_response);
+        }
 
-        [HttpPost]
+        [HttpPost("Create-blog")]
         public async Task<ActionResult<ApiResponse>> CreateBlog([FromForm]BlogCreateDTO  model)
         {
             try
@@ -154,7 +189,7 @@ namespace Mental_Care_API.Controllers
             }
         }
 
-        [HttpPut("{id:int}")]
+        [HttpPut("update-blog/{id:int}")]
         public async Task<ActionResult<ApiResponse>> UpdateBlog(int id, [FromForm] BlogUpdateDTO model)
         {
             try
@@ -233,7 +268,7 @@ namespace Mental_Care_API.Controllers
             return Ok(_response);
         }
 
-        [HttpDelete("{id:int}")]
+        [HttpDelete("delete-blog/{id:int}")]
         public async Task<ActionResult<ApiResponse>> DeleteBlog(int? id)
         {
             try
