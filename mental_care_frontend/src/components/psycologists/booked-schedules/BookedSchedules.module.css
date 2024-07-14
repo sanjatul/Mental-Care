@@ -1,0 +1,14 @@
+/* BookedSchedules.module.css */
+.dataTableContainer {
+  max-height: 250px; /* Set the desired height */
+  overflow: hidden;  /* Hide overflow to prevent scrollbar */
+}
+
+/* Optional: If you want to hide scrollbar only in certain browsers */
+.dataTableContainer::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari, and Opera */
+}
+.dataTableContainer {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}

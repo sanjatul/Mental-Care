@@ -101,6 +101,7 @@ namespace Mental_Care_API.Controllers
             var blogs = await _db.Blogs
                 .Include(b => b.ApplicationUser)
                 .Where(u => u.UserId == userId)
+                .OrderByDescending(u => u.Id)
                 .ToListAsync();
             if (!blogs.Any())
             {

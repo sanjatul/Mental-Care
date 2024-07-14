@@ -1,5 +1,6 @@
 import React from "react";
 import DataTable from "react-data-table-component";
+import styles from "./BookedSchedules.module.css";
 function BookedSchedules({ bookedSchedules }) {
   //Method to format time string
   const formatDate = (dateString) => {
@@ -19,7 +20,7 @@ function BookedSchedules({ bookedSchedules }) {
   const column = [
     {
       name: "PATIENT NAME",
-      selector: (row) => row.name,
+      selector: (row) => row.patientName,
       sortable: true,
     },
     {
@@ -36,7 +37,9 @@ function BookedSchedules({ bookedSchedules }) {
       name: "MEDIUM",
       selector: (row) => (
         <button
-          className={`btn me-3 ${row.isOnline ? "btn-secondary" : "btn-warning"}`}
+          className={`btn me-3 ${
+            row.isOnline ? "btn-secondary" : "btn-warning"
+          }`}
         >
           {row.isOnline ? "Online" : "Offline"}
         </button>
@@ -60,11 +63,11 @@ function BookedSchedules({ bookedSchedules }) {
 
   const messagePatient = (patientId) => {};
   return (
-    <div>
+    <div className="">
       <DataTable
         title={<span style={{ fontWeight: "bold" }}>BOOKED SCHEDULES</span>}
         fixedHeader
-        fixedHeaderScrollHeight="400px"
+        fixedHeaderScrollHeight="180px"
         columns={column}
         data={bookedSchedules}
         highlightOnHover

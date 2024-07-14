@@ -1,6 +1,5 @@
 import React from "react";
 import BookNow from "../book-now/BookNow";
-
 function AppointmentSchedule({ userid }) {
   let schedules = [{}, {}, {}, {}, {}, {}, {}, {}];
   return (

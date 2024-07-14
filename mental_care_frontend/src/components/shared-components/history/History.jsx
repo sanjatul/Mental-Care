@@ -1,6 +1,6 @@
 import React from "react";
 import DataTable from "react-data-table-component";
-function History({ hitory }) {
+function History({ history }) {
   //Method to format time string
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -18,7 +18,7 @@ function History({ hitory }) {
 
   const column = [
     {
-      name: "PATIENT NAME",
+      name: "NAME",
       selector: (row) => row.name,
       sortable: true,
     },
@@ -63,7 +63,7 @@ function History({ hitory }) {
         fixedHeader
         fixedHeaderScrollHeight="400px"
         columns={column}
-        data={hitory}
+        data={history}
         highlightOnHover
         pagination
       />

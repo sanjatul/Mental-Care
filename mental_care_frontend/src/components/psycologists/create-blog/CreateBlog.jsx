@@ -44,9 +44,11 @@ function CreateBlog({ handleIsPosted }) {
         } else if (data.isSuccess == true) {
           handleIsPosted();
           Swal.fire({
-            title: "Good job!",
-            text: "Blog Created Sucessfully",
+            position: "top-end",
             icon: "success",
+            title: "Blog Created Sucessfully",
+            showConfirmButton: false,
+            timer: 1500,
           });
           setDescription("");
           setImageFile(null);
@@ -77,13 +79,13 @@ function CreateBlog({ handleIsPosted }) {
         </div>
         <div className="card-body">
           <div className="row pb-2">
-            <div class="form-group col-md-6">
+            <div className="form-group col-md-6">
               <label for="title">
                 <b>TITLE</b>
               </label>
               <input
                 type="text"
-                class="form-control"
+                className="form-control"
                 id="title"
                 value={title}
                 required
@@ -91,26 +93,26 @@ function CreateBlog({ handleIsPosted }) {
                 placeholder="Type your title here..."
               />
             </div>
-            <div class="form-group col-md-6">
+            <div className="form-group col-md-6">
               <label for="blogImage">
                 <b>UPLOAD IMAGE</b>
               </label>
               <input
                 type="file"
                 onChange={handleFileChange}
-                class="form-control"
+                className="form-control"
                 id="blogImage"
               />
             </div>
           </div>
           <div className="row">
-            <div class="form-group col-md-10">
+            <div className="form-group col-md-10">
               <label for="description">
                 <b>DESCRIPTION</b>
               </label>
               <textarea
                 type="text"
-                class="form-control"
+                className="form-control"
                 id="description"
                 value={description}
                 required

@@ -28,18 +28,17 @@ function PersonalBlogs() {
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-    
   }, [isPosted, blogs, storeAuthUser]);
 
   return (
     <div
-      className="d-flex flex-column justify-content-center align-items-center mt-3 pe-5"
+      className="d-flex flex-column justify-content-center align-items-center mt-1 pe-5"
       style={{ height: "100vh" }}
     >
       <CreateBlog handleIsPosted={handleIsPosted} />
 
       <div
-        className="overflow-auto w-100 d-flex flex-column align-items-center pt-3"
+        className="overflow-auto w-100 d-flex flex-column align-items-center pt-1"
         style={{
           maxHeight: "100%",
           scrollbarWidth: "none",
@@ -53,7 +52,7 @@ function PersonalBlogs() {
           blogs.length > 0 &&
           blogs.map((blog) => (
             <div key={blog.id} className="mb-4" style={{ width: "70%" }}>
-              <PersonalBlog blog={blog} handleIsPosted={handleIsPosted}/>
+              <PersonalBlog blog={blog} handleIsPosted={handleIsPosted} />
             </div>
           ))}
       </div>

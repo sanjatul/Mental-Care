@@ -20,33 +20,107 @@ namespace Mental_Care_API.Controllers
             _response = new ApiResponse();
         }
 
-        [HttpGet("psychologist-schedules/{PsychologistId}")]
-        public async Task<IActionResult> GetPsychologistSchedules(string PsychologistId)
+        [HttpGet("available-schedules/{PsychologistId}")]
+        public async Task<IActionResult> AvailableSchedules(string PsychologistId)
         {
             var psychologistSchedules = await _db.Appointments
-                .Include(a=>a.Patient)
-                .Include(a=>a.Psychologist)
-                .Where(x => x.PsychologistId== PsychologistId)
-                .ToListAsync();
-            _response.Result = psychologistSchedules;
+                    .Where(x => x.PsychologistId == PsychologistId &&
+                        !x.IsBooked &&
+                         x.EndTime > DateTime.UtcNow)
+                        .ToListAsync();
+
+            if (!psychologistSchedules.Any())
+            {
+                _response.IsSuccess = false;
+                _response.Result = psychologistSchedules;
+                return Ok(_response);
+            }
+            var appointmentDetailsDTOs = psychologistSchedules.Select(appointment => new AppointmentDetailsDTO { 
+                    PsychologistId=appointment.PsychologistId,
+                     AppointmentId=appointment.AppointmentId,
+                     StartTime=appointment.StartTime,
+                     EndTime=appointment.EndTime,
+                     IsOnline=appointment.IsOnline,
+            }).ToList();
+            _response.Result = appointmentDetailsDTOs;
             _response.StatusCode = HttpStatusCode.OK;
             return Ok(_response);
         }
 
-        [HttpPost("create-schedules/{PsychologistId}")]
-        public async Task<IActionResult> CreateSchedules(string PsychologistId, [FromBody] AppointmentCreateDTO model)
+        [HttpGet("occupied-schedules/{PsychologistId}")]
+        public async Task<IActionResult> BookedSchedules(string PsychologistId)
+        {
+            try {
+                var occupiedSchedules = await _db.AppointmentsHistory
+            .Include(x => x.Appointment)
+                  .ThenInclude(a => a.Psychologist)
+                  .Include(x => x.Patient) // Include the Patient details
+                  .Where(x => x.Appointment.PsychologistId == PsychologistId && x.Appointment.IsBooked && x.Appointment.EndTime > DateTime.Now)
+             .Select(x => new BookedScheduleDetailsDTO
+             {
+                 AppointmentHistoryId = x.AppointmentHistoryId,
+                 AppointmentId = x.AppointmentId,
+                 PatientId = x.PatientId,
+                 PatientName = x.Patient.Name,
+                 StartTime = x.Appointment.StartTime,
+                 EndTime = x.Appointment.EndTime,
+                 IsOnline = x.Appointment.IsOnline
+             })
+              .ToListAsync();
+                _response.Result = occupiedSchedules;
+                _response.StatusCode = HttpStatusCode.OK;
+                return Ok(_response);
+            }
+            catch {
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.IsSuccess = false;
+                _response.ErrorMessages.Add("Internal Error");
+                return Ok(_response);
+            }
+         
+        }
+        [HttpGet("previous-psychologist-occupied-schedules/{PsychologistId}")]
+        public async Task<IActionResult> PreviousPsychologistSchedules(string PsychologistId)
         {
             try
             {
-                if (PsychologistId != model.PsychologistId)
-                {
-                    _response.IsSuccess = false;
-                    _response.ErrorMessages.Add("Id mismatched");
-                    _response.StatusCode = HttpStatusCode.BadRequest;
-                    return BadRequest(_response);
-                }
+                var occupiedSchedules = await _db.AppointmentsHistory
+            .Include(x => x.Appointment)
+                  .ThenInclude(a => a.Psychologist)
+                  .Include(x => x.Patient) // Include the Patient details
+                  .Where(x => x.Appointment.PsychologistId == PsychologistId && x.Appointment.IsBooked && x.Appointment.EndTime < DateTime.Now)
+             .Select(x => new HistoryBookedAppointmentDTO
+             {
+                 AppointmentHistoryId = x.AppointmentHistoryId,
+                 AppointmentId = x.AppointmentId,
+                 PatientId = x.PatientId,
+                 Name = x.Patient.Name,
+                 StartTime = x.Appointment.StartTime,
+                 EndTime = x.Appointment.EndTime,
+                 IsOnline = x.Appointment.IsOnline
+             })
+              .ToListAsync();
+                _response.Result = occupiedSchedules;
+                _response.StatusCode = HttpStatusCode.OK;
+                return Ok(_response);
+            }
+            catch
+            {
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.IsSuccess = false;
+                _response.ErrorMessages.Add("Internal Error");
+                return Ok(_response);
+            }
 
-                var psychologist = await _db.PsychologistDetails.FirstOrDefaultAsync(p => p.UserId == PsychologistId);
+        }
+
+        [HttpPost("create-schedules")]
+        public async Task<IActionResult> CreateSchedules([FromBody] AppointmentCreateDTO model)
+        {
+            try
+            {
+                
+                var psychologist = await _db.PsychologistDetails.FirstOrDefaultAsync(p => p.UserId == model.PsychologistId);
                 if (psychologist is null)
                 {
                     _response.IsSuccess = false;
@@ -66,9 +140,30 @@ namespace Mental_Care_API.Controllers
                 await _db.Appointments.AddAsync(appointment);
                 await _db.SaveChangesAsync();
 
-                _response.Result = appointment;
+
+                var psychologistSchedules = await _db.Appointments
+                .Where(x => x.PsychologistId == model.PsychologistId)
+                .ToListAsync();
+
+
+                if (!psychologistSchedules.Any())
+                {
+                    _response.IsSuccess = false;
+                    return Ok(_response);
+                }
+                var appointmentDetailsDTOs = psychologistSchedules.Select(appointment => new AppointmentDetailsDTO
+                {
+                    PsychologistId = appointment.PsychologistId,
+                    AppointmentId = appointment.AppointmentId,
+                    StartTime = appointment.StartTime,
+                    EndTime = appointment.EndTime,
+                    IsOnline = appointment.IsOnline
+                }).ToList();
+
+                _response.Result = appointmentDetailsDTOs;
                 _response.StatusCode = HttpStatusCode.OK;
                 return Ok(_response);
+               
             }
             catch (Exception ex)
             {
@@ -126,7 +221,7 @@ namespace Mental_Care_API.Controllers
         //    }
         //}
 
-        [HttpDelete("delete-schedules/{scheduleId}")]
+        [HttpDelete("delete-available-schedules/{scheduleId}")]
         public async Task<IActionResult> DeleteSchedules(int scheduleId)
         {
             

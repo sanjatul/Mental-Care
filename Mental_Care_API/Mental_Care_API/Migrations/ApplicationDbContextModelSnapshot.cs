@@ -119,9 +119,6 @@ namespace Mental_Care_API.Migrations
                     b.Property<bool>("IsOnline")
                         .HasColumnType("bit");
 
-                    b.Property<string>("PatientId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("PsychologistId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -130,8 +127,6 @@ namespace Mental_Care_API.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("AppointmentId");
-
-                    b.HasIndex("PatientId");
 
                     b.HasIndex("PsychologistId");
 
@@ -149,14 +144,15 @@ namespace Mental_Care_API.Migrations
                     b.Property<int>("AppointmentId")
                         .HasColumnType("int");
 
-                    b.Property<int>("MessageId")
-                        .HasColumnType("int");
+                    b.Property<string>("PatientId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("AppointmentHistoryId");
 
                     b.HasIndex("AppointmentId");
 
-                    b.HasIndex("MessageId");
+                    b.HasIndex("PatientId");
 
                     b.ToTable("AppointmentsHistory");
                 });
@@ -469,17 +465,11 @@ namespace Mental_Care_API.Migrations
 
             modelBuilder.Entity("Mental_Care_API.Models.Appointment", b =>
                 {
-                    b.HasOne("Mental_Care_API.Models.ApplicationUser", "Patient")
-                        .WithMany()
-                        .HasForeignKey("PatientId");
-
                     b.HasOne("Mental_Care_API.Models.ApplicationUser", "Psychologist")
                         .WithMany()
                         .HasForeignKey("PsychologistId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Patient");
 
                     b.Navigation("Psychologist");
                 });
@@ -492,15 +482,15 @@ namespace Mental_Care_API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Mental_Care_API.Models.Messages", "Message")
+                    b.HasOne("Mental_Care_API.Models.ApplicationUser", "Patient")
                         .WithMany()
-                        .HasForeignKey("MessageId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Appointment");
 
-                    b.Navigation("Message");
+                    b.Navigation("Patient");
                 });
 
             modelBuilder.Entity("Mental_Care_API.Models.Blog", b =>

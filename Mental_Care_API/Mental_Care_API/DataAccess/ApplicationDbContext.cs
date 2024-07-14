@@ -10,6 +10,17 @@ namespace Mental_Care_API.DataAccess
         {
 
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<AppointmentHistory>()
+                .HasOne(a => a.Patient)
+                .WithMany()
+                .HasForeignKey(a => a.PatientId)
+                .OnDelete(DeleteBehavior.Restrict);
+        }
+
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<PsychologistDetails> PsychologistDetails { get; set; }
         public DbSet<Experience>Experiences { get; set; }
@@ -18,5 +29,6 @@ namespace Mental_Care_API.DataAccess
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<Messages> Messages { get; set; }
         public DbSet<AppointmentHistory> AppointmentsHistory { get; set;}
+
     }
 }

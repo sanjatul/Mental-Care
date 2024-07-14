@@ -21,6 +21,8 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\blogs\" />
+    <Folder Include="wwwroot\certificates\" />
+    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
 </Project>

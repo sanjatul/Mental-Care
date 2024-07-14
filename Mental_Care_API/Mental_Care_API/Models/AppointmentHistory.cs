@@ -6,6 +6,7 @@ namespace Mental_Care_API.Models
 {
     public class AppointmentHistory
     {
+     
         [Key]
         public int AppointmentHistoryId { get; set; }
 
@@ -16,9 +17,12 @@ namespace Mental_Care_API.Models
         public Appointment Appointment { get; set; }
 
         [Required]
-        public int MessageId { get; set; }
-        [ForeignKey("MessageId")]
+        public string PatientId { get; set; }
+        [ForeignKey("PatientId")]
         [ValidateNever]
-        public Messages Message { get; set; }
+        public ApplicationUser Patient { get; set; }
+
+
+
     }
 }

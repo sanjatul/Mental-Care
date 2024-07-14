@@ -3,12 +3,25 @@ import AvailableSchedules from "../available-schedules/AvailableSchedules";
 import BookedSchedules from "../booked-schedules/BookedSchedules";
 import History from "../../shared-components/history/History";
 
-function PsychologistListSection({ clickedButton,hitory,bookedSchedules,availableSchedule}) {
-  return ( 
+function PsychologistListSection({
+  clickedButton,
+  history,
+  bookedSchedules,
+  availableSchedule,
+  handleUdated,
+}) {
+  return (
     <div className="pe-5">
-      {clickedButton == 1 && <BookedSchedules bookedSchedules={bookedSchedules}/> }
-      {clickedButton == 2 && <AvailableSchedules availableSchedule={availableSchedule}/>}
-      {clickedButton == 3 && <History hitory={hitory}/>}
+      {clickedButton == 1 && (
+        <BookedSchedules bookedSchedules={bookedSchedules} />
+      )}
+      {clickedButton == 2 && (
+        <AvailableSchedules
+          availableSchedule={availableSchedule}
+          handleUdated={handleUdated}
+        />
+      )}
+      {clickedButton == 3 && <History history={history} />}
     </div>
   );
 }

@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Swal from "sweetalert2";
 function PersonalBlog({ blog, handleIsPosted }) {
+  console.log(blog);
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const options = {
@@ -77,55 +78,63 @@ function PersonalBlog({ blog, handleIsPosted }) {
   };
 
   return (
-    <div
-      className="card p-3 mb-4 border rounded"
-      style={{ height: "100%", width: "100%" }}
-    >
-      <div className="row">
-        <div className="col-2 col-md-1">
-          <img
-            src={blog.profilePicture}
-            className="rounded-circle img-fluid"
-            alt="Profile"
-          />
-        </div>
-        <div className="col-10 col-md-11">
-          <div className="row">
-            <div className="col-12 col-md-8">
-              <h3>{blog.title}</h3>
-              <span>
-                <button className="btn btn-primary me-2">Edit</button>
-                <button
-                  className="btn btn-danger"
-                  onClick={() => handleDelete(blog.id)}
-                >
-                  Delete
-                </button>
-              </span>
-            </div>
-            <div className="col-12 col-md-4 d-flex justify-content-end align-items-start">
-              {formatDate(blog.createdDate)}
-            </div>
-          </div>
-        </div>
-      </div>
-      <hr />
-      <div className="row">
-        {blog.description && (
-          <div className="col-12 p-3">{blog.description}</div>
-        )}
-        {blog.image && (
-          <div className="col-12 d-flex justify-content-center">
+    <>
+      <div
+        className="card p-3 mb-4 border rounded"
+        style={{ height: "100%", width: "100%" }}
+      >
+        <div className="row">
+          <div className="col-2 col-md-1">
             <img
-              className="img-fluid"
-              src={blog.image}
-              alt="Blog"
-              style={{ maxHeight: "200px" }}
+              src={blog.profilePicture}
+              className="rounded-circle img-fluid"
+              alt="Profile"
             />
           </div>
-        )}
+          <div className="col-10 col-md-11">
+            <div className="row">
+              <div className="col-12 col-md-8">
+                <h3>{blog.title}</h3>
+                <span>
+                  <button
+                    className="btn btn-primary me-2"
+                    data-bs-toggle="modal"
+                    data-bs-target="#blogEdit"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => handleDelete(blog.id)}
+                  >
+                    Delete
+                  </button>
+                </span>
+              </div>
+              <div className="col-12 col-md-4 d-flex justify-content-end align-items-start">
+                {formatDate(blog.createdDate)}
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr />
+        <div className="row">
+          {blog.description && (
+            <div className="col-12 p-3">{blog.description}</div>
+          )}
+          {blog.image && (
+            <div className="col-12 d-flex justify-content-center">
+              <img
+                className="img-fluid"
+                src={blog.image}
+                alt="Blog"
+                style={{ maxHeight: "200px" }}
+              />
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

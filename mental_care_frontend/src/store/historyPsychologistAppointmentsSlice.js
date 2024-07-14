@@ -1,7 +1,7 @@
 import {createSlice} from "@reduxjs/toolkit";
 
-const bookedPsychologistAppointmentsSlice = createSlice({
-  name: 'bookedPsychologistAppointments',
+const historyPsychologistAppointmentsSlice = createSlice({
+  name: 'historyPsychologistAppointments',
   initialState: [],
   reducers: {
     addAppointments: (state, action) => {
@@ -13,6 +13,6 @@ const bookedPsychologistAppointmentsSlice = createSlice({
   }
 });
 
-export const bookedPsychologistAppointmentsActions = bookedPsychologistAppointmentsSlice.actions;
+export const historyPsychologistAppointmentsActions = historyPsychologistAppointmentsSlice.actions;
 
-export default bookedPsychologistAppointmentsSlice;
+export default historyPsychologistAppointmentsSlice;

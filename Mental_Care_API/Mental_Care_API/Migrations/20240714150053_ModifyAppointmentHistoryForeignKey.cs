@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Mental_Care_API.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialDb : Migration
+    public partial class ModifyAppointmentHistoryForeignKey : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -82,7 +82,6 @@ namespace Mental_Care_API.Migrations
                     AppointmentId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PsychologistId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    PatientId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsBooked = table.Column<bool>(type: "bit", nullable: false),
@@ -91,11 +90,6 @@ namespace Mental_Care_API.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Appointments", x => x.AppointmentId);
-                    table.ForeignKey(
-                        name: "FK_Appointments_AspNetUsers_PatientId",
-                        column: x => x.PatientId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Appointments_AspNetUsers_PsychologistId",
                         column: x => x.PsychologistId,
@@ -320,7 +314,7 @@ namespace Mental_Care_API.Migrations
                     AppointmentHistoryId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AppointmentId = table.Column<int>(type: "int", nullable: false),
-                    MessageId = table.Column<int>(type: "int", nullable: false)
+                    PatientId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -332,17 +326,12 @@ namespace Mental_Care_API.Migrations
                         principalColumn: "AppointmentId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AppointmentsHistory_Messages_MessageId",
-                        column: x => x.MessageId,
-                        principalTable: "Messages",
-                        principalColumn: "MessageId",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_AppointmentsHistory_AspNetUsers_PatientId",
+                        column: x => x.PatientId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Appointments_PatientId",
-                table: "Appointments",
-                column: "PatientId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Appointments_PsychologistId",
@@ -355,9 +344,9 @@ namespace Mental_Care_API.Migrations
                 column: "AppointmentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AppointmentsHistory_MessageId",
+                name: "IX_AppointmentsHistory_PatientId",
                 table: "AppointmentsHistory",
-                column: "MessageId");
+                column: "PatientId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -460,13 +449,13 @@ namespace Mental_Care_API.Migrations
                 name: "Experiences");
 
             migrationBuilder.DropTable(
+                name: "Messages");
+
+            migrationBuilder.DropTable(
                 name: "PsychologistDetails");
 
             migrationBuilder.DropTable(
                 name: "Appointments");
-
-            migrationBuilder.DropTable(
-                name: "Messages");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

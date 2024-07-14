@@ -3,10 +3,11 @@ import CreateAppointments from "../create-appointments/CreateAppointments";
 
 function PsychologistHeroSection({
   availableSchedule,
-  hitory,
+  history,
   bookedSchedules,
   clickedButton,
   handleClickedButton,
+  handleUdated,
 }) {
   const getButtonClasses = (value) => {
     if (clickedButton === value) {
@@ -16,12 +17,14 @@ function PsychologistHeroSection({
     }
   };
   return (
-    <div className="border pt-4 pb-4 pe-4">
+    <div className="border pt-3 pb-1 pe-4">
       <div className="row justify-content-center">
         <div className="col-sm-3 mb-3 pt-5">
           <div className="card text-center mb-3">
             <div className="card-header d-flex justify-content-between align-items-center">
-              <h5 className="mb-0">AVAILABLE SCHEDULES</h5>{" "}
+              <h6 className="mb-0">
+                <b>AVAILABLE SCHEDULES</b>
+              </h6>{" "}
               <button
                 className={getButtonClasses(2)}
                 onClick={() => {
@@ -38,7 +41,9 @@ function PsychologistHeroSection({
 
           <div className="card text-center mb-3">
             <div className="card-header d-flex justify-content-between align-items-center">
-              <h5>BOOKED SCHEDULES</h5>{" "}
+              <h6>
+                <b>BOOKED SCHEDULES</b>
+              </h6>{" "}
               <button
                 className={getButtonClasses(1)}
                 onClick={() => {
@@ -55,7 +60,9 @@ function PsychologistHeroSection({
 
           <div className="card text-center">
             <div className="card-header d-flex justify-content-between align-items-center">
-              <h5>PREVIOUS RECORDS</h5>{" "}
+              <h6>
+                <b>PREVIOUS RECORDS</b>
+              </h6>{" "}
               <button
                 className={getButtonClasses(3)}
                 onClick={() => {
@@ -64,7 +71,7 @@ function PsychologistHeroSection({
               >
                 View{" "}
                 <span className="badge rounded-circle border  border-2 border-white ms-1 p-1">
-                  <b>{hitory.length}</b>
+                  <b>{history.length}</b>
                 </span>
               </button>
             </div>
@@ -72,7 +79,7 @@ function PsychologistHeroSection({
         </div>
 
         <div className="col-sm-9">
-          <CreateAppointments />
+          <CreateAppointments handleUdated={handleUdated} />
         </div>
       </div>
     </div>

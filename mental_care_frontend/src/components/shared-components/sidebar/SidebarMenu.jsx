@@ -66,7 +66,7 @@ function SidebarMenu() {
                       className="nav-link text-white fs-5"
                       aria-current="page"
                     >
-                      <i class="bi bi-chat-left-dots"></i>
+                      <i className="bi bi-chat-left-dots"></i>
                       <span className="ms-1 fs-6 d-none d-sm-inline">
                         Messages
                       </span>
