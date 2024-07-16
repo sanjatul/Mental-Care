@@ -79,6 +79,7 @@ namespace Mental_Care_API.Controllers
              DoctorId = p.DoctorId,
              UserId = p.UserId,
              Name = p.ApplicationUser.Name,
+             Phone=p.ApplicationUser.PhoneNumber,
              ProfilePicture = $"{_baseUrl}/images/{p.ApplicationUser.ProfilePicture}",
              Age = p.ApplicationUser.Age,
              Gender = p.ApplicationUser.Gender,
@@ -288,5 +289,86 @@ namespace Mental_Care_API.Controllers
             return Ok(_response);
         }
 
+
+
+
+        [HttpPut("update-psychologist-user/{id}")]
+        public async Task<ActionResult<ApiResponse>> UpdatePsychologist(string? id, [FromForm] PsychologistUpdateDTO model)
+        {
+            if (id == null || id == "")
+            {
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.IsSuccess = false;
+                _response.ErrorMessages.Add("Invalid Id");
+                return BadRequest(_response);
+            }
+            var user = await _db.ApplicationUsers.FirstOrDefaultAsync(x => x.Id == id);
+            if (user == null)
+            {
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.IsSuccess = false;
+                _response.ErrorMessages.Add("User not found");
+                return BadRequest(_response);
+            }
+            var details = await _db.PsychologistDetails.FirstOrDefaultAsync(x => x.UserId == id);
+            if (details == null)
+            {
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.IsSuccess = false;
+                _response.ErrorMessages.Add("User not found");
+                return BadRequest(_response);
+            }
+            string normalizedGender = model.Gender.ToLower();
+            string gender;
+            switch (normalizedGender)
+            {
+                case "male":
+                    gender = "Male";
+                    break;
+                case "female":
+                    gender = "Female";
+                    break;
+                default:
+                    gender = "Others";
+                    break;
+            }
+            user.PhoneNumber = model.Number;
+            user.Name = model.Name;
+            user.Age = model.Age;
+            user.Gender = gender;
+
+            if (model.ProfilePicture != null && model.ProfilePicture.Length > 0)
+            {
+                if (user.ProfilePicture != null)
+                {
+                    await _imageService.DeleteFile(user.ProfilePicture, "images");
+
+                }
+                string filename = $"{Guid.NewGuid()}{Path.GetExtension(model.ProfilePicture.FileName)}";
+                user.ProfilePicture = await _imageService.UploadFile(filename, "images", model.ProfilePicture);
+            }
+
+            details.Fees = model.Fees;
+            details.Location = model.Location;
+            details.YearsOfExperience = model.Experience;
+
+            _db.PsychologistDetails.Update(details);
+            _db.ApplicationUsers.Update(user);
+            await _db.SaveChangesAsync();
+
+            GeneralUserDetailsDTO generalUserDetails = new()
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                Gender = user.Gender,
+                Age = user.Age,
+                ProfilePicture = $"{_baseUrl}/images/{user.ProfilePicture}"
+            };
+            _response.StatusCode = HttpStatusCode.NoContent;
+            _response.Result = generalUserDetails;
+            return Ok(_response);
+        }
     }
 }

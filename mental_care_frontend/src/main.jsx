@@ -21,6 +21,7 @@ import ViewDetails from "./components/generel-users/view-details/ViewDetails.jsx
 import PsycholpgistSignUp from "./components/shared-components/psychologist-signup/PsycholpgistSignUp.jsx";
 import mentalCareStore from "./store/index.js";
 import PersonalBlogs from "./components/psycologists/personal-blogs/PersonalBlogs.jsx";
+import ProfileSetting from "./components/shared-components/profile-setting/ProfileSetting.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -39,6 +40,7 @@ const router = createBrowserRouter(
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/myblogs" element={<PersonalBlogs />} />
       <Route path="/psycologist/:userid" element={<ViewDetails />} />
+      <Route path="/profile-setting" element={<ProfileSetting />} />
     </Route>
   )
 );
