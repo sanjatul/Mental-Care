@@ -19,7 +19,7 @@ function App() {
       <div className={styles.content}>
         <div className="row">
           <div className="col-2">
-          {authUser && Object.keys(authUser).length > 0 && <SidebarMenu />}
+            {authUser && Object.keys(authUser).length > 0 && <SidebarMenu />}
           </div>
           <div className="col-10">
             <Outlet />

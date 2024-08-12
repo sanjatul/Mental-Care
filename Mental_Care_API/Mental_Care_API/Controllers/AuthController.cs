@@ -219,15 +219,62 @@ namespace Mental_Care_API.Controllers
 
         }
 
+        //[HttpPut("update-password")]
+        //public async Task<IActionResult> Login([FromBody] UpdatePasswordDTO model)
+        //{
+        //    try {
+
+
+        //        ApplicationUser? userFromDb = _db.ApplicationUsers
+        //           .FirstOrDefault(u => u.Id == model.UserId);
+
+        //        bool isValid = await _userManager.CheckPasswordAsync(userFromDb, model.OldPassword);
+
+        //        if (userFromDb is null || isValid == false || userFromDb.EmailConfirmed == false)
+        //        {
+
+        //            _response.StatusCode = HttpStatusCode.OK;
+        //            _response.IsSuccess = false;
+        //            _response.ErrorMessages.Add("Password is incorrect");
+        //            return Ok(_response);
+        //        }
+
+        //        var result = await _userManager.UpdateAsync(userFromDb, model.NewPassword);
+        //        if(result.Succeeded)
+        //        {
+        //            _response.StatusCode = HttpStatusCode.OK;
+        //            _response.IsSuccess = true;
+        //            return Ok(_response);
+        //        }
+        //        else
+        //        {
+        //            _response.StatusCode = HttpStatusCode.BadRequest;
+        //            _response.IsSuccess = false;
+        //            _response.ErrorMessages.Add("internal error");
+        //            return BadRequest(_response);
+        //        }
+               
+
+        //    }
+        //    catch (Exception e) {
+
+        //        _response.StatusCode = HttpStatusCode.BadRequest;
+        //        _response.IsSuccess = false;
+        //        _response.ErrorMessages.Add("internal error");
+        //        return BadRequest(_response);
+        //    }
+
+        //}
+
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginRequestDTO model)
+        public async Task<IActionResult> ChangePassword([FromBody] LoginRequestDTO model)
         {
             ApplicationUser? userFromDb = _db.ApplicationUsers
                     .FirstOrDefault(u => u.UserName.ToLower() == model.UserName.ToLower());
 
             bool isValid = await _userManager.CheckPasswordAsync(userFromDb, model.Password);
 
-            if (userFromDb is null || isValid == false || userFromDb.EmailConfirmed==false)
+            if (userFromDb is null || isValid == false || userFromDb.EmailConfirmed == false)
             {
                 _response.Result = new LoginResponseDTO();
                 _response.StatusCode = HttpStatusCode.OK;
@@ -259,7 +306,7 @@ namespace Mental_Care_API.Controllers
             {
                 Email = userFromDb.Email,
                 Role = roles[0],
-                UserId =userFromDb.Id,
+                UserId = userFromDb.Id,
                 Token = tokenHandler.WriteToken(token)
             };
 

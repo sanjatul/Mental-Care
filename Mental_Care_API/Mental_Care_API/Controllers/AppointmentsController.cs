@@ -174,7 +174,37 @@ namespace Mental_Care_API.Controllers
             }
         }
 
+        [HttpPost("book-schedule")]
+        public async Task<IActionResult> BookSchedule([FromBody] BookScheduleRequestDTO model)
+        {
+            var isBooked = await _db.Appointments.FirstOrDefaultAsync(a=>a.AppointmentId==model.AppointmentId);
+            if (isBooked ==null)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorMessages.Add("No data found");
+                return BadRequest(_response);
+            }
+            if (isBooked.IsBooked==true)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorMessages.Add("Already booked");
+                return Ok(_response);
+            }
+            AppointmentHistory appHistory = new()
+            {
+                AppointmentId = model.AppointmentId,
+                PatientId = model.PatientId,
+            };
 
+            await _db.AppointmentsHistory.AddAsync(appHistory);
+            isBooked.IsBooked = true;
+            _db.Appointments.Update(isBooked);
+            await _db.SaveChangesAsync();
+
+
+            _response.IsSuccess=true;
+            return Ok(_response);
+        }
         //[HttpPut("update-schedules/{PsychologistId}")]
         //public async Task<IActionResult> UpdateSchedules(string PsychologistId, [FromBody] AppointmentCreateDTO model)
         //{
@@ -238,5 +268,76 @@ namespace Mental_Care_API.Controllers
             _response.StatusCode = HttpStatusCode.NoContent;
             return Ok(_response);
         }
+
+        [HttpGet("previous-user-occupied-schedules/{GeneralUserId}")]
+        public async Task<IActionResult> PreviousGeneralUserSchedules(string GeneralUserId)
+        {
+            try
+            {
+                var occupiedSchedules = await _db.AppointmentsHistory
+            .Include(x => x.Appointment)
+                  .ThenInclude(a => a.Psychologist)
+                  .Include(x => x.Patient) // Include the Patient details
+                  .Where(x => x.PatientId == GeneralUserId  && x.Appointment.EndTime < DateTime.Now)
+             .Select(x => new PreviouslyBookedAppointmentDTO
+             {
+                 AppointmentHistoryId = x.AppointmentHistoryId,
+                 AppointmentId = x.AppointmentId,
+                 PsychologistId = x.Appointment.PsychologistId,
+                 Name = x.Appointment.Psychologist.Name,
+                 StartTime = x.Appointment.StartTime,
+                 EndTime = x.Appointment.EndTime,
+                 IsOnline = x.Appointment.IsOnline
+             })
+              .ToListAsync();
+                _response.Result = occupiedSchedules;
+                _response.StatusCode = HttpStatusCode.OK;
+                return Ok(_response);
+            }
+            catch
+            {
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.IsSuccess = false;
+                _response.ErrorMessages.Add("Internal Error");
+                return Ok(_response);
+            }
+
+        }
+
+        [HttpGet("user-occupied-schedules/{GeneralUserId}")]
+        public async Task<IActionResult> UserBookedSchedules(string GeneralUserId)
+        {
+            try
+            {
+                var occupiedSchedules = await _db.AppointmentsHistory
+            .Include(x => x.Appointment)
+                  .ThenInclude(a => a.Psychologist)
+                  .Include(x => x.Patient) // Include the Patient details
+                  .Where(x => x.PatientId == GeneralUserId && x.Appointment.EndTime > DateTime.Now)
+             .Select(x => new UserBookedScheduleDetailsDTO
+             {
+                 AppointmentHistoryId = x.AppointmentHistoryId,
+                 AppointmentId = x.AppointmentId,
+                 PsychologistId = x.Appointment.PsychologistId,
+                 PsychologistName = x.Appointment.Psychologist.Name,
+                 StartTime = x.Appointment.StartTime,
+                 EndTime = x.Appointment.EndTime,
+                 IsOnline = x.Appointment.IsOnline
+             })
+              .ToListAsync();
+                _response.Result = occupiedSchedules;
+                _response.StatusCode = HttpStatusCode.OK;
+                return Ok(_response);
+            }
+            catch
+            {
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.IsSuccess = false;
+                _response.ErrorMessages.Add("Internal Error");
+                return Ok(_response);
+            }
+
+        }
+
     }
 }

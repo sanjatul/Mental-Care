@@ -63,14 +63,17 @@ const PsychologistCard = ({ psychologist }) => {
         <div className="row mt-1">
           <div className="col-6">
             <div className="ms-2 me-2 mt-2 mb-2">
-              <a href="#" className="btn btn-primary w-100">
+              <Link
+                to={`/psycologist/${"online"}/${psychologist.userId}`}
+                className="btn btn-primary w-100"
+              >
                 Online Consultation
-              </a>
+              </Link>
             </div>
           </div>
           <div className="col-6">
             <div className="ms-2 me-2 mt-2 mb-2">
-              <Link to="/book-appointment" className="btn btn-primary w-100">
+              <Link to={`/psycologist/${"offline"}/${psychologist.userId}`} className="btn btn-primary w-100">
                 Offline Consultation
               </Link>
             </div>

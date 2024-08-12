@@ -29,6 +29,7 @@ namespace Mental_Care_API.DataAccess
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<Messages> Messages { get; set; }
         public DbSet<AppointmentHistory> AppointmentsHistory { get; set;}
+        public DbSet<Record> Records { get; set; }
 
     }
 }

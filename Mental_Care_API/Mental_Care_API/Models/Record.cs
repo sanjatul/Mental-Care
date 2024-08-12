@@ -1,16 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Migrations;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace Mental_Care_API.Models
 {
-    public class Messages
+    public class Record
     {
-        [Key]
-        public int MessageId { get; set; }
-
+        public int RecordId { get; set; }
         [Required]
         public string MessageSenderId { get; set; }
         [ForeignKey("MessageSenderId")]
@@ -27,9 +24,6 @@ namespace Mental_Care_API.Models
 
         [Required]
         public DateTime SentAt { get; set; }
-        public string? Message {  get; set; }
-        public string? DocumentLink { get; set; }
-        public bool isSeen { get; set; }
-
+        public string? Message { get; set; }
     }
 }

@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { MdOutlineWork } from "react-icons/md";
-import { MdOutlineCastForEducation } from "react-icons/md";
 import { useParams } from "react-router-dom";
 import Loader from "../../shared-components/Loader/Loader";
 import AppointmentSchedule from "../appointment-schedule/AppointmentSchedule";
 import PsycholgistProfile from "../psycholgist-profile/PsycholgistProfile";
 function ViewDetails() {
   const { userid } = useParams();
+  const { mode } = useParams();
   const [psychologist, setPsyChologist] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     fetch(`https://localhost:7254/api/users/get-psychologist/${userid}`)
       .then((res) => {
@@ -33,7 +33,15 @@ function ViewDetails() {
   return (
     <div className="container pt-3">
       <PsycholgistProfile psychologist={psychologist} />
-      <AppointmentSchedule userid={userid} />
+      {mode == null && (
+        <AppointmentSchedule userid={userid} slots={"AVAILABLE"} />
+      )}
+      {mode == "offline" && (
+        <AppointmentSchedule userid={userid} slots={"OFFLINE"} />
+      )}
+      {mode == "online" && (
+        <AppointmentSchedule userid={userid} slots={"ONLINE"} />
+      )}
     </div>
   );
 }

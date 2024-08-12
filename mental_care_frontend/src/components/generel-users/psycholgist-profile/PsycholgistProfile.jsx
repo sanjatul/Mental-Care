@@ -7,7 +7,7 @@ const PsycholgistProfile = ({ psychologist }) => {
     <div className="card" style={{ background: "#e9ecef" }}>
       <div className="card-body">
         <div className="row">
-          <div className="col-lg-6 col-md-6 col-sm-12">
+          <div className="col-lg-7 col-md-7 col-sm-12">
             <div className="row">
               <div className="col-6">
                 <img
@@ -18,14 +18,16 @@ const PsycholgistProfile = ({ psychologist }) => {
                 />
               </div>
               <div className="col-6">
-                <h1>{psychologist.name}</h1>
+                <h3>
+                  <b> {psychologist.name}</b>
+                </h3>
                 <p className="">
                   {psychologist.experiences.length !== 0 &&
                     psychologist.experiences.map(
                       (experience) =>
                         experience.isDisplay === true && (
                           <React.Fragment key={experience.id}>
-                            <h3 className="">{experience.designation}</h3>
+                            <h4 className="">{experience.designation}</h4>
                             <hr />
                             <span className="">
                               Speciality: {experience.speciality}{" "}
@@ -46,7 +48,7 @@ const PsycholgistProfile = ({ psychologist }) => {
               </div>
             </div>
           </div>
-          <div className="col-lg-6 col-md-6 col-sm-12">
+          <div className="col-lg-5 col-md-5 col-sm-12">
             <div className="">
               <h2 className="d-flex border-0 bg-transparent px-0 f-20 pb-2 pt-3 font-weight-lg-bold font-weight-semi-bold color-gray-600">
                 <MdOutlineCastForEducation

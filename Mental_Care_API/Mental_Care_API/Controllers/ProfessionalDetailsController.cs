@@ -145,7 +145,9 @@ namespace Mental_Care_API.Controllers
 
                 _db.Experiences.Remove(experience);
                 await _db.SaveChangesAsync();
-            return await GetExperiences(experience.UserId);
+            _response.IsSuccess = true;
+            _response.StatusCode = HttpStatusCode.OK;
+            return Ok(_response);
         }
 
         //Education Section
@@ -247,7 +249,7 @@ namespace Mental_Care_API.Controllers
 
 
 
-        [HttpDelete("DeleteeEducation/{EducationId}")]
+        [HttpDelete("DeleteEducation/{EducationId}")]
         public async Task<IActionResult> DeleteEducation(int EducationId)
         {
 

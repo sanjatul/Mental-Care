@@ -1,10 +1,10 @@
 import React from "react";
 import Swal from "sweetalert2";
-function Experience({ experiences, handleIsUpdated }) {
-  const handleDelete = async (experienceID) => {
+function Education({ educations, handleIsUpdated }) {
+  const handleDelete = async (educationId) => {
     try {
       const response = await fetch(
-        `https://localhost:7254/api/professional-details/DeleteExperience/${experienceID}`,
+        `https://localhost:7254/api/professional-details/DeleteEducation/${educationId}`,
         {
           method: "DELETE",
           headers: {
@@ -26,7 +26,7 @@ function Experience({ experiences, handleIsUpdated }) {
         Swal.fire({
           position: "top-end",
           icon: "success",
-          title: "Work Experience has been removed",
+          title: "Education has been removed",
           showConfirmButton: false,
           timer: 1500,
         });
@@ -50,37 +50,40 @@ function Experience({ experiences, handleIsUpdated }) {
 
   return (
     <div className="">
-      {experiences.length > 0 ? (
+      {educations.length > 0 ? (
         <ul className="list-unstyled">
-          {experiences.map((experience) => (
-            <li key={experience.id} className="mb-2 ps-2">
+          {educations.map((education) => (
+            <li key={education.id} className="mb-2 ps-2">
               <button
                 className="btn p-0 border-0 bg-transparent"
-                onClick={() => handleDelete(experience.experienceId)}
+                onClick={() => handleDelete(education.educationId)}
               >
                 <i className="bi bi-archive-fill"></i>
-              </button>{" "}
-              {experience.designation} - {experience.workPlace} (
-              {new Date(experience.statingTime).toLocaleDateString("en-US", {
-                month: "short",
-                year: "numeric",
-              })}{" "}
-              -{" "}
-              {experience.endingTime
-                ? new Date(experience.endingTime).toLocaleDateString("en-US", {
-                    month: "short",
-                    year: "numeric",
-                  })
-                : "Present"}
-              )
+              </button>
+              <span className="fs-6">
+                {" "}
+                {education.degree} - {education.institute} (
+                {new Date(education.statingTime).toLocaleDateString("en-US", {
+                  month: "short",
+                  year: "numeric",
+                })}{" "}
+                -{" "}
+                {education.endingTime
+                  ? new Date(education.endingTime).toLocaleDateString("en-US", {
+                      month: "short",
+                      year: "numeric",
+                    })
+                  : "Present"}
+                )
+              </span>
             </li>
           ))}
         </ul>
       ) : (
-        <h4>No work experience details available</h4>
+        <h4>No work education details available</h4>
       )}
     </div>
   );
 }
 
-export default Experience;
+export default Education;

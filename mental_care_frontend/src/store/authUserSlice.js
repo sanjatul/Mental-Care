@@ -2,10 +2,10 @@ import {createSlice} from "@reduxjs/toolkit";
 
 let user =
 {
-  email: "david.miller@example.com",
-  userId: "2255a78c-ba32-4793-afcb-5b5348685079",
-  role: "psychologist",
-  token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIyNTVhNzhjLWJhMzItNDc5My1hZmNiLTViNTM0ODY4NTA3OSIsImVtYWlsIjoiZGF2aWQubWlsbGVyQGV4YW1wbGUuY29tIiwicm9sZSI6InBzeWNob2xvZ2lzdCIsIm5iZiI6MTcyMDk3MTU5OCwiZXhwIjoxNzIxNTc2Mzk4LCJpYXQiOjE3MjA5NzE1OTh9.zu2QZs3GbQU0h91zGoLU3zQyy_r1McafcoZsQL7Kb70"
+  email: "john.doe@example.com",
+  userId: "7b43e8fd-ce9f-40e0-9d12-5c22223c3f92",
+  role: "user",
+  token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjdiNDNlOGZkLWNlOWYtNDBlMC05ZDEyLTVjMjIyMjNjM2Y5MiIsImVtYWlsIjoiam9obi5kb2VAZXhhbXBsZS5jb20iLCJyb2xlIjoidXNlciIsIm5iZiI6MTcyMTQwMDc2NywiZXhwIjoxNzIyMDA1NTY2LCJpYXQiOjE3MjE0MDA3Njd9.fGaipr2lKgCNG-cTuoXWiYIVP4UFRIv_EnhGgumnY9A"
 }
 
 const authUserSlice = createSlice({

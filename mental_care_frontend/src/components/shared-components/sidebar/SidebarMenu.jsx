@@ -13,8 +13,8 @@ function SidebarMenu() {
   }, [storeAuthUser]);
   return (
     <div className="container-fluid">
-      <div className="row">
-        <div className="bg-dark col-auto  min-vh-100 d-flex justify-content-between flex-column width">
+      <div className="row bg-dark">
+        <div className=" min-vh-100 d-flex justify-content-between flex-column width">
           <div>
             <br />
             <br />
@@ -62,7 +62,7 @@ function SidebarMenu() {
                   authUser.role == "user") && (
                   <li className="nav-item text-white fs-6">
                     <NavLink
-                      to="appointments"
+                      to="messages"
                       className="nav-link text-white fs-5"
                       aria-current="page"
                     >
