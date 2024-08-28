@@ -10,8 +10,8 @@ let user =
 
 const authUserSlice = createSlice({
   name: 'authUser',
-  // initialState: {},
-  initialState: user,
+   initialState: {},
+  //initialState: user,
   reducers: {
     addauthUser: (state, action) => {
       return action.payload;

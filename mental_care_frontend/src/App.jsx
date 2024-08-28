@@ -3,11 +3,16 @@ import Header from "./components/shared-components/header/Header";
 import { Outlet } from "react-router-dom";
 import SidebarMenu from "./components/shared-components/sidebar/SidebarMenu";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
+import { authUserActions } from "./store/authUserSlice";
 function App() {
   const storeAuthUser = useSelector((store) => store.authUser);
   const [authUser, setAuthUser] = useState({});
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const user = window.localStorage.getItem("mc_authUser");
+    if (user) dispatch(authUserActions.addauthUser(JSON.parse(user)));
+  }, []);
 
   useEffect(() => {
     setAuthUser(storeAuthUser);

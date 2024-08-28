@@ -41,6 +41,7 @@ const Login = () => {
         });
       } else if (data.result != null) {
         disPatch(authUserActions.addauthUser(data.result));
+        window.localStorage.setItem("mc_authUser", JSON.stringify(data.result));
         navigate("/home");
       }
     } catch (error) {
