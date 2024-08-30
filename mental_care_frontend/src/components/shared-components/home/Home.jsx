@@ -5,25 +5,67 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { psychologistDetailsActions } from "../../../store/psychologistDetailsSlice";
 import Loader from "../Loader/Loader";
+
 const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [approvedPsychologist, setApprovedPsychologist] = useState(0);
+  const [filteredPsychologists, setFilteredPsychologists] = useState([]);
   const dispatch = useDispatch();
   const psychologists = useSelector((store) => store.psychologistDetails);
 
+  const handleSearch = (searchText) => {
+    // If searchText is empty, reset the filteredPsychologists to the full list
+    if (!searchText.trim()) {
+      setFilteredPsychologists(psychologists);
+      setApprovedPsychologist(psychologists.length);
+      return;
+    }
+
+    // Convert searchText to lowercase for case-insensitive search
+    const lowerCaseSearchText = searchText.toLowerCase();
+
+    // Filter psychologists based on name or location
+    const filtered = psychologists.filter((psychologist) => {
+      return (
+        psychologist.name.toLowerCase().includes(lowerCaseSearchText) ||
+        psychologist.location?.toLowerCase().includes(lowerCaseSearchText)
+      );
+    });
+
+    setFilteredPsychologists(filtered);
+    setApprovedPsychologist(filtered.length);
+  };
+
   useEffect(() => {
     fetch("https://localhost:7254/api/users/get-psychologists")
-      .then((res) => {
-        return res.json();
-      })
+      .then((res) => res.json())
       .then((data) => {
         const psychologistData = data.result;
-        dispatch(psychologistDetailsActions.addPsychologists(psychologistData));
-        // Calculate the approved psychologists count here
-        const approvedPsychologists = psychologistData.filter(
-          (psychologist) => psychologist.isApproved
-        );
-        setApprovedPsychologist(approvedPsychologists.length);
+        const user = window.localStorage.getItem("mc_authUser");
+        if (user) {
+          const userDetails = JSON.parse(user);
+          const userId = userDetails.userId;
+          // Calculate the approved psychologists count here
+          const approvedPsychologists = psychologistData.filter(
+            (psychologist) =>
+              psychologist.isApproved && psychologist.userId !== userId
+          );
+          dispatch(
+            psychologistDetailsActions.addPsychologists(approvedPsychologists)
+          );
+          setApprovedPsychologist(approvedPsychologists.length);
+          setFilteredPsychologists(approvedPsychologists); // Initialize with the full list
+        } else {
+          // Calculate the approved psychologists count here
+          const approvedPsychologists = psychologistData.filter(
+            (psychologist) => psychologist.isApproved
+          );
+          dispatch(
+            psychologistDetailsActions.addPsychologists(approvedPsychologists)
+          );
+          setApprovedPsychologist(approvedPsychologists.length);
+          setFilteredPsychologists(approvedPsychologists); // Initialize with the full list
+        }
         setIsLoading(false);
       })
       .catch((error) => {
@@ -34,6 +76,7 @@ const Home = () => {
   if (isLoading) {
     return <Loader />;
   }
+
   return (
     <>
       <div className="col-10">
@@ -42,12 +85,12 @@ const Home = () => {
             <PsycholgistAvailabilityHeading
               psychologistNumber={approvedPsychologist}
             />
-            <PsycholgistSearchBox />
+            <PsycholgistSearchBox handleSearch={handleSearch} />
           </div>
         )}
 
         <div className="ps-3">
-          {psychologists.length == 0 && (
+          {filteredPsychologists.length === 0 && (
             <div className="row justify-content-center">
               <h1>No Psychologists found...</h1>
             </div>
@@ -62,8 +105,8 @@ const Home = () => {
             }}
           >
             <div className="row justify-content-center">
-              {psychologists.length > 0 &&
-                psychologists.map(
+              {filteredPsychologists.length > 0 &&
+                filteredPsychologists.map(
                   (psychologist) =>
                     psychologist.isApproved === true && (
                       <div className="col-md-6 mb-3" key={psychologist.userId}>
@@ -78,4 +121,5 @@ const Home = () => {
     </>
   );
 };
+
 export default Home;
