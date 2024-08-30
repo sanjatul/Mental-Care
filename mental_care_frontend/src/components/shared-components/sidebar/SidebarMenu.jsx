@@ -77,7 +77,7 @@ function SidebarMenu() {
 
               {/* Psychologist and General User Sidebar Menu*/}
               {/* Admin Sidebar Menu*/}
-
+              {/* 
               {authUser &&
                 Object.keys(authUser).length > 0 &&
                 authUser.role == "admin" && (
@@ -94,7 +94,7 @@ function SidebarMenu() {
                     </NavLink>
                     <hr />
                   </li>
-                )}
+                )} */}
 
               {/* Admin Sidebar Menu*/}
 

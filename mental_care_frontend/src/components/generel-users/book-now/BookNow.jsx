@@ -2,8 +2,31 @@ import React from "react";
 import styles from "./BookNow.module.css";
 import Swal from "sweetalert2";
 import { useSelector } from "react-redux";
+
+// Utility function to format date and time
+const formatDateTime = (dateString) => {
+  const date = new Date(dateString);
+  const options = {
+    weekday: "long",
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  };
+  return date.toLocaleDateString("en-US", options);
+};
+
+const formatTime = (dateString) => {
+  const date = new Date(dateString);
+  return date.toLocaleTimeString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  });
+};
+
 const BookNow = ({ handleIsUpdated, availableSlot }) => {
   const authUser = useSelector((store) => store.authUser);
+
   const handlebook = async (e) => {
     Swal.fire({
       title: "Payment",
@@ -13,7 +36,7 @@ const BookNow = ({ handleIsUpdated, availableSlot }) => {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, Pay!",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
         const requestBody = {
           appointmentId: availableSlot.appointmentId,
@@ -21,7 +44,7 @@ const BookNow = ({ handleIsUpdated, availableSlot }) => {
         };
 
         try {
-          const response = fetch(
+          const response = await fetch(
             `https://localhost:7254/api/appointments/book-schedule`,
             {
               method: "POST",
@@ -40,12 +63,10 @@ const BookNow = ({ handleIsUpdated, availableSlot }) => {
               showConfirmButton: false,
               timer: 1500,
             });
-            throw new Error(
-              `HTTP error! Status: ${response.status}, ${errorMessage}`
-            );
+            throw new Error(`HTTP error! Status: ${response.status}`);
           }
 
-          const data = response.json();
+          const data = await response.json();
           console.log("data", data);
           if (data.isSuccess) {
             Swal.fire({
@@ -68,7 +89,7 @@ const BookNow = ({ handleIsUpdated, availableSlot }) => {
             });
           }
         } catch (error) {
-          console.error("Error adding education:", error);
+          console.error("Error booking the appointment:", error);
           Swal.fire({
             position: "top-end",
             icon: "error",
@@ -81,19 +102,21 @@ const BookNow = ({ handleIsUpdated, availableSlot }) => {
       }
     });
   };
+
   return (
     <div className={`${styles.card} mt-3`}>
       <div className={`${styles.container} ${styles.doctorProfileContainer}`}>
         <div className={`${styles.centerContent}`}>
           <p style={{ fontWeight: "bold", fontSize: "18px", color: "#333" }}>
-            Date : 23/03/24 Friday (
+            Date: {formatDateTime(availableSlot.startTime)} (
             {availableSlot.isOnline ? "Online" : "Offline"})
             <hr />
-            10:00 AM - 11:00 AM
+            {formatTime(availableSlot.startTime)} -{" "}
+            {formatTime(availableSlot.endTime)}
           </p>
 
           <button
-            onClick={() => handlebook()}
+            onClick={handlebook}
             type="button"
             className={`${styles.bookNowButton}`}
             style={{ fontSize: "18px", color: "#333" }}

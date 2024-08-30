@@ -10,6 +10,7 @@ const Home = () => {
   const [approvedPsychologist, setApprovedPsychologist] = useState(0);
   const dispatch = useDispatch();
   const psychologists = useSelector((store) => store.psychologistDetails);
+
   useEffect(() => {
     fetch("https://localhost:7254/api/users/get-psychologists")
       .then((res) => {
@@ -18,17 +19,18 @@ const Home = () => {
       .then((data) => {
         const psychologistData = data.result;
         dispatch(psychologistDetailsActions.addPsychologists(psychologistData));
+        // Calculate the approved psychologists count here
+        const approvedPsychologists = psychologistData.filter(
+          (psychologist) => psychologist.isApproved
+        );
+        setApprovedPsychologist(approvedPsychologists.length);
         setIsLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-    const approvedPsychologists = psychologists.filter(
-      (psychologist) => psychologist.isApproved
-    );
+  }, [dispatch]);
 
-    setApprovedPsychologist(approvedPsychologists.length);
-  }, [psychologists]);
   if (isLoading) {
     return <Loader />;
   }
