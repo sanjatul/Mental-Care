@@ -1,5 +1,6 @@
 ﻿using Mental_Care_API.DataAccess;
 using Microsoft.EntityFrameworkCore;
+using System.IO;
 
 namespace Mental_Care_API.Services
 {
@@ -76,5 +77,39 @@ namespace Mental_Care_API.Services
                 return "";
             }
         }
+
+        public async Task<string> SavePdfFileAsync(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                throw new ArgumentException("No file uploaded.");
+
+            if (!file.ContentType.Equals("application/pdf"))
+                throw new ArgumentException("Only PDF files are allowed.");
+
+            try
+            {
+                // Generate a unique file name to avoid collisions
+                var fileName = $"{Guid.NewGuid()}_{file.FileName}";
+                var filePath = Path.Combine(_hostingEnvironment.WebRootPath, "certificates", fileName);
+
+                // Ensure the directory exists
+                Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+
+                // Save the file to the specified path
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                // Return the generated file name
+                return fileName;
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions (e.g., logging)
+                throw new Exception($"Error saving file: {ex.Message}", ex);
+            }
+        }
+
     }
 }

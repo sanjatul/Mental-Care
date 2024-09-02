@@ -190,13 +190,22 @@ namespace Mental_Care_API.Controllers
                         _response.ErrorMessages.Add("Error while registering");
                         return BadRequest(_response);
                     }
-                    string certificatename = $"{Guid.NewGuid()}{Path.GetExtension(model.File.FileName)}";
+                    //string certificatename = $"{Guid.NewGuid()}{Path.GetExtension(model.File.FileName)}";
+                    //PsychologistDetails details = new()
+                    //{
+                    //    UserId = newUser.Id,
+                    //    Location = model.Location,
+                    //    Certificate = await _imageService.UploadFile(certificatename, "certificates", model.Certificate)
+                    //};
+
                     PsychologistDetails details = new()
                     {
                         UserId = newUser.Id,
                         Location = model.Location,
-                        Certificate = await _imageService.UploadFile(certificatename, "certificates", model.Certificate)
+                        Certificate = await _imageService.SavePdfFileAsync(model.Certificate),
                     };
+
+
                     await _db.PsychologistDetails.AddAsync(details);
                     await _db.SaveChangesAsync();
 

@@ -19,13 +19,14 @@ function ViewDetails() {
       })
       .then((data) => {
         const psychologistData = data.result;
-        console.log(psychologistData[0]);
+        //console.log(psychologistData[0]);
         setPsyChologist(psychologistData[0]);
         setIsLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
+    console.log(mode);
   }, []);
   if (isLoading) {
     return <Loader />;

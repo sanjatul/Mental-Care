@@ -21,7 +21,19 @@ function AppointmentSchedule({ userid, slots }) {
         );
         if (response.ok) {
           const data = await response.json();
-          setAvailableSlots(data.result);
+          const slots_db = data.result;
+          console.log("Slots", slots_db);
+          if (slots == "AVAILABLE") {
+            setAvailableSlots(slots_db);
+          } else if (slots == "OFFLINE") {
+            // Keep only offline slots
+            const offlineSlots = slots_db.filter((slot) => !slot.isOnline);
+            setAvailableSlots(offlineSlots);
+          } else if (slots == "ONLINE") {
+            // Keep only online slots
+            const onlineSlots = slots_db.filter((slot) => slot.isOnline);
+            setAvailableSlots(onlineSlots);
+          }
         } else {
           console.error(
             "Failed to fetch psychologist schedules:",
@@ -57,7 +69,11 @@ function AppointmentSchedule({ userid, slots }) {
         <div className="row row-cols-1 row-cols-md-3 g-4">
           {availableSlots.map((availableSlot, index) => (
             <div key={index} className="col">
-              <BookNow userid={userid} handleIsUpdated={handleIsUpdated} availableSlot={availableSlot} />
+              <BookNow
+                userid={userid}
+                handleIsUpdated={handleIsUpdated}
+                availableSlot={availableSlot}
+              />
             </div>
           ))}
         </div>

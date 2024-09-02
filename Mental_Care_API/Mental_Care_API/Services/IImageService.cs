@@ -7,5 +7,6 @@
         Task<string> GetCertificate(string name);
         Task<bool> DeleteFile(string name,string path);
         Task<string> UploadFile(string name, string path, IFormFile file);
+        Task<string> SavePdfFileAsync(IFormFile file);
     }
 }

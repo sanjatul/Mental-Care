@@ -14,9 +14,23 @@ function UsersList() {
       setGeneralUsersDetails(generalUsers);
     }
   }, [generalUsers]);
+  const customStyles = {
+    headCells: {
+      style: {
+        justifyContent: "center", // Centers the column headings
+        textAlign: "center",
+      },
+    },
+    cells: {
+      style: {
+        justifyContent: "center", // Optionally center the row content
+        textAlign: "center",
+      },
+    },
+  };
   const column = [
     {
-      name: "Profile",
+      name: <h5>PROFILE</h5>,
       selector: (row) => (
         <img
           width={70}
@@ -27,23 +41,23 @@ function UsersList() {
       ),
     },
     {
-      name: "Name",
+      name: <h5>NAME</h5>,
       selector: (row) => row.name,
       sortable: true,
     },
     {
-      name: "Age",
+      name: <h5>AGE</h5>,
       selector: (row) => row.age,
       sortable: true,
     },
 
     {
-      name: "Gender",
+      name: <h5>GENDER</h5>,
       selector: (row) => row.gender,
       sortable: true,
     },
     {
-      name: "Action",
+      name: <h5>ACTION</h5>,
       cell: (row) => (
         <div>
           <button
@@ -53,13 +67,13 @@ function UsersList() {
             data-bs-toggle="modal"
             data-bs-target="#exampleModal"
           >
-            View Details
+            DETAILS
           </button>
           <button
             className="btn btn-danger"
             onClick={() => handleRemoveUser(row.id)}
           >
-            Remove
+            REMOVE
           </button>
         </div>
       ),
@@ -114,6 +128,7 @@ function UsersList() {
         data={generalUsersDetails}
         highlightOnHover
         pagination
+        customStyles={customStyles}
       />
       <div
         className="modal fade"
@@ -136,48 +151,57 @@ function UsersList() {
               ></button>
             </div>
             <div className="modal-body">
-              <div className="card text-center">
-                {user.length > 0 && user[0].profilePicture ? (
-                  <img
-                    src={user[0].profilePicture}
-                    className="card-img-top"
-                    style={{ height: "370px" }}
-                    alt="..."
-                  />
-                ) : (
-                  <div>No profile picture available</div>
-                )}
-                <div className="card-body">
-                  <diV className="row">
-                    <></>
-                  </diV>
-                  <h4 className="card-title">
-                    Name:{" "}
-                    {user.length > 0 && user[0].name ? user[0].name : "Name"}
-                  </h4>
-                  <h5>
-                    Email:{" "}
-                    {user.length > 0 && user[0].email ? user[0].email : "Email"}
-                  </h5>
-                  <h5>
-                    Contact Number:{" "}
-                    {user.length > 0 && user[0].phoneNumber
-                      ? user[0].phoneNumber
-                      : "Contact Number"}
-                  </h5>
-                  <h5>
-                    Gender:{" "}
-                    {user.length > 0 && user[0].gender
-                      ? user[0].gender
-                      : "Gender"}
-                  </h5>
-                  <h5>
-                    Age: {user.length > 0 && user[0].age ? user[0].age : "Age"}
-                  </h5>
+              <div className="row">
+                {/* First Column: Profile Picture */}
+                <div className="col-md-6 text-center">
+                  {user.length > 0 && user[0].profilePicture ? (
+                    <img
+                      src={user[0].profilePicture}
+                      style={{
+                        width: "300px", // Fixed width
+                        height: "300px", // Fixed height
+                        borderRadius: "10px",
+                        objectFit: "cover", // Ensures the image covers the area without stretching
+                      }}
+                      alt="Profile"
+                    />
+                  ) : (
+                    <div>No profile picture available</div>
+                  )}
+                </div>
+                {/* Second Column: Details */}
+                <div className="col-md-6">
+                  <div className="card-body">
+                    <h4 className="card-title">
+                      Name:{" "}
+                      {user.length > 0 && user[0].name ? user[0].name : "Name"}
+                    </h4>
+                    <h5>
+                      Email:{" "}
+                      {user.length > 0 && user[0].email
+                        ? user[0].email
+                        : "Email"}
+                    </h5>
+                    <h5>
+                      Contact Number:{" "}
+                      {user.length > 0 && user[0].phoneNumber
+                        ? user[0].phoneNumber
+                        : "Contact Number"}
+                    </h5>
+                    <h5>
+                      Gender:{" "}
+                      {user.length > 0 && user[0].gender
+                        ? user[0].gender
+                        : "Gender"}
+                    </h5>
+                    <h5>
+                      Age:{" "}
+                      {user.length > 0 && user[0].age ? user[0].age : "Age"}
+                    </h5>
+                  </div>
                 </div>
               </div>
             </div>
-
             <div className="modal-footer">
               <button
                 type="button"

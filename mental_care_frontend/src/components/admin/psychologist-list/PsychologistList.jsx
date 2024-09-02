@@ -17,10 +17,23 @@ function PsychologistList() {
       setPsychologistsDetails(approvedPsychologists);
     }
   }, [psychologists]);
-
+  const customStyles = {
+    headCells: {
+      style: {
+        justifyContent: "center", // Centers the column headings
+        textAlign: "center",
+      },
+    },
+    cells: {
+      style: {
+        justifyContent: "center", // Optionally center the row content
+        textAlign: "center",
+      },
+    },
+  };
   const column = [
     {
-      name: "Profile",
+      name: <h5>PROFILE</h5>,
       selector: (row) => (
         <img
           width={70}
@@ -31,43 +44,61 @@ function PsychologistList() {
       ),
     },
     {
-      name: "Name",
+      name: <h5>NAME</h5>,
       selector: (row) => row.name,
       sortable: true,
     },
     {
-      name: "Email",
+      name: <h5>EMAIL</h5>,
       selector: (row) => row.email,
       sortable: true,
     },
     {
-      name: "Location",
+      name: <h5>LOCATION</h5>,
       selector: (row) => row.location,
       sortable: true,
     },
     {
-      name: "Action",
+      name: <h5>VIEW CERTIFICATE</h5>,
+      cell: (row) => (
+        <div>
+          <button
+            className="btn btn-primary me-3"
+            onClick={() => handleViewCertificate(row.certificate)}
+          >
+            CERTIFICATE
+          </button>
+        </div>
+      ),
+    },
+    {
+      name: <h5>ACTION</h5>,
       cell: (row) => (
         <div>
           <button
             type="button"
-            className="btn btn-primary me-3"
+            className="btn btn-primary me-1"
             data-bs-toggle="modal"
             data-bs-target="#psychologistModal"
             onClick={() => handleViewPsychologist(row.userId)}
           >
-            View Details
+            DETAILS
           </button>
           <button
             className="btn btn-danger"
             onClick={() => handleRemovePsychologist(row.userId)}
           >
-            Remove
+            REMOVE
           </button>
         </div>
       ),
     },
   ];
+
+  const handleViewCertificate = (certLink) => {
+    const pdfUrl = certLink;
+    window.open(pdfUrl, "_blank");
+  };
   const handleViewPsychologist = (userId) => {
     const user = psychologistsDetails.filter((user) => user.userId === userId);
     setPsychologist(user);
@@ -122,8 +153,8 @@ function PsychologistList() {
         data={psychologistsDetails}
         highlightOnHover
         pagination
+        customStyles={customStyles}
       />
-
       <div
         className="modal fade"
         id="psychologistModal"
@@ -135,7 +166,7 @@ function PsychologistList() {
           <div className="modal-content">
             <div className="modal-header">
               <h3 className="modal-title" id="psychologistModalLabel">
-              PSYCHOLOGIST'S DETAILS
+                PSYCHOLOGIST'S DETAILS
               </h3>
               <button
                 type="button"
@@ -145,55 +176,61 @@ function PsychologistList() {
               ></button>
             </div>
             <div className="modal-body">
-              <div className="card text-center">
-                {psychologist.length > 0 && psychologist[0].profilePicture ? (
-                  <img
-                    src={psychologist[0].profilePicture}
-                    className="card-img-top"
-                    style={{ height: "370px" }}
-                    alt="..."
-                  />
-                ) : (
-                  <div>No profile picture available</div>
-                )}
-                <div className="card-body">
-                  <diV className="row">
-                    <></>
-                  </diV>
-                  <h4 className="card-title">
-                    Name:{" "}
-                    {psychologist.length > 0 && psychologist[0].name
-                      ? psychologist[0].name
-                      : "Name"}
-                  </h4>
-                  <h5>
-                    Email:{" "}
-                    {psychologist.length > 0 && psychologist[0].email
-                      ? psychologist[0].email
-                      : "Email"}
-                  </h5>
-                  <h5>
-                    Contact Number:{" "}
-                    {psychologist.length > 0 && psychologist[0].phoneNumber
-                      ? psychologist[0].phoneNumber
-                      : "Contact Number"}
-                  </h5>
-                  <h5>
-                    Gender:{" "}
-                    {psychologist.length > 0 && psychologist[0].gender
-                      ? psychologist[0].gender
-                      : "Gender"}
-                  </h5>
-                  <h5>
-                    Age:{" "}
-                    {psychologist.length > 0 && psychologist[0].age
-                      ? psychologist[0].age
-                      : "Age"}
-                  </h5>
+              <div className="row">
+                {/* First Column: Profile Picture */}
+                <div className="col-md-6 text-center">
+                  {psychologist.length > 0 && psychologist[0].profilePicture ? (
+                    <img
+                      src={psychologist[0].profilePicture}
+                      style={{
+                        width: "300px", // Fixed width
+                        height: "300px", // Fixed height
+                        borderRadius: "10px",
+                        objectFit: "cover", // Ensures the image covers the area without stretching
+                      }}
+                      alt="Profile"
+                    />
+                  ) : (
+                    <div>No profile picture available</div>
+                  )}
+                </div>
+                {/* Second Column: Details */}
+                <div className="col-md-6">
+                  <div className="card-body">
+                    <h4 className="card-title">
+                      Name:{" "}
+                      {psychologist.length > 0 && psychologist[0].name
+                        ? psychologist[0].name
+                        : "Name"}
+                    </h4>
+                    <h5>
+                      Email:{" "}
+                      {psychologist.length > 0 && psychologist[0].email
+                        ? psychologist[0].email
+                        : "Email"}
+                    </h5>
+                    <h5>
+                      Contact Number:{" "}
+                      {psychologist.length > 0 && psychologist[0].phoneNumber
+                        ? psychologist[0].phoneNumber
+                        : "Contact Number"}
+                    </h5>
+                    <h5>
+                      Gender:{" "}
+                      {psychologist.length > 0 && psychologist[0].gender
+                        ? psychologist[0].gender
+                        : "Gender"}
+                    </h5>
+                    <h5>
+                      Age:{" "}
+                      {psychologist.length > 0 && psychologist[0].age
+                        ? psychologist[0].age
+                        : "Age"}
+                    </h5>
+                  </div>
                 </div>
               </div>
             </div>
-
             <div className="modal-footer">
               <button
                 type="button"
@@ -202,9 +239,6 @@ function PsychologistList() {
               >
                 Close
               </button>
-              {/* <button type="button" className="btn btn-primary">
-                Save changes
-              </button> */}
             </div>
           </div>
         </div>

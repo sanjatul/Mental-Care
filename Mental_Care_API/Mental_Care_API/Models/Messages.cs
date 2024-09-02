@@ -27,9 +27,9 @@ namespace Mental_Care_API.Models
 
         [Required]
         public DateTime SentAt { get; set; }
-        public string? Message {  get; set; }
-        public string? DocumentLink { get; set; }
-        public bool isSeen { get; set; }
+        public string? Message { get; set; } = string.Empty;
+        public string? DocumentLink { get; set; }=string.Empty;
+        public bool isSeen { get; set; }=false;
 
     }
 }
