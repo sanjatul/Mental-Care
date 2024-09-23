@@ -38,7 +38,7 @@ const router = createBrowserRouter(
         path="/doctor-appointment-form"
         element={<DoctorAppointmentForm />}
       />
-      <Route path="/messages" element={<ChatLayeout />} />
+      <Route path="/messages/:userid" element={<ChatLayeout />} />
       <Route path="/book-appointment" element={<AppointmentSchedule />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/myblogs" element={<PersonalBlogs />} />

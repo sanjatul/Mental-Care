@@ -1,6 +1,7 @@
 import React from "react";
 import DataTable from "react-data-table-component";
 import styles from "./BookedSchedules.module.css";
+import { Link } from "react-router-dom";
 function BookedSchedules({ bookedSchedules }) {
   //Method to format time string
   const formatDate = (dateString) => {
@@ -50,12 +51,9 @@ function BookedSchedules({ bookedSchedules }) {
       name: "CHAT",
       cell: (row) => (
         <div>
-          <button
-            className="btn btn-primary"
-            onClick={() => messagePatient(row.patientId)}
-          >
+          <Link to={`/messages/${row.patientId}`} className="btn btn-primary">
             Message
-          </button>
+          </Link>
         </div>
       ),
     },

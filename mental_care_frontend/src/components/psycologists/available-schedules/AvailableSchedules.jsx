@@ -2,6 +2,7 @@ import React from "react";
 import DataTable from "react-data-table-component";
 import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 import styles from "./AvailableSchedules.module.css";
 import { availablePsychologistAppointmentsActions } from "../../../store/availablePsychologistAppointmentsSlice";
 function AvailableSchedules({ availableSchedule, handleUdated }) {

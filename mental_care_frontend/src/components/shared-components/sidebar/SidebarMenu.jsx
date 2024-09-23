@@ -56,7 +56,7 @@ function SidebarMenu() {
               {/* Psychologists Sidebar Menu*/}
               {/* Psychologist and General User Sidebar Menu*/}
 
-              {authUser &&
+              {/* {authUser &&
                 Object.keys(authUser).length > 0 &&
                 (authUser.role == "psychologist" ||
                   authUser.role == "user") && (
@@ -73,7 +73,7 @@ function SidebarMenu() {
                     </NavLink>
                     <hr />
                   </li>
-                )}
+                )} */}
 
               {/* Psychologist and General User Sidebar Menu*/}
               {/* Admin Sidebar Menu*/}

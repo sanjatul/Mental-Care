@@ -259,3 +259,34 @@
 
 
 
+.documentContainer {
+  border: 2px solid #007bff; /* Change this color as needed */
+  border-radius: 8px; /* Slightly rounded corners */
+  background-color: white;
+  padding: 10px; /* Space inside the border */
+  margin: 10px 0; /* Space between messages */
+  display: inline-block; /* Keeps the border around the content */
+}
+
+.documentLink {
+  color: #007bff; /* Link color */
+  text-decoration: underline;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.documentLink:hover {
+  color: #0056b3; /* Darker shade on hover */
+}
+
+
+.filePreview {
+  margin-top: 10px; /* Space above the preview */
+}
+
+.previewImage {
+  max-width: 100px; /* Limit the width of the preview image */
+  max-height: 100px; /* Limit the height of the preview image */
+  border-radius: 4px; /* Optional: rounded corners */
+}
+

@@ -1,5 +1,6 @@
 import React from "react";
 import DataTable from "react-data-table-component";
+import { Link } from "react-router-dom";
 function UpcomingSchedules({ occurpiedAppointments }) {
   //Method to format time string
   const formatDate = (dateString) => {
@@ -48,19 +49,16 @@ function UpcomingSchedules({ occurpiedAppointments }) {
       name: "CHAT",
       cell: (row) => (
         <div>
-          <button
+          <Link
+            to={`/messages/${row.psychologistId}`}
             className="btn btn-primary"
-            onClick={() => messagePatient(row.psychologistId)}
           >
             Message
-          </button>
+          </Link>
         </div>
       ),
     },
   ];
-  const messagePatient = (psychologistId) => {
-    console.log(psychologistId);
-  };
   return (
     <div className="">
       <DataTable

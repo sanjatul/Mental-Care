@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import DataTable from "react-data-table-component";
 function History({ history }) {
   //Method to format time string
@@ -44,12 +45,9 @@ function History({ history }) {
       name: "CHAT",
       cell: (row) => (
         <div>
-          <button
-            className="btn btn-primary"
-            onClick={() => messagePatient(row.patientId)}
-          >
-            Messages
-          </button>
+          <Link to={`/messages/${row.patientId}`} className="btn btn-primary">
+            Message
+          </Link>
         </div>
       ),
     },
