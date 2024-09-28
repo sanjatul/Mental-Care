@@ -23,16 +23,20 @@ import mentalCareStore from "./store/index.js";
 import PersonalBlogs from "./components/psycologists/personal-blogs/PersonalBlogs.jsx";
 import ProfileSetting from "./components/shared-components/profile-setting/ProfileSetting.jsx";
 import ChatLayeout from "./components/shared-components/chat/ChatLayeout.jsx";
+import LandingPage from "./components/shared-components/landing-page/LandingPage.jsx";
+import Room from "./components/shared-components/chat/Room.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
-      <Route path="" element={<Home />} />
+      
+      <Route path="" element={<LandingPage />} />
       <Route path="home" element={<Home />} />
       <Route path="login" element={<Login />} />
       <Route path="signup-user" element={<Signup />} />
       <Route path="signup-psychologist" element={<PsycholpgistSignUp />} />
       <Route path="blogs" element={<Blogs />} />
+      <Route path="/room/:roomId" element={<Room />} />
 
       <Route
         path="/doctor-appointment-form"

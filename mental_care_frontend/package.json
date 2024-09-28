@@ -12,6 +12,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.3",
     "@syncfusion/ej2-react-calendars": "^25.1.40",
+    "@zegocloud/zego-uikit-prebuilt": "^2.10.0",
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.10.2",
     "react": "^18.2.0",

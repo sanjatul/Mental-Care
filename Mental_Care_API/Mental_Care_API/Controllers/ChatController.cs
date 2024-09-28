@@ -51,7 +51,7 @@ namespace Mental_Care_API.Controllers
                 {
                     MessageSenderId = messageDto.Sender,
                     MessageReceiverId = messageDto.Receiver,
-                    SentAt = DateTime.UtcNow,
+                    SentAt = DateTime.Now,
                     Message = messageDto.Message,
                     isSeen = false
                 };
