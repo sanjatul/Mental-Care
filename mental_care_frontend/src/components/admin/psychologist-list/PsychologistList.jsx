@@ -14,6 +14,7 @@ function PsychologistList() {
       const approvedPsychologists = psychologists.filter(
         (psychologist) => psychologist.isApproved
       );
+      console.log(approvedPsychologists);
       setPsychologistsDetails(approvedPsychologists);
     }
   }, [psychologists]);

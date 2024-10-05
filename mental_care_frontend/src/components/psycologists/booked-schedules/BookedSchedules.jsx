@@ -17,7 +17,6 @@ function BookedSchedules({ bookedSchedules }) {
       hour12: true, // true for 12-hour time, false for 24-hour time
     });
   };
-
   const column = [
     {
       name: "PATIENT NAME",
@@ -49,6 +48,27 @@ function BookedSchedules({ bookedSchedules }) {
     },
     {
       name: "CHAT",
+
+      cell: (row) => {
+        const isBeforeOrEqualToNow =
+          new Date(row.startTime) <= getCurrentTime();
+        return (
+          <div>
+            {isBeforeOrEqualToNow ? (
+              <button className="btn btn-primary" disabled>
+                Message
+              </button>
+            ) : (
+              <Link
+                to={`/messages/${row.patientId}`}
+                className="btn btn-primary"
+              >
+                Message
+              </Link>
+            )}
+          </div>
+        );
+      },
       cell: (row) => (
         <div>
           <Link to={`/messages/${row.patientId}`} className="btn btn-primary">
@@ -59,7 +79,6 @@ function BookedSchedules({ bookedSchedules }) {
     },
   ];
 
-  const messagePatient = (patientId) => {};
   return (
     <div className="">
       <DataTable

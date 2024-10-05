@@ -96,13 +96,13 @@ function PersonalBlog({ blog, handleIsPosted }) {
               <div className="col-12 col-md-8">
                 <h3>{blog.title}</h3>
                 <span>
-                  <button
+                  {/* <button
                     className="btn btn-primary me-2"
                     data-bs-toggle="modal"
                     data-bs-target="#blogEdit"
                   >
                     Edit
-                  </button>
+                  </button> */}
                   <button
                     className="btn btn-danger"
                     onClick={() => handleDelete(blog.id)}

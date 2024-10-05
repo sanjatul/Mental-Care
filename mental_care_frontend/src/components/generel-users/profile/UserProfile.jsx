@@ -11,33 +11,60 @@ function UserProfile() {
   const [updatePicture, setUpdatePicture] = useState(null);
   const [isUpdated, setIsUpdated] = useState(false);
   const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [oldPassword, setOldPassword] = useState("");
   const [passErrorMsg, setPassErrorMsg] = useState(null);
   const handleProfileChange = (e) => {
     setUpdatePicture(e.target.files[0]);
   };
-  const handleConfirmPassword = (e) => {
-    setConfirmPassword(e.target.value);
-    if (newPassword != confirmPassword) {
-      setPassErrorMsg("Password missmatch.");
-    }
-  };
   const handleChangePassword = async (e) => {
     e.preventDefault();
-    if (newPassword != confirmPassword) {
-      Swal.fire({
-        position: "top-end",
-        icon: "error",
-        title: "Password doens't match updated",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-    } else {
-      console.log("Password match");
-      setNewPassword("");
-      setConfirmPassword("");
+
+    const payload = {
+      email: storeAuthUser.email,
+      oldPassword: oldPassword,
+      newPassword: newPassword,
+    };
+    try {
+      const response = await fetch(
+        `https://localhost:7254/api/auth/update-password`, // Correct the URL
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+
+      if (!response.ok) {
+        const errorMessage = await response.text();
+        throw new Error(
+          `HTTP error! Status: ${response.status}, ${errorMessage}`
+        );
+      }
+
+      const data = await response.json();
+
+      if (data.isSuccess) {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Your password has been updated",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        setOldPassword(""); // Clear the old password input
+        setNewPassword(""); // Clear the new password input
+        setPassErrorMsg(null); // Clear any previous error message
+      } else {
+        setPassErrorMsg("Password update failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error changing password:", error);
+      setPassErrorMsg("An error occurred. Please try again.");
     }
   };
+
   const handleUpdateInformationSubmit = async (e) => {
     e.preventDefault();
 
@@ -105,6 +132,7 @@ function UserProfile() {
   useEffect(() => {
     const fetchPsychologistData = async () => {
       try {
+        console.log("Id", storeAuthUser.userId);
         const response = await fetch(
           `https://localhost:7254/api/users/get-general-user/${storeAuthUser.userId}`,
           {
@@ -114,6 +142,7 @@ function UserProfile() {
         if (response.ok) {
           const data = await response.json();
           const result = data.result;
+          console.log("data", result);
           if (data.isSuccess) {
             setName(result.name);
             setPhoneNumber(result.phoneNumber);
@@ -281,15 +310,35 @@ function UserProfile() {
           className="col-12 col-md-4"
           style={{
             backgroundColor: "#F5F7F8",
-            height: "250px",
+            height: "380px",
             borderRadius: "10px",
           }}
         >
-          <form className="p-2" onSubmit={handleChangePassword}>
+          {/* <form className="p-2" onSubmit={handleChangePassword}>
             <h3 className="d-flex justify-content-center">
               <b>CHANGE PASSWORD</b>
             </h3>
             <hr />
+            <div className="form-group row">
+              <label className="col-sm-2 col-form-label">
+                <b>Old Password</b>
+              </label>
+              <div className="col-sm-10 mt-3">
+                <input
+                  type="password"
+                  className="form-control"
+                  value={oldPassword}
+                  placeholder="Password"
+                  required
+                  onChange={(e) => setOldPassword(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="form-group row">
+              {passErrorMsg != null && (
+                <b className="text-warning">{passErrorMsg}</b>
+              )}
+            </div>
             <div className="form-group row">
               <label className="col-sm-2 col-form-label">
                 <b>New Password</b>
@@ -304,35 +353,71 @@ function UserProfile() {
                   onChange={(e) => setNewPassword(e.target.value)}
                 />
               </div>
-            </div>
-            <div className="form-group row">
-              {passErrorMsg != null && (
-                <b className="text-warning">{passErrorMsg}</b>
-              )}
-            </div>
-            <div className="form-group row">
-              <label className="col-sm-2 col-form-label">
-                <b>Confirm Password</b>
-              </label>
-              <div className="col-sm-10 mt-3">
-                <input
-                  type="password"
-                  className="form-control"
-                  value={confirmPassword}
-                  placeholder="Password"
-                  required
-                  onChange={(e) => {
-                    // setConfirmPassword(e.target.value);
-                    // if(newPassword!=confirmPassword){
-                    //   setPassErrorMsg("Password missmatch.");
-                    // }
-                    handleConfirmPassword(e);
-                  }}
-                />
-              </div>
               <button type="submit" className="btn btn-primary mt-1">
                 Save
               </button>
+            </div>
+          </form> */}
+          <form className="p-2" onSubmit={handleChangePassword}>
+            <h3 className="d-flex justify-content-center">
+              <b>CHANGE PASSWORD</b>
+            </h3>
+            <hr />
+
+            {/* Old Password */}
+            <div className="form-group row">
+              <div className="col-sm-12">
+                <label className="col-form-label">
+                  <b>Old Password</b>
+                </label>
+              </div>
+              <div className="col-sm-12 mt-1">
+                <input
+                  type="password"
+                  className="form-control"
+                  value={oldPassword}
+                  placeholder="Password"
+                  required
+                  onChange={(e) => setOldPassword(e.target.value)}
+                />
+              </div>
+            </div>
+
+            {/* Error Message */}
+            <div className="form-group row">
+              {passErrorMsg != null && (
+                <div className="col-sm-12">
+                  <b className="text-warning">{passErrorMsg}</b>
+                </div>
+              )}
+            </div>
+
+            {/* New Password */}
+            <div className="form-group row">
+              <div className="col-sm-12">
+                <label className="col-form-label">
+                  <b>New Password</b>
+                </label>
+              </div>
+              <div className="col-sm-12 mt-1">
+                <input
+                  type="password"
+                  className="form-control"
+                  value={newPassword}
+                  placeholder="Password"
+                  required
+                  onChange={(e) => setNewPassword(e.target.value)}
+                />
+              </div>
+            </div>
+
+            {/* Save Button */}
+            <div className="form-group row">
+              <div className="col-sm-12">
+                <button type="submit" className="btn btn-primary mt-3">
+                  Save
+                </button>
+              </div>
             </div>
           </form>
         </div>

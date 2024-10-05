@@ -43,6 +43,7 @@ namespace Mental_Care_API.Controllers
              ProfilePicture = $"{_baseUrl}/images/{p.ApplicationUser.ProfilePicture}",
              Certificate= $"{_baseUrl}/certificates/{p.Certificate}",
              Location = p.Location,
+             PhoneNumber=p.ApplicationUser.PhoneNumber,
              Fees=p.Fees,
              Designation = _db.Experiences
                  .Where(e => e.UserId == p.UserId && e.IsDisplay == true)

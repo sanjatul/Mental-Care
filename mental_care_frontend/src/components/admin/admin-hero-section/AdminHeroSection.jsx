@@ -20,6 +20,7 @@ function AdminHeroSection({
       setNumberOfApprovalRequest(notApprovedPsychologists.length);
       setNumberOfPsychologist(approvedPsychologists.length);
       setNumberOfUsers(generalUsers.length);
+      console.log("Ok", generalUsers.length);
     }
   }, [psychologistList, generalUsers]);
   const getButtonClasses = (value) => {

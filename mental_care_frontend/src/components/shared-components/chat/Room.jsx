@@ -8,6 +8,8 @@ function Room() {
   const parsedAuthUser = JSON.parse(authUser);
   const meetingRef = useRef(null);
   const navigate = useNavigate();
+
+  
   const myMeeting = async (element) => {
     function getUrlParams(url = window.location.href) {
       let urlStr = url.split("?")[1];

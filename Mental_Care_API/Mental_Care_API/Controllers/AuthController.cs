@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
@@ -25,8 +26,9 @@ namespace Mental_Care_API.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private string? secretKey;
         private readonly IImageService _imageService;
+        private readonly IEmailService _emailService;
         public AuthController(ApplicationDbContext db, IConfiguration configuration,
-            UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager,IImageService imageService)
+            UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager,IImageService imageService, IEmailService emailService)
         {
             _db = db;
             _response = new ApiResponse();
@@ -34,7 +36,10 @@ namespace Mental_Care_API.Controllers
             _userManager = userManager;
             _roleManager = roleManager;
             _imageService = imageService;
+            _emailService = emailService;
         }
+
+
         [HttpPost("general-register")]
         public async Task<IActionResult> GeneralRegister([FromForm] GeneralRegisterRequestDTO model)
         {
@@ -48,6 +53,7 @@ namespace Mental_Care_API.Controllers
                 _response.ErrorMessages.Add("Email already exists");
                 return Ok(_response);
             }
+
             string filename = $"{Guid.NewGuid()}{Path.GetExtension(model.File.FileName)}";
 
             string normalizedGender = model.Gender.ToLower();
@@ -71,10 +77,10 @@ namespace Mental_Care_API.Controllers
                 Email = model.Email,
                 NormalizedEmail = model.Email.ToUpper(),
                 Name = model.Name,
-                PhoneNumber=model.PhoneNumber,
-                Age=model.Age,
-                Gender= gender,
-                ProfilePicture= await _imageService.UploadFile(filename,"images", model.File)
+                PhoneNumber = model.PhoneNumber,
+                Age = model.Age,
+                Gender = gender,
+                ProfilePicture = await _imageService.UploadFile(filename, "images", model.File)
             };
 
             try
@@ -82,26 +88,43 @@ namespace Mental_Care_API.Controllers
                 var result = await _userManager.CreateAsync(newUser, model.Password);
                 if (result.Succeeded)
                 {
+                    // Create roles if they don't exist
                     if (!_roleManager.RoleExistsAsync(SD.Role_Admin).GetAwaiter().GetResult())
                     {
-                        //create roles in database
                         await _roleManager.CreateAsync(new IdentityRole(SD.Role_Admin));
                         await _roleManager.CreateAsync(new IdentityRole(SD.Role_User));
                         await _roleManager.CreateAsync(new IdentityRole(SD.Role_Psycologist));
                     }
+
+                    // Assign role based on the user input
                     if (model.Role.ToLower() == SD.Role_Admin)
                     {
                         await _userManager.AddToRoleAsync(newUser, SD.Role_Admin);
                     }
-                    else if(model.Role.ToLower()==SD.Role_Psycologist)
+                    else if (model.Role.ToLower() == SD.Role_Psycologist)
                     {
                         await _userManager.AddToRoleAsync(newUser, SD.Role_Psycologist);
-                       
                     }
-                     else
+                    else
                     {
                         await _userManager.AddToRoleAsync(newUser, SD.Role_User);
                     }
+
+                    // Generate the email confirmation token
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
+
+                    // Create email confirmation link
+                    var confirmationLink = Url.Action(
+                        "EmailVerification",  // Action method to verify email
+                        "Auth",  // Controller name
+                        new { email = newUser.Email, code = WebUtility.UrlEncode(code) },  // Route parameters
+                        Request.Scheme);  // Scheme to generate a full URL (e.g., http/https)
+
+                    // Construct the email body
+                    var body = $"<div>Click the following link to verify your email: <a href='{confirmationLink}'>Verify Email</a></div>";
+
+                    // Send email
+                    var sendEmail = await _emailService.SendEmailAsync(newUser.Email, "Mental Care: Confirm Your Email", body);
 
                     _response.StatusCode = HttpStatusCode.OK;
                     _response.IsSuccess = true;
@@ -115,13 +138,12 @@ namespace Mental_Care_API.Controllers
                 _response.ErrorMessages.Add("Error while registering");
                 return BadRequest(_response);
             }
+
             _response.StatusCode = HttpStatusCode.BadRequest;
             _response.IsSuccess = false;
             _response.ErrorMessages.Add("Error while registering");
             return BadRequest(_response);
-
         }
-
 
 
         [HttpPost("psycologist-register")]
@@ -190,14 +212,6 @@ namespace Mental_Care_API.Controllers
                         _response.ErrorMessages.Add("Error while registering");
                         return BadRequest(_response);
                     }
-                    //string certificatename = $"{Guid.NewGuid()}{Path.GetExtension(model.File.FileName)}";
-                    //PsychologistDetails details = new()
-                    //{
-                    //    UserId = newUser.Id,
-                    //    Location = model.Location,
-                    //    Certificate = await _imageService.UploadFile(certificatename, "certificates", model.Certificate)
-                    //};
-
                     PsychologistDetails details = new()
                     {
                         UserId = newUser.Id,
@@ -208,7 +222,21 @@ namespace Mental_Care_API.Controllers
 
                     await _db.PsychologistDetails.AddAsync(details);
                     await _db.SaveChangesAsync();
+                    // Generate the email confirmation token
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
 
+                    // Create email confirmation link
+                    var confirmationLink = Url.Action(
+                        "EmailVerification",  // Action method to verify email
+                        "Auth",  // Controller name
+                        new { email = newUser.Email, code = WebUtility.UrlEncode(code) },  // Route parameters
+                        Request.Scheme);  // Scheme to generate a full URL (e.g., http/https)
+
+                    // Construct the email body
+                    var body = $"<div>Click the following link to verify your email: <a href='{confirmationLink}'>Verify Email</a></div>";
+
+                    // Send email
+                    var sendEmail = await _emailService.SendEmailAsync(newUser.Email, "Mental Care: Confirm Your Email", body);
                     _response.StatusCode = HttpStatusCode.OK;
                     _response.IsSuccess = true;
                     return Ok(_response);
@@ -228,52 +256,6 @@ namespace Mental_Care_API.Controllers
 
         }
 
-        //[HttpPut("update-password")]
-        //public async Task<IActionResult> Login([FromBody] UpdatePasswordDTO model)
-        //{
-        //    try {
-
-
-        //        ApplicationUser? userFromDb = _db.ApplicationUsers
-        //           .FirstOrDefault(u => u.Id == model.UserId);
-
-        //        bool isValid = await _userManager.CheckPasswordAsync(userFromDb, model.OldPassword);
-
-        //        if (userFromDb is null || isValid == false || userFromDb.EmailConfirmed == false)
-        //        {
-
-        //            _response.StatusCode = HttpStatusCode.OK;
-        //            _response.IsSuccess = false;
-        //            _response.ErrorMessages.Add("Password is incorrect");
-        //            return Ok(_response);
-        //        }
-
-        //        var result = await _userManager.UpdateAsync(userFromDb, model.NewPassword);
-        //        if(result.Succeeded)
-        //        {
-        //            _response.StatusCode = HttpStatusCode.OK;
-        //            _response.IsSuccess = true;
-        //            return Ok(_response);
-        //        }
-        //        else
-        //        {
-        //            _response.StatusCode = HttpStatusCode.BadRequest;
-        //            _response.IsSuccess = false;
-        //            _response.ErrorMessages.Add("internal error");
-        //            return BadRequest(_response);
-        //        }
-               
-
-        //    }
-        //    catch (Exception e) {
-
-        //        _response.StatusCode = HttpStatusCode.BadRequest;
-        //        _response.IsSuccess = false;
-        //        _response.ErrorMessages.Add("internal error");
-        //        return BadRequest(_response);
-        //    }
-
-        //}
 
         [HttpPost("login")]
         public async Task<IActionResult> ChangePassword([FromBody] LoginRequestDTO model)
@@ -332,6 +314,103 @@ namespace Mental_Care_API.Controllers
             _response.Result = loginResponse;
             return Ok(_response);
 
+        }
+
+
+        [HttpPost("update-password")]
+        public async Task<IActionResult> UpdatePassword([FromBody] ResetPasswordDTO model)
+        {
+            // Find the user by email
+            ApplicationUser? userFromDb = await _userManager.FindByEmailAsync(model.Email);
+
+            if (userFromDb == null)
+            {
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.IsSuccess = false;
+                _response.ErrorMessages.Add("User not found");
+                return BadRequest(_response);
+            }
+
+            // Check if the old password is correct
+            bool isOldPasswordValid = await _userManager.CheckPasswordAsync(userFromDb, model.OldPassword);
+
+            if (!isOldPasswordValid)
+            {
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.IsSuccess = false;
+                _response.ErrorMessages.Add("Old password is incorrect");
+                return BadRequest(_response);
+            }
+
+            // Reset the password
+            IdentityResult result = await _userManager.ChangePasswordAsync(userFromDb, model.OldPassword, model.NewPassword);
+
+            if (result.Succeeded)
+            {
+                _response.StatusCode = HttpStatusCode.OK;
+                _response.IsSuccess = true;
+                _response.Result = "Password reset successfully";
+                return Ok(_response);
+            }
+            else
+            {
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.IsSuccess = false;
+                _response.ErrorMessages = result.Errors.Select(e => e.Description).ToList();
+                return BadRequest(_response);
+            }
+        }
+
+
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> ForgotPassword(RequestForgotPassword request)
+        {
+            if(ModelState.IsValid)
+            {
+                var user=await _userManager.FindByEmailAsync(request.Email);
+                if(user == null) {
+                    return BadRequest("Invalid payload");
+                }
+                
+                var token=await _userManager.GeneratePasswordResetTokenAsync(user);
+                if(token == null)
+                {
+                    return BadRequest("something went wrong");
+                }
+                //sending email
+
+                // Preparing the response
+                var response = new
+                {
+                    Email = request.Email,
+                    Token = token
+                };
+
+                _response.StatusCode = HttpStatusCode.OK;
+                _response.IsSuccess = true;
+                _response.Result = response;
+                return Ok(_response);
+            }
+            return BadRequest("Invalid Payload");
+        }
+
+        [HttpGet("EmailVerification")]
+        public async Task<IActionResult> EmailVerification(string? email, string? code)
+        {
+            if (email == null || code == null)
+                return BadRequest("Invalid");
+
+            var user=await _userManager.FindByEmailAsync(email);
+            if(user == null)
+            {
+                return BadRequest("Invalid");
+            }
+            var isVerified=await _userManager.ConfirmEmailAsync(user,code);
+            if (isVerified.Succeeded)
+            {
+                return Redirect("http://localhost:5173");
+            }
+            return BadRequest("Something went wrong");
         }
 
     }

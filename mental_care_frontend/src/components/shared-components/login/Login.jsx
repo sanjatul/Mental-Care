@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from "./Login.module.css";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
@@ -89,7 +89,7 @@ const Login = () => {
               required
             />
             <div className="d-flex justify-content-end">
-              <a href="">Forgot Password?</a>
+              <Link to="/forget-password">Forgot Password?</Link>
             </div>
           </div>
 
@@ -109,7 +109,7 @@ const Login = () => {
               className="btn btn-primary"
               style={{ backgroundColor: "#3498db" }}
             >
-              Sign in
+              Log in
             </button>
           </div>
           <p className="text-end mt-2">

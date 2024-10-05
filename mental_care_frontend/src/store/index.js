@@ -14,8 +14,7 @@ const mentalCareStore=configureStore({
     authUser:authUserSlice.reducer,
     bookedPsychologistAppointments:bookedPsychologistAppointmentsSlice.reducer,
     availablePsychologistAppointments:availablePsychologistAppointmentsSlice.reducer,
-    historyPsychologistAppointments:historyPsychologistAppointmentsSlice.reducer
-
+    historyPsychologistAppointments:historyPsychologistAppointmentsSlice.reducer,
   }
 });
 export default mentalCareStore;

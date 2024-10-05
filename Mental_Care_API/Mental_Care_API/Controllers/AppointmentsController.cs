@@ -339,5 +339,33 @@ namespace Mental_Care_API.Controllers
 
         }
 
+
+        //[HttpGet("check-appointments")]
+        //public async Task<IActionResult> CheckForAppointment(string userId)
+        //{
+        //    var occupiedSchedules = await _db.AppointmentsHistory
+        //    .Include(x => x.Appointment)
+        //    .ThenInclude(a => a.Psychologist)
+        //    .Include(x => x.Patient) // Include the Patient details
+        //    .Where(x =>
+        //    (x.Appointment.PsychologistId == userId || x.PatientId == userId) // Check for both PsychologistId or PatientId
+        //    && x.Appointment.IsBooked && x.Appointment.EndTime > DateTime.Now).ToListAsync();
+
+
+        //    var appointmentDTOs = occupiedSchedules.Select(ah => new CheckAppointmentDTO
+        //    {
+        //        PatientId = ah.PatientId,
+        //        PatientName = ah.Patient.Name,
+        //        PsychologistId = ah.Appointment.PsychologistId,
+        //        PsychologistName = ah.Appointment.Psychologist.Name,
+        //        StartTime = ah.Appointment.StartTime,
+        //        EndTime = ah.Appointment.EndTime
+        //    }).ToList();
+
+        //    _response.IsSuccess = true;
+        //    _response.Result= appointmentDTOs;
+
+        //    return Ok(_response);
+        //}
     }
 }

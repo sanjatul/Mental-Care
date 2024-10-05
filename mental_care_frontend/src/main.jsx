@@ -25,11 +25,12 @@ import ProfileSetting from "./components/shared-components/profile-setting/Profi
 import ChatLayeout from "./components/shared-components/chat/ChatLayeout.jsx";
 import LandingPage from "./components/shared-components/landing-page/LandingPage.jsx";
 import Room from "./components/shared-components/chat/Room.jsx";
+import ProvideEmail from "./components/shared-components/reset-password/ProvideEmail.jsx";
+import ChangePassword from "./components/psycologists/change-password/ChangePassword.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
-      
       <Route path="" element={<LandingPage />} />
       <Route path="home" element={<Home />} />
       <Route path="login" element={<Login />} />
@@ -37,7 +38,7 @@ const router = createBrowserRouter(
       <Route path="signup-psychologist" element={<PsycholpgistSignUp />} />
       <Route path="blogs" element={<Blogs />} />
       <Route path="/room/:roomId" element={<Room />} />
-
+      <Route path="/forget-password" element={<ProvideEmail />} />
       <Route
         path="/doctor-appointment-form"
         element={<DoctorAppointmentForm />}
@@ -49,6 +50,7 @@ const router = createBrowserRouter(
       <Route path="/psycologist/:userid" element={<ViewDetails />} />
       <Route path="/psycologist/:mode/:userid" element={<ViewDetails />} />
       <Route path="/profile-setting" element={<ProfileSetting />} />
+      <Route path="/change-password" element={<ChangePassword />} />
     </Route>
   )
 );

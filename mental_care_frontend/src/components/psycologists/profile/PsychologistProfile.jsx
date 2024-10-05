@@ -23,9 +23,9 @@ function PsychologistProfile() {
   const handleProfileChange = (e) => {
     setUpdatePicture(e.target.files[0]);
   };
-  const handleIsUpdated=()=>{
+  const handleIsUpdated = () => {
     setIsUpdated(!isUpdated);
-  }
+  };
   // Adding Experience
   const [designation, setDesignation] = useState("");
   const [speciality, setSpeciality] = useState("");
@@ -470,7 +470,7 @@ function PsychologistProfile() {
                     <h4>
                       <b>
                         <MdOutlineWork
-                          style={{ fontSize: "32px", marginRight: "8px" }}
+                          style={{ fontSize: "20px", marginRight: "8px" }}
                         />
                         Work Experience
                       </b>
@@ -493,7 +493,10 @@ function PsychologistProfile() {
                 </div>
                 <hr />
               </div>
-              <Experience experiences={experiences} handleIsUpdated={handleIsUpdated}/>
+              <Experience
+                experiences={experiences}
+                handleIsUpdated={handleIsUpdated}
+              />
             </div>
             <div
               className="mt-3"
@@ -509,7 +512,7 @@ function PsychologistProfile() {
                     <h4>
                       <b>
                         <MdOutlineCastForEducation
-                          style={{ fontSize: "32px", marginRight: "8px" }}
+                          style={{ fontSize: "20px", marginRight: "8px" }}
                         />{" "}
                         Education & Training
                       </b>
@@ -522,17 +525,20 @@ function PsychologistProfile() {
                       data-bs-toggle="modal"
                       data-bs-target="#educationModal"
                     >
-                      <h3>
+                      <h5>
                         <b>
                           <i class="bi bi-plus-circle"></i>
                         </b>
-                      </h3>
+                      </h5>
                     </div>
                   </div>
                 </div>
                 <hr />
               </div>
-              <Education educations={educations} handleIsUpdated={handleIsUpdated}/>
+              <Education
+                educations={educations}
+                handleIsUpdated={handleIsUpdated}
+              />
             </div>
           </div>
         </div>

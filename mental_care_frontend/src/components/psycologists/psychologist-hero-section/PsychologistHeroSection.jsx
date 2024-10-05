@@ -79,7 +79,11 @@ function PsychologistHeroSection({
         </div>
 
         <div className="col-sm-9">
-          <CreateAppointments handleUdated={handleUdated} />
+          <CreateAppointments
+            handleUdated={handleUdated}
+            availableSchedule={availableSchedule}
+            bookedSchedules={bookedSchedules}
+          />
         </div>
       </div>
     </div>
